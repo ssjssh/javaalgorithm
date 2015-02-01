@@ -42,6 +42,10 @@ public interface Collection<T> extends Iterable<T>, Cloneable {
         return new_start;
     }
 
+    public default boolean empty() {
+        return size() <= 0;
+    }
+
     public void delete(T ele);
 
     /**
