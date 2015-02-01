@@ -53,7 +53,9 @@ public class StringBuilderTest {
         Iterator<Character> iterator = sb.iterator();
         int i = 0;
         while (iterator.hasNext()) {
-            assertTrue(Integer.parseInt(iterator.next().toString()) == i);
+            Character character = iterator.next();
+            assertTrue(Integer.parseInt(character.toString()) == i);
+            iterator.remove();
             i++;
         }
     }

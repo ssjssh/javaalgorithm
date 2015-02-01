@@ -152,25 +152,26 @@ public class StringBuilder implements Collection<Character>, CharSequence {
 
         public CharIterator(int size) {
             _size = size;
-            _cur = 0;
+            _cur = -1;
         }
 
         @Override
         public boolean hasNext() {
             checkCurrencyModify();
-            return _cur < _size;
+            return ++_cur < _size;
         }
 
         @Override
         public Character next() {
             checkCurrencyModify();
-            return StringBuilder.this.get(_cur++);
+            return StringBuilder.this.get(_cur);
         }
 
         @Override
         public void remove() {
             checkCurrencyModify();
-            StringBuilder.this.remove(_cur);
+            StringBuilder.this.remove(_cur--);
+            _size--;
         }
 
         private void checkCurrencyModify() {
