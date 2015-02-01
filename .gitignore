@@ -18,3 +18,4 @@ hs_err_pid*
 .idea
 javaalgithm.iml
 target
+src/test/java/ssj/algorithm/Main.java
