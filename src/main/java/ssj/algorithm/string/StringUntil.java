@@ -2,7 +2,10 @@ package ssj.algorithm.string;
 
 import com.google.common.base.Preconditions;
 
+import java.util.Arrays;
 import java.util.BitSet;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by shenshijun on 15/2/1.
@@ -58,5 +61,59 @@ public class StringUntil {
             set.set(char_int);
         }
         return true;
+    }
+
+    public static boolean permutation(String s1, String s2) {
+        if (s1 == null && s2 == null) {
+            return true;
+        } else if (s1 == null || s2 == null) {
+            return false;
+        } else if (s1.length() != s2.length()) {
+            return false;
+        }
+        char[] chars1 = s1.toCharArray();
+        Arrays.sort(chars1);
+
+        char[] chars2 = s2.toCharArray();
+        Arrays.sort(chars2);
+        return Arrays.equals(chars1, chars2);
+    }
+
+    public static boolean quickPermutation(String s1, String s2) {
+        if (s1 == null && s2 == null) {
+            return true;
+        } else if (s1 == null || s2 == null) {
+            return false;
+        } else if (s1.length() != s2.length()) {
+            return false;
+        }
+
+        Map<Character, Integer> static1 = computeStatistics(s1);
+        Map<Character, Integer> static2 = computeStatistics(s2);
+        for (Map.Entry one : static1.entrySet()) {
+            if (one.getValue().equals(static2.get(one.getKey()))) {
+                return false;
+            }
+            static2.remove(one.getKey());
+        }
+
+        if (static1.isEmpty()) {
+            return true;
+        }
+        return false;
+    }
+
+    private static Map<Character, Integer> computeStatistics(String s1) {
+        Map<Character, Integer> static1 = new HashMap<>();
+        for (int i = 0; i < s1.length(); i++) {
+            Integer value = static1.get(s1.charAt(i));
+            if (value == null) {
+                static1.put(s1.charAt(i), 0);
+                value = 0;
+            }
+            value++;
+            static1.put(s1.charAt(i), value);
+        }
+        return static1;
     }
 }

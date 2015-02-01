@@ -21,4 +21,16 @@ public class StringUtilTest {
         assertFalse(StringUntil.diffChars("我是中国人", "I am an chinese,中国人"));
     }
 
+    @Test
+    public void testPermutation() {
+        assertTrue(StringUntil.permutation("I am a chinese","eseinch a ma I"));
+        assertFalse(StringUntil.permutation("I am a chinese", "esainch a ma I"));
+    }
+
+    @Test
+    public void testQuickPermutation() {
+        assertTrue(StringUntil.permutation("I am a chinese","eseinch a ma I"));
+        assertFalse(StringUntil.permutation("I am a chinese","esainch a ma I"));
+    }
+
 }
