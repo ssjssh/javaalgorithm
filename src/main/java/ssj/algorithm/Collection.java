@@ -18,7 +18,7 @@ public interface Collection<T> extends Iterable<T>, Cloneable {
         for (T ele : this) {
             new_collection.add(func.apply(ele));
         }
-        return null;
+        return new_collection;
     }
 
     public default Collection<T> filter(Predicate<T> is_func) {
