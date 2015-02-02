@@ -2,6 +2,7 @@ package ssj.algorithm.string;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -23,14 +24,19 @@ public class StringUtilTest {
 
     @Test
     public void testPermutation() {
-        assertTrue(StringUntil.permutation("I am a chinese","eseinch a ma I"));
+        assertTrue(StringUntil.permutation("I am a chinese", "eseinch a ma I"));
         assertFalse(StringUntil.permutation("I am a chinese", "esainch a ma I"));
     }
 
     @Test
     public void testQuickPermutation() {
-        assertTrue(StringUntil.permutation("I am a chinese","eseinch a ma I"));
-        assertFalse(StringUntil.permutation("I am a chinese","esainch a ma I"));
+        assertTrue(StringUntil.permutation("I am a chinese", "eseinch a ma I"));
+        assertFalse(StringUntil.permutation("I am a chinese", "esainch a ma I"));
+    }
+
+    @Test
+    public void testReplaceSpace() {
+        assertEquals(StringUntil.replaceSpace("Mr John Smith"),"Mr%20John%20Smith");
     }
 
 }

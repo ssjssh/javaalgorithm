@@ -116,4 +116,16 @@ public class StringUntil {
         }
         return static1;
     }
+
+    public static String replaceSpace(String s) {
+        StringBuilder sb = new StringBuilder(0);
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == ' ') {
+                sb.append("%20");
+            } else {
+                sb.add(s.charAt(i));
+            }
+        }
+        return sb.toString();
+    }
 }
