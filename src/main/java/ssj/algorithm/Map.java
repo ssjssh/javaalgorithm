@@ -18,6 +18,8 @@ public interface Map<K, V> {
 
     public int size();
 
+    boolean containsKey(K key);
+
     MapIterator<K, V> iterator();
 
     public default boolean isEmpty() {
