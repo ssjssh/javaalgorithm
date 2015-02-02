@@ -130,6 +130,9 @@ public class StringUntil {
     }
 
     public static String compress(String str) {
+        if (str == null || str.isEmpty()) {
+            return str;
+        }
         StringBuilder sb = new StringBuilder(str.length());
         int cur = 0;
         while (cur < str.length()) {
