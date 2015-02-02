@@ -2,9 +2,7 @@ package ssj.algorithm.string;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created by shenshijun on 15/2/2.
@@ -36,7 +34,13 @@ public class StringUtilTest {
 
     @Test
     public void testReplaceSpace() {
-        assertEquals(StringUntil.replaceSpace("Mr John Smith"),"Mr%20John%20Smith");
+        assertEquals(StringUntil.replaceSpace("Mr John Smith"), "Mr%20John%20Smith");
+    }
+
+    @Test
+    public void testCompress() {
+        assertEquals(StringUntil.compress("aabcccccaaa"),"a2b1c5a3");
+        assertEquals(StringUntil.compress("aabbccddccaas"),"aabbccddccaas");
     }
 
 }
