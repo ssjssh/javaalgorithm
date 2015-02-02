@@ -1,4 +1,4 @@
-package ssj.algorithm.collections;
+package ssj.algorithm;
 
 import com.google.common.base.Preconditions;
 import ssj.algorithm.Collection;

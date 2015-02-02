@@ -2,6 +2,8 @@ package ssj.algorithm.collections;
 
 import com.google.common.base.Preconditions;
 import ssj.algorithm.Collection;
+import ssj.algorithm.List;
+import ssj.algorithm.Queue;
 import ssj.algorithm.string.StringBuilder;
 
 import java.util.ConcurrentModificationException;
