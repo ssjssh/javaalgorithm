@@ -90,7 +90,33 @@ public class LinkedList<T> implements List<T>, Queue<T> {
 
     @Override
     public List<T> partition(T par_ele, Comparator<T> comparator) {
-        return null;
+        Preconditions.checkNotNull(par_ele);
+        Preconditions.checkNotNull(comparator);
+        Node less_node = _head.getNext();
+        Node equal_node = less_node;
+        Node cur_node = less_node;
+        while (cur_node != empty_node) {
+            int c = comparator.compare(par_ele, cur_node.getValue());
+            if (c > 0) {
+                swapValue(equal_node, cur_node);
+                swapValue(less_node, equal_node);
+                equal_node = equal_node.getNext();
+                less_node = less_node.getNext();
+            } else if (c == 0) {
+                swapValue(equal_node, cur_node);
+                equal_node = equal_node.getNext();
+            }
+            cur_node = cur_node.getNext();
+        }
+        return this;
+    }
+
+    private void swapValue(Node first, Node second) {
+        Preconditions.checkNotNull(first);
+        Preconditions.checkNotNull(second);
+        T tmp = first.getValue();
+        first.setValue(second.getValue());
+        second.setValue(tmp);
     }
 
 

@@ -68,5 +68,18 @@ public class LinkedListTest {
 
     }
 
+    @Test
+    public void testPartition() {
+        LinkedList<Integer> list = new LinkedList<>();
+        for (int i = 0; i < 200; i++) {
+            list.add((int) (Math.random() * 200));
+        }
+
+        System.out.println(list);
+        System.out.println(list.tail()) ;
+        list.partition(list.tail(), (a, b) -> a - b);
+        System.out.println(list);
+    }
+
 
 }

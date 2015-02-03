@@ -49,6 +49,8 @@ public class Vector<T> implements List<T> {
 
     @Override
     public List<T> partition(T par_ele, Comparator<T> comparator) {
+        Preconditions.checkNotNull(par_ele);
+        Preconditions.checkNotNull(comparator);
         int less_par = 0;
         int equal_par = 0;
         int cur_index = 0;
