@@ -1,11 +1,13 @@
 package ssj.algorithm.collections;
 
 import com.google.common.base.Preconditions;
+import ssj.algorithm.ArrayUtil;
 import ssj.algorithm.Collection;
 import ssj.algorithm.List;
 import ssj.algorithm.string.StringBuilder;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
@@ -43,6 +45,27 @@ public class Vector<T> implements List<T> {
             _values[i] = _values[i + 1];
         }
         _cur_pointer--;
+    }
+
+    @Override
+    public List<T> partition(T par_ele, Comparator<T> comparator) {
+        int less_par = 0;
+        int equal_par = 0;
+        int cur_index = 0;
+        while (cur_index < size()) {
+            int c = comparator.compare(par_ele, get(cur_index));
+            if (c > 0) {
+                ArrayUtil.swap(_values, equal_par, cur_index);
+                ArrayUtil.swap(_values, less_par, equal_par);
+                less_par++;
+                equal_par++;
+            } else if (c == 0) {
+                ArrayUtil.swap(_values, equal_par, cur_index);
+                equal_par++;
+            }
+            cur_index++;
+        }
+        return this;
     }
 
     @Override

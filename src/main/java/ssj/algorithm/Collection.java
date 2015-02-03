@@ -74,6 +74,5 @@ public interface Collection<T> extends Iterable<T>, Cloneable {
      * @return
      */
     public int capacity();
-
 }
 

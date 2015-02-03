@@ -3,6 +3,7 @@ package ssj.algorithm;
 import com.google.common.base.Preconditions;
 import ssj.algorithm.collections.HashSet;
 
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -49,4 +50,6 @@ public interface List<T> extends Collection<T> {
         Preconditions.checkPositionIndex(normal_index, size());
         return get(normal_index);
     }
+
+    List<T> partition(T par_ele, Comparator<T> comparator);
 }

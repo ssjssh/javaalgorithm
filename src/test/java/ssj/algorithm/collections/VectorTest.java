@@ -5,9 +5,7 @@ import ssj.algorithm.Collection;
 
 import java.util.Iterator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created by shenshijun on 15/2/1.
@@ -68,6 +66,19 @@ public class VectorTest {
             assertTrue(vector.getReverse(i).equals(Integer.valueOf(199 - i)));
         }
 
+    }
+
+    @Test
+    public void testPartition() {
+        Vector<Integer> vector = new Vector<>(10);
+        for (int i = 0; i < 200; i++) {
+            vector.add((int) (Math.random() * 200));
+        }
+
+        System.out.println(vector);
+        System.out.println(vector.get(vector.size() - 1)) ;
+        vector.partition(vector.get(vector.size() - 1), (a, b) -> a - b);
+        System.out.println(vector);
     }
 
 

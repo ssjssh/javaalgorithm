@@ -6,6 +6,7 @@ import ssj.algorithm.List;
 import ssj.algorithm.Queue;
 import ssj.algorithm.string.StringBuilder;
 
+import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
@@ -85,6 +86,11 @@ public class LinkedList<T> implements List<T>, Queue<T> {
             }
             cur_index++;
         }
+    }
+
+    @Override
+    public List<T> partition(T par_ele, Comparator<T> comparator) {
+        return null;
     }
 
 
