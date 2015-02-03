@@ -19,7 +19,7 @@ public class Vector<T> implements List<T> {
 
 
     public Vector(int capacity) {
-        Preconditions.checkArgument(capacity>=0);
+        Preconditions.checkArgument(capacity >= 0);
         _values = new Object[capacity];
         _cur_pointer = -1;
     }

@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.Iterator;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by shenshijun on 15/2/3.
@@ -50,6 +51,21 @@ public class LinkedListTest {
             System.out.println(iterator.next());
             iterator.remove();
         }
+
+    }
+
+    @Test
+    public void testGet() {
+        LinkedList<Integer> list = new LinkedList<>();
+        for (int i = 0; i < 200; i++) {
+            list.add(i);
+        }
+
+        System.out.println(list);
+        for (int i = 199; i >= 0; i--) {
+            assertTrue(list.getReverse(i).equals(Integer.valueOf(199 - i)));
+        }
+
     }
 
 

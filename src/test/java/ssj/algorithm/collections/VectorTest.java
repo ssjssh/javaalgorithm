@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by shenshijun on 15/2/1.
@@ -37,6 +38,7 @@ public class VectorTest {
         assertNotNull(vector.newWithCapacity(10));
     }
 
+    @Test
     public void testFunc() {
         Vector<String> vector = new Vector<>(10);
         for (int i = 0; i < 20; i++) {
@@ -52,6 +54,20 @@ public class VectorTest {
         int vector_product = new_vector.reduce((i, sum) -> i * sum, 1);
         System.out.println(vector_sum);
         System.out.println(vector_product);
+    }
+
+    @Test
+    public void testGet() {
+        Vector<Integer> vector = new Vector<>(10);
+        for (int i = 0; i < 200; i++) {
+            vector.add(i);
+        }
+
+        System.out.println(vector);
+        for (int i = 199; i >= 0; i--) {
+            assertTrue(vector.getReverse(i).equals(Integer.valueOf(199 - i)));
+        }
+
     }
 
 
