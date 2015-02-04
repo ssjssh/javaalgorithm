@@ -97,5 +97,19 @@ public class VectorTest {
         assertFalse(vector.isPalindromic());
     }
 
+    @Test
+    public void testSort() {
+        Vector<Integer> vector = new Vector<>(10);
+        for (int i = 0; i < 200; i++) {
+            vector.add(i);
+        }
+
+        for (int i = 199; i >= 0; i--) {
+            vector.add(i);
+        }
+
+        System.out.println(vector.sort((a, b) -> a - b));
+    }
+
 
 }

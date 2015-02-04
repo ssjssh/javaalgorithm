@@ -1,12 +1,14 @@
 package ssj.algorithm.collections;
 
+import ssj.algorithm.Stack;
+
 /**
  * Created by shenshijun on 15/2/1.
  */
-public class Stack<T> {
+public class LinkedStack<T> implements Stack<T> {
     private LinkedList<T> _list;
 
-    public Stack() {
+    public LinkedStack() {
         _list = new LinkedList<>();
     }
 
@@ -26,9 +28,5 @@ public class Stack<T> {
 
     public int size() {
         return _list.size();
-    }
-
-    public boolean isEmpty() {
-        return size() <= 0;
     }
 }

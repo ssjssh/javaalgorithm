@@ -1,7 +1,9 @@
 package ssj.algorithm;
 
 import com.google.common.base.Preconditions;
+import ssj.algorithm.collections.Vector;
 
+import java.util.Comparator;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -74,5 +76,17 @@ public interface Collection<T> extends Iterable<T>, Cloneable {
      * @return
      */
     public int capacity();
+
+    public default Vector<T> toVector() {
+        Vector<T> result = new Vector<>(size());
+        for (T ele : this) {
+            result.add(ele);
+        }
+        return result;
+    }
+
+    public default Vector<T> sort(Comparator<T> comparator) {
+        return toVector().sortThis(comparator);
+    }
 }
 

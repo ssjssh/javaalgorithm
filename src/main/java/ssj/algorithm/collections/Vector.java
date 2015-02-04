@@ -111,7 +111,13 @@ public class Vector<T> implements List<T> {
         return (capacity() + 1) * 2;
     }
 
-    @Override
+    public Vector<T> sortThis(Comparator<T> comparator) {
+        T[] new_arr = (T[]) _values;
+        ArrayUtil.sort(new_arr, comparator);
+        _values = new_arr;
+        return this;
+    }
+
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
         this.forEach((ele) -> sb.append(ele + ","));

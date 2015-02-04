@@ -8,10 +8,10 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by shenshijun on 15/2/3.
  */
-public class StackTest {
+public class LinkedStackTest {
     @Test
     public void testStack() {
-        Stack<Integer> int_stack = new Stack<>();
+        LinkedStack<Integer> int_stack = new LinkedStack<>();
         assertTrue(int_stack.isEmpty());
         for (int i = 0; i < 100; i++) {
             int_stack.push(i);
