@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.Iterator;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -79,6 +80,22 @@ public class LinkedListTest {
         System.out.println(list.tail()) ;
         list.partition(list.tail(), (a, b) -> a - b);
         System.out.println(list);
+    }
+
+    @Test
+    public void testIsPalindromic() {
+        LinkedList<Integer> list = new LinkedList<>();
+        for (int i = 0; i < 200; i++) {
+            list.add(i);
+        }
+
+        for (int i = 199; i >= 0; i--) {
+            list.add(i);
+        }
+        System.out.println(list);
+        assertTrue(list.isPalindromic());
+        list.set(199, 0);
+        assertFalse(list.isPalindromic());
     }
 
 

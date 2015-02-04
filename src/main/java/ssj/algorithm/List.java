@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import ssj.algorithm.collections.HashSet;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -52,4 +53,32 @@ public interface List<T> extends Collection<T> {
     }
 
     List<T> partition(T par_ele, Comparator<T> comparator);
+
+    public default Set<T> chainEle() {
+        HashSet<T> result = new HashSet<>();
+        HashMap<T, Integer> count_eles = new HashMap<>();
+        for (T ele : this) {
+            if (count_eles.get(ele) == null) {
+                count_eles.put(ele, 0);
+            }
+            count_eles.put(ele, count_eles.get(ele));
+        }
+        count_eles.entrySet().stream().filter(count -> count.getValue().compareTo(2) >= 0).forEach(count -> {
+            result.add(count.getKey());
+        });
+        return result;
+    }
+
+    Iterator<T> reverse();
+
+    public default boolean isPalindromic() {
+        Iterator<T> default_iterator = iterator();
+        Iterator<T> reversed_iterator = reverse();
+        while (default_iterator.hasNext() && reversed_iterator.hasNext()) {
+            if (!default_iterator.next().equals(reversed_iterator.next())) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

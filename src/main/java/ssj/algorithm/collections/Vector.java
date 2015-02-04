@@ -71,6 +71,11 @@ public class Vector<T> implements List<T> {
     }
 
     @Override
+    public Iterator<T> reverse() {
+        return new ListReverseItr(size());
+    }
+
+    @Override
     public void add(T ele) {
         ensureCapacity();
         _values[++_cur_pointer] = ele;
@@ -112,6 +117,43 @@ public class Vector<T> implements List<T> {
         this.forEach((ele) -> sb.append(ele + ","));
         sb.append(']');
         return sb.toString();
+    }
+
+    private class ListReverseItr implements Iterator<T> {
+
+        int _size;
+        int _cur_pointer;
+
+        public ListReverseItr(int size) {
+            _size = size;
+            _cur_pointer = Vector.this.size();
+        }
+
+        @Override
+        public boolean hasNext() {
+            checkCurrencyModify();
+            _cur_pointer--;
+            return _cur_pointer >= 0;
+        }
+
+        @Override
+        public T next() {
+            checkCurrencyModify();
+            return get(_cur_pointer);
+        }
+
+        @Override
+        public void remove() {
+            checkCurrencyModify();
+            Vector.this.remove(_cur_pointer++);
+            _size--;
+        }
+
+        private void checkCurrencyModify() {
+            if (_size != Vector.this.size()) {
+                throw new ConcurrentModificationException();
+            }
+        }
     }
 
     private class ListItr implements Iterator<T> {

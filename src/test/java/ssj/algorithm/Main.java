@@ -5,6 +5,6 @@ package ssj.algorithm;
  */
 public class Main {
     public static void main(String[] args) {
-        System.out.println((int)'c');
+        System.out.println(Integer.parseInt("1"));
     }
 }

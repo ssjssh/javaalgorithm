@@ -76,9 +76,25 @@ public class VectorTest {
         }
 
         System.out.println(vector);
-        System.out.println(vector.get(vector.size() - 1)) ;
+        System.out.println(vector.get(vector.size() - 1));
         vector.partition(vector.get(vector.size() - 1), (a, b) -> a - b);
         System.out.println(vector);
+    }
+
+    @Test
+    public void testIsPalindromic() {
+        Vector<Integer> vector = new Vector<>(10);
+        for (int i = 0; i < 200; i++) {
+            vector.add(i);
+        }
+
+        for (int i = 199; i >= 0; i--) {
+            vector.add(i);
+        }
+        System.out.println(vector);
+        assertTrue(vector.isPalindromic());
+        vector.set(199, 0);
+        assertFalse(vector.isPalindromic());
     }
 
 

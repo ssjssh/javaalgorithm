@@ -111,6 +111,11 @@ public class LinkedList<T> implements List<T>, Queue<T> {
         return this;
     }
 
+    @Override
+    public Iterator<T> reverse() {
+        return new ReversedLinkedItr(_head, size());
+    }
+
     private void swapValue(Node first, Node second) {
         Preconditions.checkNotNull(first);
         Preconditions.checkNotNull(second);
@@ -200,8 +205,8 @@ public class LinkedList<T> implements List<T>, Queue<T> {
 
     private class LinkedItr implements Iterator<T> {
 
-        private int size;
-        private Node cur_node;
+        protected int size;
+        protected Node cur_node;
 
         public LinkedItr(Node head, int _size) {
             size = _size;
@@ -230,7 +235,7 @@ public class LinkedList<T> implements List<T>, Queue<T> {
 
         }
 
-        private void delete(Node ele) {
+        protected void delete(Node ele) {
             Node pre_node = ele.getPrev();
             Node next_node = ele.getNext();
             pre_node.setNext(next_node);
@@ -238,12 +243,26 @@ public class LinkedList<T> implements List<T>, Queue<T> {
             cur_node = pre_node;
         }
 
-        private void checkCurrencyModify() {
+        protected void checkCurrencyModify() {
             if (LinkedList.this.size() != size) {
                 System.out.println(_size);
                 System.out.println(size);
                 throw new ConcurrentModificationException();
             }
+        }
+    }
+
+    private class ReversedLinkedItr extends LinkedItr {
+
+        public ReversedLinkedItr(Node head, int _size) {
+            super(head, _size);
+        }
+
+        @Override
+        public boolean hasNext() {
+            checkCurrencyModify();
+            cur_node = cur_node.getPrev();
+            return cur_node != _head;
         }
     }
 
