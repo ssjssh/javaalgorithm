@@ -98,5 +98,19 @@ public class LinkedListTest {
         assertFalse(list.isPalindromic());
     }
 
+    @Test
+    public void testSort() {
+        LinkedList<Integer> list = new LinkedList<>();
+        for (int i = 0; i < 200; i++) {
+            list.add(i);
+        }
+
+        for (int i = 199; i >= 0; i--) {
+            list.add(i);
+        }
+
+        System.out.println(list.sort((a, b) -> a - b));
+    }
+
 
 }

@@ -1,15 +1,17 @@
 package ssj.algorithm;
 
-import java.util.Arrays;
-
 /**
  * Created by shenshijun on 15/2/1.
  */
 public class Main {
     public static void main(String[] args) {
-        Object[] arr = new Integer[]{1, 2, 3, 4};
-        System.out.println(Arrays.toString(arr));
-        System.out.println(Arrays.toString((Integer[])arr));
+        String[] new_arr = test();
 
+    }
+
+    public static <T> T[] test() {
+        Object[] arr = new Object[]{"1", "2", "3", "4"};
+        System.out.println((T[]) arr);
+        return (T[]) arr;
     }
 }
