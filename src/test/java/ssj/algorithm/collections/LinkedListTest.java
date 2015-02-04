@@ -4,9 +4,7 @@ import org.junit.Test;
 
 import java.util.Iterator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created by shenshijun on 15/2/3.
@@ -77,7 +75,7 @@ public class LinkedListTest {
         }
 
         System.out.println(list);
-        System.out.println(list.tail()) ;
+        System.out.println(list.tail());
         list.partition(list.tail(), (a, b) -> a - b);
         System.out.println(list);
     }
@@ -111,6 +109,7 @@ public class LinkedListTest {
 
         System.out.println(list.sort((a, b) -> a - b));
     }
+
 
 
 }
