@@ -12,4 +12,8 @@ public interface Queue<T> {
 
     void appendHead(T ele);
 
+    T removeHead();
+
+    T removeTail();
+
 }

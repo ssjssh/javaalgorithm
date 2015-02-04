@@ -44,7 +44,7 @@ public interface Collection<T> extends Iterable<T>, Cloneable {
         return new_start;
     }
 
-    public default boolean empty() {
+    public default boolean isEmpty() {
         return size() <= 0;
     }
 

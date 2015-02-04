@@ -50,6 +50,22 @@ public class LinkedList<T> implements List<T>, Queue<T> {
     }
 
     @Override
+    public T removeHead() {
+        T result = head();
+        remove(0);
+        return result;
+    }
+
+    @Override
+    public T removeTail() {
+        T result = head();
+        if (!isEmpty()) {
+            delete(_head.getPrev());
+        }
+        return result;
+    }
+
+    @Override
     public T get(int index) {
         Preconditions.checkPositionIndex(index, size());
         int cur_index = 0;
@@ -174,6 +190,13 @@ public class LinkedList<T> implements List<T>, Queue<T> {
         return result;
     }
 
+    private void delete(Node ele) {
+        Node pre_node = ele.getPrev();
+        Node next_node = ele.getNext();
+        pre_node.setNext(next_node);
+        next_node.setPrev(pre_node);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -229,13 +252,13 @@ public class LinkedList<T> implements List<T>, Queue<T> {
         @Override
         public void remove() {
             checkCurrencyModify();
-            delete(cur_node);
+            deleteCur(cur_node);
             size--;
             LinkedList.this._size--;
 
         }
 
-        protected void delete(Node ele) {
+        protected void deleteCur(Node ele) {
             Node pre_node = ele.getPrev();
             Node next_node = ele.getNext();
             pre_node.setNext(next_node);

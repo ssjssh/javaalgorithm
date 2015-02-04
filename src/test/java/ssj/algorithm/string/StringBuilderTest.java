@@ -16,10 +16,10 @@ public class StringBuilderTest {
         StringBuilder s = new StringBuilder(10);
         assertEquals(s.size(), 0);
         assertEquals(s.capacity(), 10);
-        assertTrue(s.empty());
+        assertTrue(s.isEmpty());
         s.append("ssj");
         assertEquals(s.size(), 3);
-        assertFalse(s.empty());
+        assertFalse(s.isEmpty());
         for (int i = 0; i < 100; i++) {
             s.append("ssj");
         }
