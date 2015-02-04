@@ -160,6 +160,44 @@ public class LinkedList<T> implements List<T>, Queue<T> {
         return new LinkedItr(_head, size());
     }
 
+    @Override
+    public int hashCode() {
+        int result = size();
+        for (T ele : this) {
+            result = result * 31 + ((ele == null) ? 0 : ele.hashCode());
+        }
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (obj == this) {
+            return true;
+        }
+
+        if (obj instanceof LinkedList) {
+            LinkedList list = (LinkedList) obj;
+            if (list.size() != size()) {
+                return false;
+            }
+            Node this_cur_node = this._head.getNext();
+            Node that_cur_node = list._head.getNext();
+            while (this_cur_node != _head && that_cur_node != list._head) {
+                if (!this_cur_node.getValue().equals(that_cur_node.getValue())) {
+                    return false;
+                }
+                this_cur_node = this_cur_node.getNext();
+                that_cur_node = that_cur_node.getNext();
+            }
+            return true;
+        }
+        return false;
+    }
+
     private class LinkedItr implements Iterator<T> {
 
         private int size;
