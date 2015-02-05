@@ -134,31 +134,21 @@ public class StringUntil {
             return str;
         }
         StringBuilder sb = new StringBuilder(str.length());
-        int cur = 0;
-        while (cur < str.length()) {
-            sb.add(str.charAt(cur));
-            int char_seq = 1;
-            int i = cur + 1;
-            for (; i < str.length(); i++) {
-                if (str.charAt(i) == str.charAt(cur)) {
-                    char_seq++;
-                } else {
-                    cur = i;
-                    sb.append(char_seq);
-                    break;
-                }
-
-                if (i == str.length() - 1) {
-                    sb.append(char_seq);
-                    cur = str.length();
-                }
-            }
-
-            if (cur == str.length() - 1 && cur != i) {
-                sb.append(char_seq);
-                cur = str.length();
+        int count = 0;
+        int last_index = 0;
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == str.charAt(last_index)) {
+                count++;
+            } else {
+                sb.add(str.charAt(last_index));
+                sb.append(count);
+                last_index = i;
+                count = 1;
             }
         }
+        sb.add(str.charAt(last_index));
+        sb.append(count);
+
         String com_str = sb.toString();
         return (com_str.length() < str.length()) ? com_str : str;
     }
