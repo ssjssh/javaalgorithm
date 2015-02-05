@@ -23,15 +23,11 @@ public interface Stack<T> {
     public default Stack<T> sortStack(Comparator<T> comparator) {
         LinkedStack<T> result = new LinkedStack<>();
         while (!isEmpty()) {
-            if (result.isEmpty()) {
-                result.push(pop());
-            } else {
-                T cur_ele = pop();
-                while (!result.isEmpty() && comparator.compare(result.head(), cur_ele) > 0) {
-                    push(result.pop());
-                }
-                result.push(cur_ele);
+            T cur_ele = pop();
+            while (!result.isEmpty() && comparator.compare(result.head(), cur_ele) > 0) {
+                push(result.pop());
             }
+            result.push(cur_ele);
         }
         return result;
     }
