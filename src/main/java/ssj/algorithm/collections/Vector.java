@@ -125,6 +125,10 @@ public class Vector<T> implements List<T> {
         return sb.toString();
     }
 
+    public void swap(int start, int end) {
+        ArrayUtil.swap(_values, start, end);
+    }
+
     private class ListReverseItr implements Iterator<T> {
 
         int _size;
