@@ -15,7 +15,7 @@ public class LinkedListTest {
         LinkedList<String> linkedList = new LinkedList<>();
         assertEquals(linkedList.size(), 0);
         linkedList.add("sshs");
-        linkedList.append("ssh");
+        linkedList.appendTail("ssh");
         linkedList.appendHead("head");
         linkedList.set(1, "1");
         assertEquals(linkedList.size(), 3);
@@ -29,7 +29,7 @@ public class LinkedListTest {
         LinkedList<String> linkedList = new LinkedList<>();
         assertEquals(linkedList.size(), 0);
         linkedList.add("sshs");
-        linkedList.append("ssh");
+        linkedList.appendTail("ssh");
         linkedList.appendHead("head");
         assertEquals(linkedList.size(), 3);
         linkedList.remove(0);
@@ -43,7 +43,7 @@ public class LinkedListTest {
         LinkedList<String> linkedList = new LinkedList<>();
         assertEquals(linkedList.size(), 0);
         linkedList.add("sshs");
-        linkedList.append("ssh");
+        linkedList.appendTail("ssh");
         linkedList.appendHead("head");
         Iterator<String> iterator = linkedList.iterator();
         while (iterator.hasNext()) {

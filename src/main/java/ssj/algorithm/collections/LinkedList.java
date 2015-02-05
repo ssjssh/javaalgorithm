@@ -37,11 +37,10 @@ public class LinkedList<T> implements List<T>, Queue<T> {
     }
 
     @Override
-    public void append(T ele) {
+    public void appendTail(T ele) {
         add(ele);
     }
 
-    @Override
     public void appendHead(T ele) {
         Node head_node = new Node(ele, _head, _head.getNext());
         _head.getNext().setPrev(head_node);
@@ -56,7 +55,6 @@ public class LinkedList<T> implements List<T>, Queue<T> {
         return result;
     }
 
-    @Override
     public T removeTail() {
         T result = head();
         if (!isEmpty()) {
