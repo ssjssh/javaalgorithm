@@ -5,8 +5,7 @@ package ssj.algorithm;
  */
 public class Main {
     public static void main(String[] args) {
-        String[] new_arr = test();
-
+        System.out.println(Math.pow(2,3));
     }
 
     public static <T> T[] test() {

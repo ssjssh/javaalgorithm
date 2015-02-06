@@ -2,6 +2,8 @@ package ssj.algorithm;
 
 import com.google.common.base.Preconditions;
 
+import java.util.HashMap;
+
 /**
  * Created by shenshijun on 15/2/3.
  */
@@ -16,6 +18,8 @@ public interface Map<K, V> {
         return (value == null) ? default_value : value;
     }
 
+    V setIfAbsent(K key, V default_value);
+
     public int size();
 
     boolean containsKey(K key);
@@ -26,7 +30,7 @@ public interface Map<K, V> {
         return size() <= 0;
     }
 
-    V remove();
+    V remove(K key);
 }
 
 
