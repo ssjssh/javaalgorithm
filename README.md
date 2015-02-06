@@ -55,7 +55,7 @@ javaalgorithm
 
 ###B+树
 
-##前缀树，也叫单词查找树(Trie)，通过在每一个节点上使用HashSet来存储子节点，使得Tries可以支持UTF-8
+##前缀树，也叫单词查找树(Trie)，通过在每一个节点上使用HashMap来存储子节点，使得Tries可以支持UTF-8
 
 ##其他
 
