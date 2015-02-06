@@ -2,7 +2,7 @@ package ssj.algorithm;
 
 import com.google.common.base.Preconditions;
 
-import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Created by shenshijun on 15/2/3.
@@ -25,6 +25,10 @@ public interface Map<K, V> {
     boolean containsKey(K key);
 
     MapIterator<K, V> iterator();
+
+    Iterator<K> keyIterator();
+
+    Iterator<V> valueIterator();
 
     public default boolean isEmpty() {
         return size() <= 0;

@@ -35,7 +35,7 @@ public interface List<T> extends Collection<T> {
      */
     public default int removeDuplicate() {
         int result = 0;
-        HashSet<T> set = new HashSet<>();
+        HashSet<T> set = new HashSet<>(100);
         Iterator<T> iterator = iterator();
         while (iterator.hasNext()) {
             if (set.contains(iterator.next())) {

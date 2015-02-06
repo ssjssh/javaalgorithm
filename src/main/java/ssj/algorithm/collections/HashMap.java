@@ -7,6 +7,7 @@ import ssj.algorithm.string.StringBuilder;
 
 import java.math.BigInteger;
 import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 
 import static java.lang.Math.abs;
 import static java.lang.Math.pow;
@@ -105,6 +106,16 @@ public class HashMap<K, V> implements Map<K, V> {
     @Override
     public MapIterator<K, V> iterator() {
         return new HashMapItr(size());
+    }
+
+    @Override
+    public Iterator<K> keyIterator() {
+        return new HashMapKeyItr();
+    }
+
+    @Override
+    public Iterator<V> valueIterator() {
+        return new HashMapValueItr();
     }
 
     @Override
@@ -225,16 +236,19 @@ public class HashMap<K, V> implements Map<K, V> {
             return _capacity;
         }
 
-        public void setCapacity(int _capacity) {
+        public MapBuilder setCapacity(int _capacity) {
+            Preconditions.checkArgument(_capacity >= DEFAULT_SIZE);
             this._capacity = _capacity;
+            return this;
         }
 
         public double getLoadFactor() {
             return _load_factor;
         }
 
-        public void setLoadFactor(double _load_factor) {
+        public MapBuilder setLoadFactor(double _load_factor) {
             this._load_factor = _load_factor;
+            return this;
         }
 
         public HashMap<K, V> build() {
@@ -307,6 +321,54 @@ public class HashMap<K, V> implements Map<K, V> {
                 System.out.println("iterator size : " + _iter_size);
                 throw new ConcurrentModificationException();
             }
+        }
+    }
+
+    private class HashMapKeyItr implements Iterator<K> {
+
+        private MapIterator<K, V> _map_iterator;
+
+        public HashMapKeyItr() {
+            _map_iterator = HashMap.this.iterator();
+        }
+
+        @Override
+        public boolean hasNext() {
+            return _map_iterator.hasNext();
+        }
+
+        @Override
+        public K next() {
+            return _map_iterator.next().getKey();
+        }
+
+        @Override
+        public void remove() {
+            _map_iterator.remove();
+        }
+    }
+
+    private class HashMapValueItr implements Iterator<V> {
+
+        private MapIterator<K, V> _map_iterator;
+
+        public HashMapValueItr() {
+            _map_iterator = HashMap.this.iterator();
+        }
+
+        @Override
+        public boolean hasNext() {
+            return _map_iterator.hasNext();
+        }
+
+        @Override
+        public V next() {
+            return _map_iterator.next().getValue();
+        }
+
+        @Override
+        public void remove() {
+            _map_iterator.remove();
         }
     }
 
