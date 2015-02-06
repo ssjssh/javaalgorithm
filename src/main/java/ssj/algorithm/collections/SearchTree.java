@@ -5,7 +5,7 @@ import java.util.Iterator;
 /**
  * Created by shenshijun on 15/2/5.
  */
-interface SearchTree<T extends Comparable<T>> extends Iterable<T> {
+public interface SearchTree<T extends Comparable<T>> extends Iterable<T> {
     void add(T ele);
 
     int size();
