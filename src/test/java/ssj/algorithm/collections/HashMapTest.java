@@ -63,7 +63,7 @@ public class HashMapTest {
 
     @Test
     public void testIteratorRemove() {
-        int map_size = 10;
+        int map_size = 1000;
         HashMap.MapBuilder<String, Integer> builder = HashMap.builder();
         HashMap<String, Integer> map = builder.build();
         String[] keys = new String[map_size];
