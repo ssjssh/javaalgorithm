@@ -1,4 +1,4 @@
-package ssj.algorithm.collections;
+package ssj.algorithm;
 
 import java.util.Iterator;
 
@@ -23,4 +23,8 @@ public interface SearchTree<T extends Comparable<T>> extends Iterable<T> {
     T kthElement(int k);
 
     boolean contains(T ele);
+
+    public default boolean isEmpty() {
+        return size() <= 0;
+    }
 }
