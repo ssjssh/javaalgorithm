@@ -8,20 +8,29 @@ import java.util.Iterator;
 /**
  * Created by shenshijun on 15/2/3.
  */
-public class TreeSet<T> implements Set<T> {
+public class TreeSet<T extends Comparable<T>> implements Set<T> {
+
+    //这行来自java.util.HashSet
+    private static final Object PRESENT = new Object();
+    private TreeMap<T, Object> _maps;
+
+    public TreeSet() {
+        _maps = new TreeMap<>();
+    }
+
     @Override
     public boolean contains(T ele) {
-        return false;
+        return _maps.containsKey(ele);
     }
 
     @Override
     public void add(T ele) {
-
+        _maps.set(ele, PRESENT);
     }
 
     @Override
     public void delete(T ele) {
-
+        _maps.remove(ele);
     }
 
     @Override
@@ -31,16 +40,16 @@ public class TreeSet<T> implements Set<T> {
 
     @Override
     public int size() {
-        return 0;
+        return _maps.size();
     }
 
     @Override
     public int capacity() {
-        return 0;
+        return _maps.size();
     }
 
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return _maps.keyIterator();
     }
 }
