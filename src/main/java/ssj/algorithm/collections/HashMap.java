@@ -317,8 +317,6 @@ public class HashMap<K, V> implements Map<K, V> {
 
         private void checkCurrencyModify() {
             if (HashMap.this.size() != _iter_size) {
-                System.out.println("map size : " + size());
-                System.out.println("iterator size : " + _iter_size);
                 throw new ConcurrentModificationException();
             }
         }

@@ -3,6 +3,7 @@ package ssj.algorithm.collections;
 import com.google.common.base.Preconditions;
 import ssj.algorithm.SearchTree;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 
 /**
@@ -81,12 +82,12 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
 
     @Override
     public Iterator<T> preIterator() {
-        return null;
+        return new AVLTreePreIterator(size());
     }
 
     @Override
     public Iterator<T> postIterator() {
-        return null;
+        return new AVLTreePostIterator(size());
     }
 
     /**
@@ -271,7 +272,7 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return new AVLTreeMiddleIterator(size());
     }
 
     private int leftHeight(Node cur_node) {
@@ -285,6 +286,12 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
     @Override
     public String toString() {
         return _head.toString();
+    }
+
+    private void checkCurrencyModify(int expect_size) {
+        if (size() != expect_size) {
+            throw new ConcurrentModificationException();
+        }
     }
 
     private class Node implements Comparable<Node> {
@@ -449,55 +456,120 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
 
     private class AVLTreePreIterator implements Iterator<T> {
 
+        int iter_size;
+        LinkedStack<Node> _stacks;
+        Node cur_node;
+
+        public AVLTreePreIterator(int size) {
+            iter_size = size;
+            _stacks = new LinkedStack<>();
+            if (_head.getValue() != null) {
+                _stacks.push(_head);
+            }
+            cur_node = null;
+        }
+
         @Override
         public boolean hasNext() {
-            return false;
+            checkCurrencyModify(iter_size);
+            boolean result = !_stacks.isEmpty();
+            cur_node = _stacks.pop();
+            if (cur_node != null) {
+                if (cur_node.getLeft() != null) {
+                    _stacks.push(cur_node.getLeft());
+                }
+                if (cur_node.getRight() != null) {
+                    _stacks.push(cur_node.getRight());
+                }
+            }
+            return result;
         }
 
         @Override
         public T next() {
-            return null;
-        }
-
-        @Override
-        public void remove() {
-
+            checkCurrencyModify(iter_size);
+            return cur_node.getValue();
         }
     }
 
     private class AVLTreeMiddleIterator implements Iterator<T> {
+        private int iter_size;
+        private LinkedStack<Node> _stacks;
+        private Node cur_node;
+
+        public AVLTreeMiddleIterator(int _size) {
+            iter_size = _size;
+            _stacks = new LinkedStack<>();
+            if (_head.getValue() != null) {
+                cur_node = _head;
+                insertLeft(cur_node);
+            }
+        }
+
+        private void insertLeft(Node start_node) {
+            Node cur_start_node = start_node;
+            while (cur_start_node != null) {
+                _stacks.push(cur_start_node);
+                cur_start_node = cur_start_node.getLeft();
+            }
+        }
 
         @Override
         public boolean hasNext() {
+            checkCurrencyModify(iter_size);
+            if (!_stacks.isEmpty()) {
+                cur_node = _stacks.pop();
+                insertLeft(cur_node.getRight());
+                return true;
+            }
             return false;
         }
 
         @Override
         public T next() {
-            return null;
-        }
-
-        @Override
-        public void remove() {
-
+            checkCurrencyModify(iter_size);
+            return cur_node.getValue();
         }
     }
 
     private class AVLTreePostIterator implements Iterator<T> {
+        private int iter_size;
+        private LinkedStack<Node> _stacks;
+        private Node cur_node;
+
+        public AVLTreePostIterator(int _size) {
+            iter_size = _size;
+            _stacks = new LinkedStack<>();
+            if (_head.getValue() != null) {
+                cur_node = _head;
+                insertRight(cur_node);
+            }
+        }
+
+        private void insertRight(Node start_node) {
+            checkCurrencyModify(iter_size);
+            Node cur_start_node = start_node;
+            while (cur_start_node != null) {
+                _stacks.push(cur_start_node);
+                cur_start_node = cur_start_node.getRight();
+            }
+        }
 
         @Override
         public boolean hasNext() {
+            checkCurrencyModify(iter_size);
+            if (!_stacks.isEmpty()) {
+                cur_node = _stacks.pop();
+                insertRight(cur_node.getLeft());
+                return true;
+            }
             return false;
         }
 
         @Override
         public T next() {
-            return null;
-        }
-
-        @Override
-        public void remove() {
-
+            checkCurrencyModify(iter_size);
+            return cur_node.getValue();
         }
     }
 }
