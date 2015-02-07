@@ -10,7 +10,9 @@ public interface MapIterator<K, V> {
 
     void set(V value);
 
-    void remove();
+    public default void remove() {
+        throw new UnsupportedOperationException("remove");
+    }
 
     public static class Entry<K, V> {
         private final K key;

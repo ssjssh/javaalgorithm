@@ -5,7 +5,10 @@ package ssj.algorithm;
  */
 public class Main {
     public static void main(String[] args) {
-        System.out.println(Math.pow(2,3));
+        String str1 = new String("840.3491768174221");
+        String str2 = new String("840.3491768174221");
+        System.out.println(str1.compareTo(str2));
+        System.out.println(str1.equals(str2));
     }
 
     public static <T> T[] test() {

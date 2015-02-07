@@ -18,7 +18,15 @@ public interface Map<K, V> {
         return (value == null) ? default_value : value;
     }
 
-    V setIfAbsent(K key, V default_value);
+    public default V setIfAbsent(K key, V default_value){
+        Preconditions.checkNotNull(key);
+        V value = get(key);
+        if (value == null) {
+            set(key, default_value);
+            value = default_value;
+        }
+        return value;
+    }
 
     public int size();
 

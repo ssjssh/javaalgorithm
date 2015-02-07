@@ -250,6 +250,11 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
         return findNode(ele) != null;
     }
 
+    T findOrigin(T ele) {
+        Node result = findNode(ele);
+        return result == null ? null : result.getValue();
+    }
+
     private Node findNode(T ele) {
         Preconditions.checkNotNull(ele);
         if (_head.getValue() == null) {
