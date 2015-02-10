@@ -47,6 +47,20 @@ public class Vector<T> implements List<T> {
         _cur_pointer--;
     }
 
+    public T binarySearch(T ele, Comparator<T> comparator) {
+        return binarySearch(ele, 0, size() - 1, comparator);
+    }
+
+    public T binarySearch(T ele, int from, int to, Comparator<T> comparator) {
+        Preconditions.checkNotNull(ele);
+        Preconditions.checkNotNull(comparator);
+        int ele_index = Arrays.binarySearch((T[]) _values, from, to, ele, comparator);
+        if (ele_index == -1) {
+            return null;
+        }
+        return get(ele_index);
+    }
+
     @Override
     public List<T> partition(T par_ele, Comparator<T> comparator) {
         Preconditions.checkNotNull(par_ele);
