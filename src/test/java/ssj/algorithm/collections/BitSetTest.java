@@ -38,11 +38,30 @@ public class BitSetTest {
         }
 
         for (int i : set) {
-            if (!bs.get(i)){
+            if (!bs.get(i)) {
                 System.out.println(i);
             }
             assertTrue(bs.get(i));
             bs.clear(i);
+            assertFalse(bs.get(i));
+        }
+    }
+
+    @Test
+    public void testClearRange() {
+        BitSet bs = new BitSet(60);
+        int start = 10;
+        int end = 101;
+        for (int i = 0; i < 1000; i++) {
+            bs.set(i);
+        }
+
+        for (int i = 0; i < 1000; i++) {
+           assertTrue(bs.get(i));
+        }
+
+        bs.clearRange(start, end);
+        for (int i = start; i <= end; i++) {
             assertFalse(bs.get(i));
         }
     }

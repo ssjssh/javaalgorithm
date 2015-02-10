@@ -48,6 +48,41 @@ public class BitSet {
         bits.set(vectorPos(index), this_long);
     }
 
+    public void replace(int start, int end, long value) {
+        Preconditions.checkPositionIndexes(start, end, size());
+        clearRange(start, end);
+        if (vectorPos(start) == vectorPos(end)) {
+            long this_long = bits.get(vectorPos(end));
+            long this_mask = sliceLongTrue(value, longPos(start), longPos(end));
+            bits.set(vectorPos(end), this_long & this_mask);
+        } else {
+            long front_long = bits.get(vectorPos(start));
+            long front_mask = sliceLongTrue(value, 0, Long.SIZE - 1 - longPos(start));
+            bits.set(vectorPos(start), front_long & front_mask);
+            long back_long = bits.get(vectorPos(end));
+            long back_mask = sliceLongTrue(value, longPos(end), longPos(start));
+            bits.set(vectorPos(end), back_long & back_mask);
+        }
+    }
+
+    private long sliceLongFalse(long value, int start, int end) {
+        Preconditions.checkPositionIndexes(start, end, Long.SIZE);
+        long back_mask = ~((1L << (Long.SIZE - end)) - 1);
+        value &= back_mask;
+        long front_mask = ~(UNSIGNED_MAX_LONG << (Long.SIZE - start - 1));
+        value &= front_mask;
+        return value;
+    }
+
+    private long sliceLongTrue(long value, int start, int end) {
+        Preconditions.checkPositionIndexes(start, end, Long.SIZE);
+        long back_mask = (1L << (Long.SIZE - end)) - 1;
+        value |= back_mask;
+        long front_mask = UNSIGNED_MAX_LONG << (Long.SIZE - start - 1);
+        value |= front_mask;
+        return value;
+    }
+
     public void clear(int index) {
         Preconditions.checkPositionIndex(index, size());
         long this_long = bits.get(vectorPos(index));
@@ -58,20 +93,17 @@ public class BitSet {
     public void clearRange(int start, int end) {
         Preconditions.checkPositionIndexes(start, end, size());
         int cur_index = start;
-        while (cur_index < end) {
-            if (end - cur_index < Long.SIZE) {
-                clearThisRange(cur_index, end);
-                break;
-            }
+        while ((end - cur_index) > Long.SIZE) {
             int next_long_index = (cur_index / Long.SIZE + 1) * Long.SIZE - 1;
             clearThisRange(cur_index, next_long_index);
             cur_index = next_long_index;
         }
+        clearThisRange(cur_index, end);
     }
 
     private void clearThisRange(int start, int end) {
         long this_long = bits.get(vectorPos(end));
-        this_long &= (UNSIGNED_MAX_LONG << (Long.SIZE - end - start + 1)) >> ((start % Long.SIZE) - 1);
+        this_long &= ~(UNSIGNED_MAX_LONG << (Long.SIZE - (end - start + 1)) >> (start % Long.SIZE));
         bits.set(vectorPos(end), this_long);
     }
 
