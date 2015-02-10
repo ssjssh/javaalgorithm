@@ -47,16 +47,19 @@ public class HashMap<K, V> implements Map<K, V> {
         Node<K, V> old_node = _value[index];
         if (old_node == null) {
             _value[index] = new Node<>(key, value, null);
-            _size++;
-        } else if (!old_node.getKey().equals(key)) {
-            while (old_node.getNext() != null) {
+        } else {
+            Node<K, V> pre_node = old_node;
+            while (old_node != null) {
+                if (old_node.getKey().equals(key)) {
+                    old_node.setValue(value);
+                    return;
+                }
+                pre_node = old_node;
                 old_node = old_node.getNext();
             }
-            old_node.setNext(new Node<>(key, value, null));
-            _size++;
-        } else {
-            old_node.setValue(value);
+            pre_node.setNext(new Node<>(key, value, null));
         }
+        _size++;
     }
 
     @Override
