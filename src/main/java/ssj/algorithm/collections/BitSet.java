@@ -8,14 +8,22 @@ import com.google.common.base.Preconditions;
 public class BitSet {
     private Vector<Long> bits;
     private static final long UNSIGNED_MAX_LONG = 0xffffffffffffffffL;
+    private long default_long = 0L;
 
-    public BitSet(int size) {
+    public BitSet(int size, boolean default_value) {
         Preconditions.checkArgument(size > 1);
+        if (default_value) {
+            default_long = UNSIGNED_MAX_LONG;
+        }
         int long_count = (size - 1) / Long.SIZE + 1;
         bits = new Vector<>(long_count);
         for (int i = 0; i < long_count; i++) {
-            bits.add(0L);
+            bits.add(default_long);
         }
+    }
+
+    public BitSet(int size) {
+        this(size, false);
     }
 
     public boolean get(int index) {
@@ -40,7 +48,7 @@ public class BitSet {
         int cur_size = size();
         if (index >= cur_size) {
             for (int i = 0; i < (index - cur_size) / Long.SIZE + 1; i++) {
-                bits.add(0L);
+                bits.add(default_long);
             }
         }
         long this_long = bits.get(vectorPos(index));

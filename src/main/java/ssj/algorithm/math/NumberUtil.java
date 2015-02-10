@@ -33,4 +33,8 @@ public class NumberUtil {
         }
         return -1;
     }
+
+    public boolean isPrime(long value) {
+        return false;
+    }
 }
