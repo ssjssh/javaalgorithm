@@ -9,6 +9,7 @@ public class BitSet {
     private Vector<Long> bits;
     private static final long UNSIGNED_MAX_LONG = 0xffffffffffffffffL;
     private long default_long = 0L;
+    private int length;
 
     public BitSet(int size, boolean default_value) {
         Preconditions.checkArgument(size > 1);
@@ -33,6 +34,10 @@ public class BitSet {
         } else {
             return false;
         }
+    }
+
+    public int length() {
+        return length;
     }
 
     private int longPos(int index) {

@@ -1,6 +1,8 @@
 package ssj.algorithm.string;
 
 import com.google.common.base.Preconditions;
+import ssj.algorithm.Set;
+import ssj.algorithm.collections.HashSet;
 
 import java.util.Arrays;
 import java.util.BitSet;
@@ -151,5 +153,38 @@ public class StringUntil {
 
         String com_str = sb.toString();
         return (com_str.length() < str.length()) ? com_str : str;
+    }
+
+
+    public int search(String str) {
+        //TODO KMP实现字符查找
+        return -1;
+    }
+
+    /**
+     * 要处理变位词需要对输入的单词进行两次排序
+     * 1, 按照字母表顺序对每一个串中的字母进行排序
+     * 2，使用一个HashMap收集单词
+     * 假设字符串平均长度m，字符串个数n。
+     * 第一步复杂度是O(nmlgm)，第二步复杂度是O(n)
+     * 所以算法总体的复杂度就是O(nmlgm)
+     * @param words
+     * @return
+     */
+    public static Map<String, Set<Integer>> findAnagram(String[] words) {
+        Preconditions.checkNotNull(words, "words");
+        String[] new_array = Arrays.copyOf(words, words.length);
+        for (int i = 0; i < new_array.length; i++) {
+            char[] char_array = new_array[i].toCharArray();
+            Arrays.sort(char_array);
+            new_array[i] = String.valueOf(char_array);
+        }
+        System.out.println(Arrays.toString(new_array));
+        Map<String, Set<Integer>> result_map = new HashMap<>();
+        for (int i = 0; i < new_array.length; i++) {
+            result_map.putIfAbsent(new_array[i], new HashSet<>());
+            result_map.get(new_array[i]).add(i);
+        }
+        return result_map;
     }
 }

@@ -10,6 +10,7 @@ import java.util.function.Consumer;
  * Created by shenshijun on 15/2/7.
  */
 public interface Graph<T> {
+    //TODO 实现有向图
     void addEdge(T from, T to);
 
     Iterator<T> nodes();

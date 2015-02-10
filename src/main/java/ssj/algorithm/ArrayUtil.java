@@ -1,6 +1,7 @@
 package ssj.algorithm;
 
 import com.google.common.base.Preconditions;
+import ssj.algorithm.collections.BitSet;
 
 import java.util.Comparator;
 
@@ -85,7 +86,7 @@ public class ArrayUtil {
     }
 
     public static <T> void sort(T[] arr, Comparator<T> comparator) {
-        sort(comparator,arr, 0, arr.length - 1);
+        sort(comparator, arr, 0, arr.length - 1);
     }
 
     private static <T> void sort(Comparator<T> comparator, T[] arr, int start, int end) {
@@ -117,6 +118,64 @@ public class ArrayUtil {
         return par_index;
     }
 
+    public static <T> void mergeSort(T[] arr, Comparator<T> comparator) {
+        //TODO 完成归并排序
+    }
+
+    public static <T> void countSort(T[] arr, Comparator<T> comparator) {
+        //TODO 完成计数排序
+    }
+
+    public static <T> T[] leftRotate(T[] raw_array, int start, int end, int rot_index) {
+        Preconditions.checkNotNull(raw_array);
+        Preconditions.checkPositionIndexes(start, end, raw_array.length);
+        Preconditions.checkPositionIndex(rot_index, raw_array.length);
+        ArrayUtil.reverse(raw_array, start, rot_index);
+        ArrayUtil.reverse(raw_array, rot_index + 1, end);
+        ArrayUtil.reverse(raw_array, start, end);
+        return null;
+    }
+
+    public static <T extends Comparable<T>> T[] smallestK(T[] arr) {
+        //TODO 最小的k个数
+        // https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/02.01.md
+        return null;
+    }
+
+    /**
+     * * 使用BitSet实现的位图排序，其实就是桶排序的一个变种
+     * 这个算法只能用于Int排序，因为要排序的元素会作为BitSet中使用的索引
+     * <p>
+     * 1，必须是取值范围比较小，不然需要大量的空间。
+     * 2，没有重复，因为BitSet只有True和False
+     * 原地排序，因此改变了原来数组中的内容
+     *
+     * @param un_sort_list
+     * @return
+     */
+    public static int[] bitMapSort(int[] un_sort_list) {
+        if (null == un_sort_list) {
+            throw new NullPointerException("un_sort_list");
+        }
+        BitSet bit_set = new BitSet(un_sort_list.length / 8);
+        for (int x : un_sort_list) {
+            if (x < 0) {
+                throw new IllegalArgumentException("list need to be sorted should not have negative number");
+            }
+            if (bit_set.get(x)) {
+                throw new IllegalArgumentException("should have not repeat in array");
+            }
+            bit_set.set(x);
+        }
+
+        int sorted_index = 0;
+        for (int i = 0; i < bit_set.length(); i++) {
+            if (bit_set.get(i)) {
+                un_sort_list[sorted_index++] = i;
+            }
+        }
+        return un_sort_list;
+    }
 
 }
 

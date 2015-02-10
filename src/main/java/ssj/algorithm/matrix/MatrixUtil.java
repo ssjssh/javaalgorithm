@@ -71,6 +71,11 @@ public class MatrixUtil {
         });
     }
 
+    public boolean binarySearch(int[][] matrix, int ele) {
+        //todo 杨氏矩阵查找
+        return false;
+    }
+
     private static class Point {
         final int x;
         final int y;

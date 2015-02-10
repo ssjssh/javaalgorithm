@@ -12,7 +12,7 @@ import java.util.function.Predicate;
 /**
  * Created by shenshijun on 15/2/1.
  */
-public class StringBuilder implements Collection<Character>, CharSequence {
+public class StringBuilder implements Collection<Character>, CharSequence, Comparable<StringBuilder> {
     private Character[] _interval_string;
     private int _cur_point;
 
@@ -144,6 +144,22 @@ public class StringBuilder implements Collection<Character>, CharSequence {
     @Override
     public int hashCode() {
         return Arrays.hashCode(_interval_string);
+    }
+
+    @Override
+    public int compareTo(StringBuilder o) {
+        //TODO 实现字符串比较
+        return 0;
+    }
+
+    public int intValue() {
+        //TODO 完成String to int
+        return -1;
+    }
+
+    public double doubleValue() {
+        //TODO 完成String to double
+        return -1;
     }
 
     private class CharIterator implements Iterator<Character> {
