@@ -47,8 +47,7 @@ public class StringBuilder implements Collection<Character>, CharSequence, Compa
     }
 
     public void append(Object ele) {
-        Preconditions.checkNotNull(ele);
-        append(ele.toString());
+        append(String.valueOf(ele));
     }
 
     public void remove(int index) {

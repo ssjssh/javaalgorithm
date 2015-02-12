@@ -352,10 +352,6 @@ public class LinkedList<T> implements List<T>, Queue<T> {
             final StringBuilder sb = new StringBuilder("Node{");
             sb.append("value=");
             sb.append(value);
-            sb.append(", prev=");
-            sb.append(prev);
-            sb.append(", next=");
-            sb.append(next);
             sb.append('}');
             return sb.toString();
         }
