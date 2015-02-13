@@ -18,12 +18,17 @@ import java.util.Iterator;
 public class Vector<T> implements List<T> {
     private Object[] _values;
     private int _cur_pointer;
+    private static final int DEFAULT_SIZE = 10;
 
 
     public Vector(int capacity) {
         Preconditions.checkArgument(capacity >= 0);
         _values = new Object[capacity];
         _cur_pointer = -1;
+    }
+
+    public Vector() {
+        this(DEFAULT_SIZE);
     }
 
     @Override

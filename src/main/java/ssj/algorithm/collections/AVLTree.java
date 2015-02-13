@@ -25,7 +25,7 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
      */
     public AVLTree(T[] arr) {
         Preconditions.checkNotNull(arr);
-        _head = createMinimalAVL(arr, 0, arr.length-1);
+        _head = createMinimalAVL(arr, 0, arr.length - 1);
         _size = arr.length;
     }
 
@@ -50,6 +50,31 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
 
         root.fixupHeight();
         return root;
+    }
+
+
+    private Vector<LinkedList<Node>> createLevelLinkedList() {
+        Vector<LinkedList<Node>> result = new Vector<>();
+        LinkedList<Node> current = new LinkedList<>();
+        if (_head.getValue() != null) {
+            current.appendTail(_head);
+        }
+
+        while (!current.isEmpty()) {
+            result.add(current);
+            LinkedList<Node> parent = current;
+            current = new LinkedList<>();
+            for (Node node : parent) {
+                if (node.getLeft() != null) {
+                    current.appendTail(node.getLeft());
+                }
+
+                if (node.getRight() != null) {
+                    current.appendTail(node.getRight());
+                }
+            }
+        }
+        return result;
     }
 
     @Override
