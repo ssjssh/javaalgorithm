@@ -27,6 +27,7 @@ public class SkipListTest {
             assertFalse(skipList.contains(values[i]));
         }
         assertTrue(skipList.isEmpty());
+        System.out.println(skipList);
     }
 
     @Test
@@ -47,7 +48,8 @@ public class SkipListTest {
             assertFalse(skipList.contains(values[i]));
             i++;
         }
-        System.out.println(skipList);
+        assertTrue(i==1000);
+        assertTrue(skipList.isEmpty());
     }
 
 }

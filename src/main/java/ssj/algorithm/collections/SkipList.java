@@ -205,7 +205,7 @@ public class SkipList<T extends Comparable<T>> implements Set<T> {
         public boolean hasNext() {
             checkCurrencyModify();
             cur_node = cur_node.getNext();
-            return cur_node.isEnd();
+            return !cur_node.isEnd();
         }
 
         @Override
@@ -220,6 +220,7 @@ public class SkipList<T extends Comparable<T>> implements Set<T> {
             Node old = cur_node.getPrev();
             SkipList.this.delete(next());
             cur_node = old;
+            this.size--;
         }
 
         private void checkCurrencyModify() {
