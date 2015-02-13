@@ -5,6 +5,7 @@ import ssj.algorithm.SearchTree;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.Objects;
 
 /**
  * Created by shenshijun on 15/2/5.
@@ -75,6 +76,56 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
             }
         }
         return result;
+    }
+
+    /**
+     * 在广度遍历的过程中检查子树
+     * 算法复杂度是O(n+km)
+     * k是两
+     *
+     * @param tree
+     * @return
+     */
+    public boolean isSubTree(AVLTree tree) {
+        Preconditions.checkNotNull(tree);
+        if (_head.getValue() == null && tree._head.getValue() == null) {
+            return true;
+        } else if (_head.getValue() == null || tree._head.getValue() == null) {
+            return false;
+        } else if (size() < tree.size()) {
+            return false;
+        }
+
+        LinkedList<Node> queue = new LinkedList<>();
+        if (_head.getValue() != null) {
+            queue.appendTail(_head);
+        }
+
+        while (!queue.isEmpty()) {
+            Node cur_node = queue.removeHead();
+            if (cur_node.equals(tree._head) && treeMatch(cur_node, tree._head)) {
+                return true;
+            } else {
+                if (cur_node.getLeft() != null) {
+                    queue.appendTail(cur_node.getLeft());
+                }
+
+                if (cur_node.getRight() != null) {
+                    queue.appendTail(cur_node.getRight());
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean treeMatch(Node this_root, Node that_root) {
+        if (Objects.equals(that_root, that_root)) {
+            boolean left_result = (this_root.getLeft() == null && that_root.getLeft() == null) || treeMatch(this_root.getLeft(), that_root.getLeft());
+            if (left_result) {
+                return (this_root.getRight() == null && that_root.getRight() == null) || treeMatch(this_root.getRight(), that_root.getRight());
+            }
+        }
+        return false;
     }
 
     @Override
