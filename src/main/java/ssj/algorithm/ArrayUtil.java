@@ -3,7 +3,6 @@ package ssj.algorithm;
 import com.google.common.base.Preconditions;
 import ssj.algorithm.collections.BitSet;
 
-import java.util.Arrays;
 import java.util.Comparator;
 
 /**
@@ -120,6 +119,33 @@ public class ArrayUtil {
     }
 
     /**
+     *
+     * 二分搜索
+     * @param arr
+     * @param ele
+     * @param <T>
+     * @return
+     */
+    public <T extends Comparable<T>> int binarySearch(T[] arr, T ele) {
+        Preconditions.checkNotNull(arr);
+        Preconditions.checkNotNull(ele);
+        int low = 0;
+        int high = arr.length - 1;
+        while (low <= high) {
+            int middle = (low + high) / 2;
+            int com_res = arr[middle].compareTo(ele);
+            if (com_res == 0) {
+                return middle;
+            } else if (com_res > 0) {
+                high = middle - 1;
+            } else {
+                low = middle + 1;
+            }
+        }
+        return -1;
+    }
+
+    /**
      * 归并排序
      *
      * @param arr
@@ -191,7 +217,7 @@ public class ArrayUtil {
     }
 
     public static <T> void radixSort(T[] arr, Comparator<T> comparator) {
-
+        //todo 完成基数排序
     }
 
     public static <T> T[] leftRotate(T[] raw_array, int start, int end, int rot_index) {
