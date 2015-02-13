@@ -2,7 +2,11 @@ package ssj.algorithm;
 
 import org.junit.Test;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by shenshijun on 15/2/13.
@@ -22,6 +26,22 @@ public class ArrayUtilTest {
         ArrayUtil.mergeSort(values2, String::compareTo);
         for (int i = 0; i < arr_size; i++) {
             assertEquals(values1[i], values2[i]);
+        }
+    }
+
+    @Test
+    public void testCountSort() {
+        int arr_size = 10;
+        Integer[] values1 = new Integer[arr_size];
+        int[] values2 = new int[arr_size];
+        for (int i = 0; i < arr_size; i++) {
+            values2[i] = (int) (arr_size * Math.random());
+            values1[i] = values2[i];
+        }
+        ArrayUtil.sort(values1);
+        ArrayUtil.countSort(values2, 0, arr_size);
+        for (int i = 0; i < arr_size; i++) {
+            assertTrue(values1[i].equals(values2[i]));
         }
     }
 

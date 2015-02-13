@@ -1,15 +1,13 @@
 package ssj.algorithm;
 
-import com.google.common.base.Preconditions;
+import java.util.Arrays;
 
 /**
  * Created by shenshijun on 15/2/1.
  */
 public class Main {
-    private static final long UNSIGNED_MAX_LONG = 0xffffffffffffffffL;
 
     public static void main(String[] args) {
-        System.out.println(Long.toBinaryString(32));
-        System.out.println(Long.toBinaryString(14));
+        System.out.println(Arrays.toString(new int[10]));
     }
 }

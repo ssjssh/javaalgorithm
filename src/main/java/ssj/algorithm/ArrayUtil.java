@@ -3,6 +3,7 @@ package ssj.algorithm;
 import com.google.common.base.Preconditions;
 import ssj.algorithm.collections.BitSet;
 
+import java.util.Arrays;
 import java.util.Comparator;
 
 /**
@@ -163,8 +164,30 @@ public class ArrayUtil {
         System.arraycopy(helper, 0, arr, start, helper.length);
     }
 
-    public static <T> void countSort(T[] arr, Comparator<T> comparator) {
-        //TODO 完成计数排序
+    /**
+     * 计数排序
+     *
+     * @param arr
+     */
+    public static void countSort(int[] arr, int start, int end) {
+        Preconditions.checkNotNull(arr);
+        Preconditions.checkArgument(start <= end);
+        int[] result = new int[arr.length];
+        int range = end - start + 1;
+        int[] helper = new int[range];
+        for (int i : arr) {
+            helper[i - start]++;
+        }
+
+        for (int i = 1; i < range; i++) {
+            helper[i] = helper[i - 1] + helper[i];
+        }
+
+        for (int i : arr) {
+            result[helper[i - start] - 1] = i;
+            helper[i - start]--;
+        }
+        System.arraycopy(result, 0, arr, 0, arr.length);
     }
 
     public static <T> void radixSort(T[] arr, Comparator<T> comparator) {
