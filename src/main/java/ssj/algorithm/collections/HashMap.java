@@ -27,9 +27,9 @@ public class HashMap<K, V> implements Map<K, V> {
     private int _size;
     private int _power;
 
-    private HashMap(MapBuilder<K, V> builder) {
+    protected HashMap(MapBuilder<K, V> builder) {
         _load_factor = builder.getLoadFactor();
-        _value = (Node<K, V>[]) (new Node[builder.getCapacity()]);
+        _value = newNodeArray(builder.getCapacity());
         _power = builder._power;
         _size = 0;
     }
@@ -37,6 +37,33 @@ public class HashMap<K, V> implements Map<K, V> {
     public static <K, V> MapBuilder<K, V> builder() {
         return new MapBuilder<>();
     }
+
+    protected Node<K, V> newNode(K key, V value) {
+        return new Node<>(key, value, null);
+    }
+
+    protected Node<K, V>[] newNodeArray(int size) {
+        return (Node<K, V>[]) (new Node[size]);
+    }
+
+    /**
+     * ************  hook method for LinkedHashMap  ***********************************
+     */
+    protected void afterInsertNewNode(Node<K, V> new_node) {
+    }
+
+    protected void afterReplaceNode(Node<K, V> node) {
+    }
+
+    protected void afterDeleteNode(Node<K, V> deleted_node) {
+    }
+
+    protected void clearOldArray() {
+    }
+
+    protected void resetOldArray() {
+    }
+
 
     @Override
     public void set(K key, V value) {
@@ -46,18 +73,21 @@ public class HashMap<K, V> implements Map<K, V> {
         assert (index >= 0 && index <= _value.length);
         Node<K, V> old_node = _value[index];
         if (old_node == null) {
-            _value[index] = new Node<>(key, value, null);
+            _value[index] = newNode(key, value);
+            afterInsertNewNode(_value[index]);
         } else {
             Node<K, V> pre_node = old_node;
             while (old_node != null) {
                 if (old_node.getKey().equals(key)) {
                     old_node.setValue(value);
+                    afterReplaceNode(old_node);
                     return;
                 }
                 pre_node = old_node;
                 old_node = old_node.getNext();
             }
-            pre_node.setNext(new Node<>(key, value, null));
+            pre_node.setNext(newNode(key, value));
+            afterInsertNewNode(pre_node.getNext());
         }
         _size++;
     }
@@ -128,6 +158,7 @@ public class HashMap<K, V> implements Map<K, V> {
         Node<K, V> old_node = _value[index];
         if (old_node != null) {
             if (old_node.getKey().equals(key)) {
+                afterDeleteNode(old_node);
                 _value[index] = old_node.getNext();
                 _size--;
                 return old_node.getValue();
@@ -136,6 +167,7 @@ public class HashMap<K, V> implements Map<K, V> {
                 while (old_node != null) {
                     if (old_node.getKey().equals(key)) {
                         last_node.setNext(old_node.getNext());
+                        afterDeleteNode(old_node);
                         _size--;
                         return old_node.getValue();
                     }
@@ -174,18 +206,20 @@ public class HashMap<K, V> implements Map<K, V> {
         if ((size() / _value.length) > _load_factor) {
             Node<K, V>[] old_value = _value;
             _power++;
-            _value = (Node<K, V>[]) new Node[(int) Math.pow(2, _power)];
+            _value = newNodeArray((int) Math.pow(2, _power));
             _size = 0;//必须初始化为0，不然会出现重复计算的情况
+            clearOldArray();
             for (Node<K, V> node : old_value) {
                 while (node != null) {
                     set(node.getKey(), node.getValue());
                     node = node.getNext();
                 }
             }
+            resetOldArray();
         }
     }
 
-    private static class Node<K, V> extends MapIterator.Entry<K, V> {
+    protected static class Node<K, V> extends MapIterator.Entry<K, V> {
 
         private Node<K, V> next;
 
