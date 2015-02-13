@@ -18,6 +18,40 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
         _size = 0;
     }
 
+    /**
+     * 使用一个排好序的列表来创建AVL树
+     *
+     * @param arr
+     */
+    public AVLTree(T[] arr) {
+        Preconditions.checkNotNull(arr);
+        _head = createMinimalAVL(arr, 0, arr.length-1);
+        _size = arr.length;
+    }
+
+    private Node createMinimalAVL(T[] arr, int start, int end) {
+        if (end < start) {
+            return null;
+        }
+
+        int middle = (end + start) / 2;
+        Node root = new Node(null, null, null, arr[middle]);
+        Node left = createMinimalAVL(arr, start, middle - 1);
+        Node right = createMinimalAVL(arr, middle + 1, end);
+        root.setLeft(left);
+        root.setRight(right);
+        if (left != null) {
+            left.setParent(root);
+        }
+
+        if (right != null) {
+            right.setParent(root);
+        }
+
+        root.fixupHeight();
+        return root;
+    }
+
     @Override
     public void add(T ele) {
         Preconditions.checkNotNull(ele);

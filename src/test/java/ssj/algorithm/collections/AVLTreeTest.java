@@ -12,16 +12,27 @@ import static org.junit.Assert.*;
  */
 public class AVLTreeTest {
 
+    private String[] sortStringArray(int size) {
+        String[] results = new String[size];
+        for (int i = 0; i < size; i++) {
+            results[i] = String.valueOf(Math.random());
+        }
+        ArrayUtil.sort(results);
+        return results;
+    }
+
     @Test
     public void testBase() {
         int tree_size = 10000;
-        AVLTree<String> tree = new AVLTree<>();
-        String[] values = new String[tree_size];
-        for (int i = 0; i < tree_size; i++) {
-            values[i] = String.valueOf((int) (Math.random() * tree_size));
-            tree.add(values[i]);
-        }
-        ArrayUtil.sort(values);
+//        AVLTree<String> tree = new AVLTree<>();
+//        String[] values = new String[tree_size];
+//        for (int i = 0; i < tree_size; i++) {
+//            values[i] = String.valueOf((int) (Math.random() * tree_size));
+//            tree.add(values[i]);
+//        }
+//        ArrayUtil.sort(values);
+        String[] values = sortStringArray(tree_size);
+        AVLTree<String> tree = new AVLTree<>(values);
         assertEquals(tree.size(), tree_size);
         assertTrue(tree.max().equals(values[tree_size - 1]));
         assertTrue(tree.min().equals(values[0]));
@@ -37,13 +48,15 @@ public class AVLTreeTest {
     @Test
     public void testDelete() {
         int tree_size = 10000;
-        AVLTree<String> tree = new AVLTree<>();
-        String[] values = new String[tree_size];
-        for (int i = 0; i < tree_size; i++) {
-            values[i] = String.valueOf((int) (Math.random() * tree_size));
-            tree.add(values[i]);
-        }
-        ArrayUtil.sort(values);
+//        AVLTree<String> tree = new AVLTree<>();
+//        String[] values = new String[tree_size];
+//        for (int i = 0; i < tree_size; i++) {
+//            values[i] = String.valueOf((int) (Math.random() * tree_size));
+//            tree.add(values[i]);
+//        }
+//        ArrayUtil.sort(values);
+        String[] values = sortStringArray(tree_size);
+        AVLTree<String> tree = new AVLTree<>(values);
         assertEquals(tree.size(), tree_size);
         assertTrue(tree.max().equals(values[tree_size - 1]));
         assertTrue(tree.min().equals(values[0]));
@@ -115,7 +128,7 @@ public class AVLTreeTest {
     }
 
     @Test
-    public void testIsBalance(){
+    public void testIsBalance() {
         int tree_size = 10000;
         AVLTree<String> tree = new AVLTree<>();
         String[] values = new String[tree_size];
