@@ -55,6 +55,11 @@ public class BplusTree<T extends Comparable<T>> implements SearchTree<T> {
     }
 
     @Override
+    public boolean isBalance() {
+        return false;
+    }
+
+    @Override
     public Iterator<T> iterator() {
         return null;
     }
