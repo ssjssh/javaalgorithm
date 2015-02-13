@@ -118,12 +118,57 @@ public class ArrayUtil {
         return par_index;
     }
 
+    /**
+     * 归并排序
+     *
+     * @param arr
+     * @param comparator
+     * @param <T>
+     */
     public static <T> void mergeSort(T[] arr, Comparator<T> comparator) {
-        //TODO 完成归并排序
+        Preconditions.checkNotNull(arr);
+        Preconditions.checkNotNull(comparator);
+        mergeSort(arr, comparator, 0, arr.length - 1);
+    }
+
+    private static <T> void mergeSort(T[] arr, Comparator<T> comparator, int start, int end) {
+        if (start < end) {
+            int middle = (end + start) / 2;
+            mergeSort(arr, comparator, start, middle);
+            mergeSort(arr, comparator, middle + 1, end);
+            merge(arr, start, middle, end, comparator);
+        }
+    }
+
+    private static <T> void merge(T[] arr, int start, int middle, int end, Comparator<T> comparator) {
+        int front_start = start;
+        int end_start = middle + 1;
+        int cur_pos = 0;
+        T[] helper = (T[]) new Object[end - start + 1];
+        while (front_start <= middle && end_start <= end) {
+            if (comparator.compare(arr[front_start], arr[end_start]) <= 0) {
+                helper[cur_pos++] = arr[front_start++];
+            } else {
+                helper[cur_pos++] = arr[end_start++];
+            }
+        }
+
+        while (front_start <= middle) {
+            helper[cur_pos++] = arr[front_start++];
+        }
+
+        while (end_start <= end) {
+            helper[cur_pos++] = arr[end_start++];
+        }
+        System.arraycopy(helper, 0, arr, start, helper.length);
     }
 
     public static <T> void countSort(T[] arr, Comparator<T> comparator) {
         //TODO 完成计数排序
+    }
+
+    public static <T> void radixSort(T[] arr, Comparator<T> comparator) {
+
     }
 
     public static <T> T[] leftRotate(T[] raw_array, int start, int end, int rot_index) {
@@ -154,9 +199,7 @@ public class ArrayUtil {
      * @return
      */
     public static int[] bitMapSort(int[] un_sort_list) {
-        if (null == un_sort_list) {
-            throw new NullPointerException("un_sort_list");
-        }
+        Preconditions.checkNotNull(un_sort_list);
         BitSet bit_set = new BitSet(un_sort_list.length / 8);
         for (int x : un_sort_list) {
             if (x < 0) {
