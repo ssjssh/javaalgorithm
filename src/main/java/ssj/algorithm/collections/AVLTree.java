@@ -250,6 +250,33 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
         return findNode(ele) != null;
     }
 
+    @Override
+    public boolean isBalance() {
+        return checkHeight(_head) != -1;
+    }
+
+    private int checkHeight(Node root) {
+        if (root == null) {
+            return 0;
+        }
+
+        int leftHeight = checkHeight(root.getLeft());
+        if (leftHeight == -1) {
+            return -1;
+        }
+
+        int rightHeight = checkHeight(root.getRight());
+        if (rightHeight == -1) {
+            return -1;
+        }
+
+        if (Math.abs(rightHeight - leftHeight) > 1) {
+            return -1;
+        } else {
+            return Math.max(rightHeight, leftHeight) + 1;
+        }
+    }
+
     T findOrigin(T ele) {
         Node result = findNode(ele);
         return result == null ? null : result.getValue();

@@ -27,4 +27,6 @@ public interface SearchTree<T extends Comparable<T>> extends Iterable<T> {
     public default boolean isEmpty() {
         return size() <= 0;
     }
+
+    public boolean isBalance();
 }

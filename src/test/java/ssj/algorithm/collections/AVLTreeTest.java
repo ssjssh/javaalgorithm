@@ -113,4 +113,20 @@ public class AVLTreeTest {
             values[i] = i;
         }
     }
+
+    @Test
+    public void testIsBalance(){
+        int tree_size = 10000;
+        AVLTree<String> tree = new AVLTree<>();
+        String[] values = new String[tree_size];
+        for (int i = 0; i < tree_size; i++) {
+            values[i] = String.valueOf((int) (Math.random() * tree_size));
+            tree.add(values[i]);
+        }
+        ArrayUtil.sort(values);
+        assertEquals(tree.size(), tree_size);
+        assertTrue(tree.max().equals(values[tree_size - 1]));
+        assertTrue(tree.min().equals(values[0]));
+        assertTrue(tree.isBalance());
+    }
 }
