@@ -1,7 +1,9 @@
 package ssj.algorithm.matrix;
 
 import com.google.common.base.Preconditions;
+import ssj.algorithm.lang.Tuple2;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -71,10 +73,44 @@ public class MatrixUtil {
         });
     }
 
-    public boolean binarySearch(int[][] matrix, int ele) {
-        //todo 杨氏矩阵查找
-        return false;
+    /**
+     * 杨氏矩阵查找，有两种实现算法。
+     * 1，使用遍历+排除
+     * 2，二维矩阵版二叉查找法
+     *
+     * @param matrix
+     * @param ele
+     * @return
+     */
+    public static <T extends Comparable<T>> Tuple2<Integer, Integer> matrixSearch(T[][] matrix, T ele) {
+        return null;
     }
+
+    private static <T extends Comparable<T>> Tuple2<Integer, Integer> simpleMatrixSearch(T[][] matrix, T ele) {
+        Preconditions.checkNotNull(matrix);
+        Preconditions.checkNotNull(ele);
+        if (matrix.length == 0) {
+            return null;
+        }
+        int col_count = matrix.length;
+        int row_count = matrix[0].length;
+        for (int i = col_count - 1; i >= 0; i--) {
+            for (int j = 0; j < row_count; j++) {
+                int com_res = ele.compareTo(matrix[i][j]);
+                if (com_res == 0) {
+                    return new Tuple2<>(i, j);
+                } else if (com_res < 0) {
+                    break;
+                }
+            }
+        }
+        return null;
+    }
+
+    private static <T extends Comparator<T>> Tuple2<Integer, Integer> binaryMatrixSearch(T[][] matrix, T ele) {
+        return null;
+    }
+
 
     private static class Point {
         final int x;
