@@ -3,7 +3,7 @@ package ssj.algorithm.matrix;
 import com.google.common.base.Preconditions;
 import ssj.algorithm.lang.Tuple2;
 
-import java.util.Comparator;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -83,10 +83,10 @@ public class MatrixUtil {
      * @return
      */
     public static <T extends Comparable<T>> Tuple2<Integer, Integer> matrixSearch(T[][] matrix, T ele) {
-        return null;
+        return binarySearch(matrix, ele);
     }
 
-    private static <T extends Comparable<T>> Tuple2<Integer, Integer> simpleMatrixSearch(T[][] matrix, T ele) {
+    static <T extends Comparable<T>> Tuple2<Integer, Integer> simpleMatrixSearch(T[][] matrix, T ele) {
         Preconditions.checkNotNull(matrix);
         Preconditions.checkNotNull(ele);
         if (matrix.length == 0) {
@@ -107,14 +107,114 @@ public class MatrixUtil {
         return null;
     }
 
-    private static <T extends Comparator<T>> Tuple2<Integer, Integer> binaryMatrixSearch(T[][] matrix, T ele) {
+    private static <T extends Comparable<T>> Tuple2<Integer, Integer> binaryMatrixSearch(T[][] matrix, Point src, Point dest, T ele) {
+
+        if (dest.compareTo(src) < 0) {
+            return null;
+        } else if (dest.compareTo(src) == 0) {
+            return matrix[dest.getX()][dest.getY()].equals(ele) ? new Tuple2<>(dest.getX(), dest.getY()) : null;
+        }
+        //首先把矩阵规范化成长宽都是偶数，这样比较好分割
+        int col_extra = -1;
+        int row_extra = -1;
+        int col_count = dest.getX() - src.getX() + 1;
+        int row_count = dest.getY() - src.getY() + 1;
+        int mid_x = (dest.getX() + src.getX()) / 2;
+        int mid_y = (dest.getY() + src.getY()) / 2;
+        int end_x = dest.getX();
+        int end_y = dest.getY();
+        Tuple2<Integer, Integer> result;
+
+        if (col_count % 2 != 0) {
+            col_extra = dest.getX();
+            end_x--;
+        }
+
+        if (row_count % 2 != 0) {
+            row_extra = dest.getY();
+            end_y--;
+        }
+
+        if (matrix[mid_x][mid_y].compareTo(ele) == 0) {
+            return new Tuple2<>(mid_x, mid_y);
+        } else if (matrix[mid_x][mid_y].compareTo(ele) > 0) {
+            result = binaryMatrixSearch(matrix, src, new Point(mid_x, mid_y), ele);
+            if (result != null) {
+                return result;
+            }
+        }
+
+        if (matrix[mid_x + 1][mid_y + 1].compareTo(ele) == 0) {
+            return new Tuple2<>(mid_x + 1, mid_y + 1);
+        } else if (matrix[mid_x + 1][mid_y + 1].compareTo(ele) < 0) {
+            result = binaryMatrixSearch(matrix, new Point(mid_x + 1, mid_y + 1), new Point(end_x, end_y), ele);
+            if (result != null) {
+                return result;
+            }
+        }
+
+        if (matrix[mid_x][mid_y].compareTo(ele) < 0 && matrix[mid_x + 1][mid_y + 1].compareTo(ele) > 0) {
+            result = binaryMatrixSearch(matrix, new Point(src.getX(), mid_y + 1), new Point(mid_x, end_y), ele);
+            if (result != null) {
+                return result;
+            }
+            result = binaryMatrixSearch(matrix, new Point(mid_x + 1, src.getY()), new Point(end_x, mid_y), ele);
+            if (result != null) {
+                return result;
+            }
+        }
+
+        int extra_y;
+        if (col_extra != -1 && (extra_y = Arrays.binarySearch(matrix[col_extra], src.getY(), dest.getY(), ele)) != -1) {
+            return new Tuple2<>(col_extra, extra_y);
+        }
+
+        int extra_x;
+        if (row_extra != -1 && (extra_x = matrixRowBinarySearch(matrix, src.getX(), dest.getX(), row_extra, ele)) != -1) {
+            return new Tuple2<>(extra_x, row_extra);
+        }
         return null;
     }
 
+    public static <T extends Comparable<T>> int matrixRowBinarySearch(T[][] matrix, int col_start, int col_end, int row, T ele) {
+        Preconditions.checkNotNull(matrix);
+        Preconditions.checkNotNull(ele);
+        if (matrix.length == 0) return -1;
+        Preconditions.checkPositionIndexes(col_start, col_end, matrix.length);
+        Preconditions.checkPositionIndex(row, matrix[0].length);
+        int low = col_start;
+        int high = col_end;
+        while (low <= high) {
+            int col_mid = (low + high) / 2;
+            int com_res = matrix[col_mid][row].compareTo(ele);
+            if (com_res == 0) return col_mid;
+            else if (com_res > 0) {
+                high = col_mid - 1;
+            } else {
+                low = col_mid + 1;
+            }
+        }
+        return -1;
+    }
 
-    private static class Point {
+    static <T extends Comparable<T>> Tuple2<Integer, Integer> binarySearch(T[][] matrix, T ele) {
+        Preconditions.checkNotNull(matrix);
+        Preconditions.checkNotNull(ele);
+        if (matrix.length == 0) {
+            return null;
+        }
+        return binaryMatrixSearch(matrix, new Point(0, 0), new Point(matrix.length - 1, matrix[0].length - 1), ele);
+    }
+
+
+    private static class Point implements Comparable<Point> {
         final int x;
         final int y;
+
+        Point(int _x, int _y) {
+            x = _x;
+            y = _y;
+        }
 
         @Override
         public boolean equals(Object o) {
@@ -145,17 +245,20 @@ public class MatrixUtil {
             return x;
         }
 
-        Point(int _x, int _y) {
-            x = _x;
-            y = _y;
-        }
-
         @Override
         public String toString() {
             return "Point{" +
                     "x=" + x +
                     ", y=" + y +
                     '}';
+        }
+
+        @Override
+        public int compareTo(Point o) {
+            Preconditions.checkNotNull(o);
+            if (getX() == o.getX() && getY() == o.getY()) return 0;
+            if (getX() > o.getX() && getY() > o.getY()) return 1;
+            return -1;
         }
     }
 }

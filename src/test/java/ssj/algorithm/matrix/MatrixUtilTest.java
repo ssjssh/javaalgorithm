@@ -31,5 +31,21 @@ public class MatrixUtilTest {
         assertTrue(Arrays.deepEquals(zero_matrixes, zero_matrixes1));
     }
 
+    @Test
+    public void testSimpleMatrixSearch() {
+        Integer[][] matrix = new Integer[][]{{15, 20, 35, 40}, {20, 35, 55, 80}, {70, 80, 95, 100}, {85, 95, 105, 120}};
+        System.out.println(MatrixUtil.simpleMatrixSearch(matrix, 85));
+        System.out.println(MatrixUtil.simpleMatrixSearch(matrix, 120));
+        System.out.println(MatrixUtil.simpleMatrixSearch(matrix, 0));
+    }
+
+    @Test
+    public void testBinaryMatrixSearch() {
+        Integer[][] matrix = new Integer[][]{{15, 20, 35, 40}, {20, 35, 55, 80}, {70, 80, 95, 100}, {85, 95, 105, 120}};
+        System.out.println(MatrixUtil.binarySearch(matrix, 85));
+        System.out.println(MatrixUtil.binarySearch(matrix, 120));
+        System.out.println(MatrixUtil.binarySearch(matrix, 0));
+    }
+
 
 }
