@@ -130,8 +130,22 @@ public class ArrayUtil {
      * @param <T>
      * @return
      */
-    public static <T extends Comparator<T>> int select(T[] arr, int k) {
-        return -1;
+    public static <T extends Comparable<T>> T select(T[] arr, int k) {
+        Preconditions.checkNotNull(arr);
+        Preconditions.checkPositionIndex(k, arr.length);
+        int low = 0;
+        int high = arr.length - 1;
+        while (low <= high) {
+            int par_index = partition(arr, low, high);
+            if (par_index == k) {
+                return arr[par_index];
+            } else if (par_index > k) {
+                high = par_index - 1;
+            } else {
+                low = par_index + 1;
+            }
+        }
+        return null;
     }
 
     /**
