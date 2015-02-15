@@ -2,6 +2,7 @@ package ssj.algorithm;
 
 import com.google.common.base.Preconditions;
 import ssj.algorithm.collections.BitSet;
+import ssj.algorithm.math.MathUtil;
 
 import java.util.Comparator;
 
@@ -106,8 +107,10 @@ public class ArrayUtil {
         return partition(Comparable::compareTo, arr, start, end);
     }
 
-    private static <T> int partition(Comparator<T> comparator, T[] arr, int start, int end) {
-        int par_index = start;
+    public static <T> int partition(Comparator<T> comparator, T[] arr, int start, int end) {
+        int par_index = MathUtil.randInt(start, end);
+        ArrayUtil.swap(arr, start, par_index);
+        par_index = start;
         for (int i = start + 1; i <= end; i++) {
             if (comparator.compare(arr[i], arr[start]) <= 0) {
                 par_index++;
@@ -118,9 +121,22 @@ public class ArrayUtil {
         return par_index;
     }
 
+
     /**
+     * 经典选择算法，选出第k小数，复杂O(N)
      *
+     * @param arr
+     * @param k
+     * @param <T>
+     * @return
+     */
+    public static <T extends Comparator<T>> int select(T[] arr, int k) {
+        return -1;
+    }
+
+    /**
      * 二分搜索
+     *
      * @param arr
      * @param ele
      * @param <T>

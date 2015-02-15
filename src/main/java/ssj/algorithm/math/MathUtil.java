@@ -3,11 +3,14 @@ package ssj.algorithm.math;
 import com.google.common.base.Preconditions;
 
 import java.math.BigInteger;
+import java.util.Random;
 
 /**
  * Created by shenshijun on 14-12-21.
  */
 public class MathUtil {
+    private static Random randor = new Random();
+
     public static int gcd(int a, int b) {
         return BigInteger.valueOf(a).gcd(BigInteger.valueOf(b)).intValue();
     }
@@ -37,5 +40,14 @@ public class MathUtil {
             }
         }
         return max_value;
+    }
+
+    public static int randInt(int start, int end) {
+        Preconditions.checkArgument(start <= end);
+        if (start == end) {
+            return end;
+        }
+        randor.setSeed(System.currentTimeMillis());
+        return randor.nextInt(end - start) + start;
     }
 }
