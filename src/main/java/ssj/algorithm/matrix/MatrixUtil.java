@@ -94,14 +94,15 @@ public class MatrixUtil {
         }
         int col_count = matrix.length;
         int row_count = matrix[0].length;
-        for (int i = col_count - 1; i >= 0; i--) {
-            for (int j = 0; j < row_count; j++) {
-                int com_res = ele.compareTo(matrix[i][j]);
-                if (com_res == 0) {
-                    return new Tuple2<>(i, j);
-                } else if (com_res < 0) {
-                    break;
-                }
+        int row = 0;
+        int column = col_count - 1;
+        while (row < row_count && column >= 0) {
+            if (matrix[column][row].equals(ele)) {
+                return new Tuple2<>(column, row);
+            } else if (matrix[column][row].compareTo(ele) > 0) {
+                --column;
+            } else {
+                ++row;
             }
         }
         return null;
