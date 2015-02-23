@@ -676,36 +676,83 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
 
     private class AVLTreePostIterator implements Iterator<T> {
         private int iter_size;
-        private LinkedStack<Node> _stacks;
+        private LinkedStack<Node> unvisited_stack;
+        private LinkedStack<Node> visited_stack;
         private Node cur_node;
 
         public AVLTreePostIterator(int _size) {
             iter_size = _size;
-            _stacks = new LinkedStack<>();
+            unvisited_stack = new LinkedStack<>();
+            visited_stack = new LinkedStack<>();
             if (_head.getValue() != null) {
-                cur_node = _head;
-                insertRight(cur_node);
+                unvisited_stack.push(_head);
+                initStack();
             }
         }
 
-        private void insertRight(Node start_node) {
-            checkCurrencyModify(iter_size);
-            Node cur_start_node = start_node;
-            while (cur_start_node != null) {
-                _stacks.push(cur_start_node);
-                cur_start_node = cur_start_node.getRight();
+        private void initStack() {
+            if (!unvisited_stack.isEmpty()) {
+                Node this_node = unvisited_stack.head();
+                while (!shouldVisit(this_node)) {
+                    if (this_node.getRight() != null) {
+                        unvisited_stack.push(this_node.getRight());
+                    }
+
+                    if (this_node.getLeft() != null) {
+                        unvisited_stack.push(this_node.getLeft());
+                    }
+                    this_node = unvisited_stack.head();
+                }
             }
+        }
+
+        private Node insertUnvisitedNode(Node node) {
+            Node this_node = node;
+            while (!shouldVisit(this_node)) {
+                unvisited_stack.push(this_node);
+                if (this_node.getRight() != null) {
+                    unvisited_stack.push(this_node.getRight());
+                }
+
+                if (this_node.getLeft() != null) {
+                    unvisited_stack.push(this_node.getLeft());
+                }
+                this_node = unvisited_stack.pop();
+            }
+            return this_node;
+        }
+
+        private boolean shouldVisit(Node node) {
+            boolean left_result = false;
+            boolean right_result = false;
+            Node visited_right_node;
+            if (node.getRight() == null) {
+                right_result = true;
+            } else if ((visited_right_node = visited_stack.head()) != null && (node.getRight() == visited_right_node)) {
+                right_result = true;
+                visited_stack.pop();
+            }
+
+            Node visited_left_node;
+            if (node.getLeft() == null) {
+                left_result = true;
+            } else if ((visited_left_node = visited_stack.head()) != null && (node.getLeft() == visited_left_node)) {
+                left_result = true;
+                visited_stack.pop();
+            }
+
+            return left_result && right_result;
         }
 
         @Override
         public boolean hasNext() {
             checkCurrencyModify(iter_size);
-            if (!_stacks.isEmpty()) {
-                cur_node = _stacks.pop();
-                insertRight(cur_node.getLeft());
-                return true;
+            boolean result = !unvisited_stack.isEmpty();
+            if (!unvisited_stack.isEmpty()) {
+                cur_node = insertUnvisitedNode(unvisited_stack.pop());
+                visited_stack.push(cur_node);
             }
-            return false;
+            return result;
         }
 
         @Override
