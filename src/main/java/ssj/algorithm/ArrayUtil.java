@@ -10,6 +10,7 @@ import java.util.Comparator;
  * Created by shenshijun on 14-12-20.
  */
 public class ArrayUtil {
+
     public static <T> void swap(T[] array, int left, int right) {
         Preconditions.checkNotNull(array);
         Preconditions.checkPositionIndexes(left, right, array.length);
@@ -297,6 +298,54 @@ public class ArrayUtil {
             }
         }
         return un_sort_list;
+    }
+
+    /**
+     * 从一个已经旋转过的数组中寻找最小值
+     *
+     * @param arr
+     * @param <T>
+     * @return
+     */
+    public static <T extends Comparable<T>> T minInRotate(T[] arr) {
+        Preconditions.checkNotNull(arr);
+        if (arr.length == 0) {
+            return null;
+        }
+        int start = 0;
+        int end = arr.length - 1;
+        int mid = start;
+        while (arr[start].compareTo(arr[end]) >= 0) {
+            if (end - start == 1) {
+                mid = end;
+                break;
+            }
+            mid = (start + end) / 2;
+            if (arr[mid].compareTo(arr[start]) == 0 && arr[mid].compareTo(arr[end]) == 0) {
+                return min(arr);
+            }
+            if (arr[mid].compareTo(arr[start]) >= 0) {
+                start = mid;
+            } else if (arr[mid].compareTo(arr[end]) <= 0) {
+                end = mid;
+            }
+        }
+        return arr[mid];
+    }
+
+    public static <T extends Comparable<T>> T min(T[] arr) {
+        Preconditions.checkNotNull(arr);
+        if (arr.length == 0) {
+            return null;
+        }
+
+        T min_value = arr[0];
+        for (T ele : arr) {
+            if (min_value.compareTo(ele) < 0) {
+                min_value = ele;
+            }
+        }
+        return min_value;
     }
 
 }
