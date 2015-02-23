@@ -54,6 +54,58 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
     }
 
 
+    /**
+     * 使用一个树的前序和中序序列来重建一棵树
+     *
+     * @param pre_order
+     * @param mid_order
+     */
+    public AVLTree(T[] pre_order, T[] mid_order) {
+        Preconditions.checkNotNull(pre_order);
+        Preconditions.checkNotNull(mid_order);
+        Preconditions.checkArgument(pre_order.length == mid_order.length);
+        _head = rebuildCore(pre_order, 0, pre_order.length, mid_order, 0, mid_order.length);
+        _size = pre_order.length;
+    }
+
+    private Node rebuildCore(T[] pre_order, int pre_start, int pre_end, T[] mid_order, int mid_start, int mid_end) {
+        Preconditions.checkPositionIndex(pre_start, pre_order.length);
+        Preconditions.checkPositionIndex(pre_end, pre_order.length);
+        Preconditions.checkPositionIndex(mid_start, mid_order.length);
+        Preconditions.checkPositionIndex(mid_end, mid_order.length);
+        if (pre_end < pre_start) {
+            return null;
+        }
+
+        if (mid_start < mid_end) {
+            return null;
+        }
+
+        T mid_ele = pre_order[pre_start];
+        Node root = new Node(null, null, null, mid_ele);
+        for (int i = mid_start; i <= mid_end; i++) {
+            if (mid_ele.equals(mid_order[i])) {
+                int left_nodes = i - mid_start;
+                Node left_node = rebuildCore(pre_order, pre_start + 1, pre_start + left_nodes, mid_order, mid_start, i - 1);
+                Node right_node = rebuildCore(pre_order, pre_start + left_nodes + 1, pre_end, mid_order, i + 1, mid_end);
+                root.setLeft(left_node);
+                root.setRight(right_node);
+                if (left_node != null) {
+                    left_node.setParent(root);
+                }
+
+                if (right_node != null) {
+                    right_node.setParent(root);
+                }
+
+                root.fixupHeight();
+                return root;
+            }
+        }
+        return null;
+    }
+
+
     private Vector<LinkedList<Node>> createLevelLinkedList() {
         Vector<LinkedList<Node>> result = new Vector<>();
         LinkedList<Node> current = new LinkedList<>();
