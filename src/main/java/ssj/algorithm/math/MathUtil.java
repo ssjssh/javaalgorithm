@@ -50,4 +50,33 @@ public class MathUtil {
         randor.setSeed(System.currentTimeMillis());
         return randor.nextInt(end - start) + start;
     }
+
+    public static double pow(double base, int exponent) {
+        Preconditions.checkArgument(!(doubleEqual(base, 0.0) && exponent < 0));
+        double result = powCore(base, Math.abs(exponent));
+        if (exponent < 0) {
+            return 1.0 / result;
+        } else {
+            return result;
+        }
+    }
+
+    private static double powCore(double base, int exponent) {
+        Preconditions.checkArgument(exponent >= 0);
+        if (exponent == 0) {
+            return 1;
+        } else if (exponent == 1) {
+            return base;
+        }
+        double result = powCore(base, exponent >> 1);
+        result *= result;
+        if (exponent % 2 == 1) {
+            result *= base;
+        }
+        return result;
+    }
+
+    private static boolean doubleEqual(double one, double two) {
+        return Math.abs(one - two) < 0.0000001;
+    }
 }
