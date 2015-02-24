@@ -22,11 +22,11 @@ public class ExtensiveStack<T extends Comparable<T>> extends LinkedStack<T> {
 
     @Override
     public void push(T ele) {
-        if (_min_stack.isEmpty() || ele.compareTo(min()) < 0) {
+        if (_min_stack.isEmpty() || ele.compareTo(min()) <= 0) {
             _min_stack.push(ele);
         }
 
-        if (_max_stack.isEmpty() || ele.compareTo(max()) > 0) {
+        if (_max_stack.isEmpty() || ele.compareTo(max()) >= 0) {
             _max_stack.push(ele);
         }
         super.push(ele);
