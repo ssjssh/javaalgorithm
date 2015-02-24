@@ -358,6 +358,7 @@ public class ArrayUtil {
         Preconditions.checkNotNull(func);
         TreeMap<Integer, HashSet<T>> static_map = new TreeMap<>();
         for (T ele : arr) {
+            Preconditions.checkNotNull(ele);
             int group_num = func.apply(ele);
             HashSet<T> set = static_map.get(group_num);
             if (set == null) {
