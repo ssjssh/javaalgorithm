@@ -1,10 +1,14 @@
 package ssj.algorithm;
 
+import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import ssj.algorithm.collections.BitSet;
+import ssj.algorithm.collections.HashSet;
+import ssj.algorithm.collections.TreeMap;
 import ssj.algorithm.math.MathUtil;
 
 import java.util.Comparator;
+import java.util.Iterator;
 
 /**
  * Created by shenshijun on 14-12-20.
@@ -346,6 +350,30 @@ public class ArrayUtil {
             }
         }
         return min_value;
+    }
+
+
+    public static <T> T[] group(T[] arr, Function<T, Integer> func) {
+        Preconditions.checkNotNull(arr);
+        Preconditions.checkNotNull(func);
+        TreeMap<Integer, HashSet<T>> static_map = new TreeMap<>();
+        for (T ele : arr) {
+            int group_num = func.apply(ele);
+            HashSet<T> set = static_map.get(group_num);
+            if (set == null) {
+                set = new HashSet<>();
+                static_map.set(group_num, set);
+            }
+            set.add(ele);
+        }
+        Iterator<HashSet<T>> iterator = static_map.valueIterator();
+        int pos = 0;
+        while (iterator.hasNext()) {
+            for (T ele : iterator.next()) {
+                arr[pos++] = ele;
+            }
+        }
+        return arr;
     }
 
 }

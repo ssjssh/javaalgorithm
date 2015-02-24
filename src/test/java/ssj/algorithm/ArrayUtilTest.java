@@ -2,6 +2,8 @@ package ssj.algorithm;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -40,6 +42,12 @@ public class ArrayUtilTest {
         for (int i = 0; i < arr_size; i++) {
             assertTrue(values1[i].equals(values2[i]));
         }
+    }
+
+    @Test
+    public void testGroup() {
+        Integer[] datas = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+        System.out.println(Arrays.toString(ArrayUtil.group(datas, (ele) -> ele % 3)));
     }
 
 
