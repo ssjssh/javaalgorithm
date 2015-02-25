@@ -2,6 +2,7 @@ package ssj.algorithm.collections;
 
 import com.google.common.base.Preconditions;
 import ssj.algorithm.SearchTree;
+import ssj.algorithm.Stack;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -240,6 +241,10 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
     @Override
     public int size() {
         return _size;
+    }
+
+    public Iterator<LinkedList<T>> pathIterator() {
+        return new AVLPathIterator(size());
     }
 
     @Override
@@ -642,6 +647,10 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
             height = Math.max(left_height, right_height) + 1;
         }
 
+        public boolean isLeaf() {
+            return (getLeft() == null) && (getRight() == null);
+        }
+
         @Override
         public int compareTo(Node o) {
             return value.compareTo(o.value);
@@ -811,6 +820,113 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
         public T next() {
             checkCurrencyModify(iter_size);
             return cur_node.getValue();
+        }
+    }
+
+    private class AVLPathIterator implements Iterator<LinkedList<T>> {
+        private int iter_size;
+        private Stack<Node> path_stack;
+        private LinkedList<T> path_value_stack;
+        private Stack<Node> visited_stack;
+
+        public AVLPathIterator(int size) {
+            iter_size = size;
+            path_stack = new LinkedStack<>();
+            path_value_stack = new LinkedList<>();
+            visited_stack = new LinkedStack<>();
+            initStack();
+        }
+
+        private void initStack() {
+            if (_head.getValue() != null) {
+                insertNextPath(_head);
+            }
+        }
+
+        private Node nextPathNode(Node node) {
+            if (node.getLeft() != null && !isLeafVisited(node.getLeft())) {
+                return node.getLeft();
+            } else if (node.getRight() != null && !isLeafVisited(node.getRight())) {
+                return node.getRight();
+            } else {
+                return null;
+            }
+        }
+
+        @Override
+        public boolean hasNext() {
+            checkCurrencyModify(iter_size);
+            boolean ready_flag = false;
+            while (!path_stack.isEmpty() && !ready_flag) {
+                Node end_node = path_stack.head();
+                ready_flag = true;
+                if (shouldVisit(end_node)) {
+                    path_stack.pop();
+                    path_value_stack.removeTail();
+                    visited_stack.push(end_node);
+                    ready_flag = false;
+                }
+
+                if (!end_node.isLeaf() && !noLeafShouldVisit(end_node)) {
+                    path_stack.pop();
+                    path_value_stack.removeTail();
+                    insertNextPath(end_node);
+                    ready_flag = true;
+                }
+            }
+
+            visited_stack.push(path_stack.head());
+            return ready_flag;
+        }
+
+        public void insertNextPath(Node start_node) {
+            Node cur_node = start_node;
+            while (!cur_node.isLeaf()) {
+                path_stack.push(cur_node);
+                path_value_stack.appendTail(cur_node.getValue());
+                cur_node = nextPathNode(cur_node);
+            }
+            path_stack.push(cur_node);
+            path_value_stack.appendTail(cur_node.getValue());
+        }
+
+        private boolean shouldVisit(Node node) {
+            return (node.isLeaf() && isLeafVisited(node)) || !node.isLeaf() && noLeafShouldVisit(node);
+        }
+
+        public boolean isLeafVisited(Node node) {
+            Preconditions.checkArgument(node.isLeaf());
+            return node == visited_stack.head();
+        }
+
+        private boolean noLeafShouldVisit(Node node) {
+            Preconditions.checkArgument(!node.isLeaf());
+
+            boolean left_result = false;
+            boolean right_result = false;
+            Node visited_right_node;
+            if (node.getRight() == null) {
+                right_result = true;
+            } else if ((visited_right_node = visited_stack.head()) != null && (node.getRight() == visited_right_node)) {
+                right_result = true;
+                visited_stack.pop();
+            }
+
+            Node visited_left_node;
+            if (node.getLeft() == null) {
+                left_result = true;
+            } else if ((visited_left_node = visited_stack.head()) != null && (node.getLeft() == visited_left_node)) {
+                left_result = true;
+                visited_stack.pop();
+            }
+
+            return left_result && right_result;
+        }
+
+        @Override
+        public LinkedList<T> next() {
+            checkCurrencyModify(iter_size);
+            return path_value_stack;
         }
     }
 }

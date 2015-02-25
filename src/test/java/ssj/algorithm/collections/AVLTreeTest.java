@@ -152,6 +152,21 @@ public class AVLTreeTest {
             tree.add(i);
         }
         Iterator<Integer> iterator = tree.postIterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+    }
+
+
+    @Test
+    public void testPathIterator() {
+        int[] tree_data = new int[]{10, 4, 6, 14, 4, 8, 9, 12, 16, 11};
+//        int[] tree_data = new int[]{10};
+        AVLTree<Integer> tree = new AVLTree<>();
+        for (int i : tree_data) {
+            tree.add(i);
+        }
+        Iterator<LinkedList<Integer>> iterator = tree.pathIterator();
         while (iterator.hasNext()){
             System.out.println(iterator.next());
         }
