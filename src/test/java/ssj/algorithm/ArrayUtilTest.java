@@ -1,6 +1,7 @@
 package ssj.algorithm;
 
 import org.junit.Test;
+import ssj.algorithm.string.StringBuilder;
 
 import java.util.Arrays;
 
@@ -54,6 +55,22 @@ public class ArrayUtilTest {
     public void testPermutation() {
         Character[] str = new Character[]{'a', 'b', 'c'};
         ArrayUtil.permutation(str, (arr) -> System.out.println(Arrays.toString(arr)));
+    }
+
+    @Test
+    public void testCombination() {
+        Character[] str = new Character[]{'a', 'b','c','d'};
+        ArrayUtil.combination(str, (arr, end) -> {
+            ssj.algorithm.string.StringBuilder sb = new StringBuilder("[");
+            if (end != -1) {
+                for (int j = 0; j <= end; j++) {
+                    sb.append(arr[j]);
+                }
+            }
+
+            sb.add(']');
+            System.out.println(sb);
+        });
     }
 
 

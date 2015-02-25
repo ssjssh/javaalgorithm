@@ -9,6 +9,7 @@ import ssj.algorithm.math.MathUtil;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
@@ -382,8 +383,8 @@ public class ArrayUtil {
      * 求一个数组各元素的排序
      *
      * @param arr
+     * @param func
      * @param <T>
-     * @return
      */
     public static <T> void permutation(T[] arr, Consumer<T[]> func) {
         Preconditions.checkNotNull(arr);
@@ -401,6 +402,33 @@ public class ArrayUtil {
             }
         }
     }
+
+    /**
+     * 求数组元素中的组合
+     *
+     * @param arr
+     * @param func
+     * @param <T>
+     */
+    public static <T> void combination(T[] arr, BiConsumer<T[], Integer> func) {
+        Preconditions.checkNotNull(arr);
+        Preconditions.checkNotNull(func);
+        combinationChoice(arr, -1, 0, func);
+    }
+
+    private static <T> void combinationChoice(T[] arr, int choiced, int start, BiConsumer<T[], Integer> func) {
+        if (start == arr.length) {
+            func.accept(arr, choiced);
+        } else {
+            combinationChoice(arr, choiced, start + 1, func);
+            swap(arr, choiced + 1, start);
+            combinationChoice(arr, choiced + 1, start + 1, func);
+            swap(arr, choiced + 1, start);
+        }
+
+
+    }
+
 
 }
 
