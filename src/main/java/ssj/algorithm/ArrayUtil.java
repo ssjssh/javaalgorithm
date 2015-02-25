@@ -9,6 +9,7 @@ import ssj.algorithm.math.MathUtil;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.function.Consumer;
 
 /**
  * Created by shenshijun on 14-12-20.
@@ -375,6 +376,30 @@ public class ArrayUtil {
             }
         }
         return arr;
+    }
+
+    /**
+     * 求一个数组各元素的排序
+     *
+     * @param arr
+     * @param <T>
+     * @return
+     */
+    public static <T> void permutation(T[] arr, Consumer<T[]> func) {
+        Preconditions.checkNotNull(arr);
+        permutationCore(arr, 0, arr.length - 1, func);
+    }
+
+    private static <T> void permutationCore(T[] arr, int start, int end, Consumer<T[]> func) {
+        if (start >= end) {
+            func.accept(arr);
+        } else {
+            for (int i = start; i <= end; i++) {
+                swap(arr, start, i);
+                permutationCore(arr, start + 1, end, func);
+                swap(arr, start, i);
+            }
+        }
     }
 
 }

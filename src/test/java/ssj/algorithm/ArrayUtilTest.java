@@ -46,8 +46,14 @@ public class ArrayUtilTest {
 
     @Test
     public void testGroup() {
-        Integer[] datas = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,-1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11};
+        Integer[] datas = new Integer[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10, -11};
         System.out.println(Arrays.toString(ArrayUtil.group(datas, (ele) -> ele % 4)));
+    }
+
+    @Test
+    public void testPermutation() {
+        Character[] str = new Character[]{'a', 'b', 'c'};
+        ArrayUtil.permutation(str, (arr) -> System.out.println(Arrays.toString(arr)));
     }
 
 
