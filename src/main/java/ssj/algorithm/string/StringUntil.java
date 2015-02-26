@@ -65,7 +65,13 @@ public class StringUntil {
         return true;
     }
 
-    public static boolean permutation(String s1, String s2) {
+    /**
+     * 判断是不是变位词。
+     * @param s1
+     * @param s2
+     * @return
+     */
+    public static boolean isPermutation(String s1, String s2) {
         if (s1 == null && s2 == null) {
             return true;
         } else if (s1 == null || s2 == null) {

@@ -90,7 +90,7 @@ public class MathUtil {
 
         T min_value = arr[0];
         for (T ele : arr) {
-            if (min_value.compareTo(ele) < 0) {
+            if (min_value.compareTo(ele) > 0) {
                 min_value = ele;
             }
         }
@@ -201,30 +201,22 @@ public class MathUtil {
         while (cur_index < index) {
             ugly_numbers[cur_index] = min(ugly_numbers[multiply2_index] * 2, ugly_numbers[multiply3_index] * 3, ugly_numbers[multiply5_index] * 5);
 
-            System.out.println("************************");
-            while (ugly_numbers[multiply2_index] * 2 < ugly_numbers[cur_index]) {
+            while (ugly_numbers[multiply2_index] * 2 <= ugly_numbers[cur_index]) {
                 multiply2_index++;
             }
 
 
-            while (ugly_numbers[multiply3_index] * 3 < ugly_numbers[cur_index]) {
+            while (ugly_numbers[multiply3_index] * 3 <= ugly_numbers[cur_index]) {
                 multiply3_index++;
             }
 
-            while (ugly_numbers[multiply5_index] * 5 < ugly_numbers[cur_index]) {
+            while (ugly_numbers[multiply5_index] * 5 <= ugly_numbers[cur_index]) {
                 multiply5_index++;
             }
 
-            System.out.println(ugly_numbers[multiply2_index]);
-            System.out.println(ugly_numbers[multiply3_index]);
-            System.out.println(ugly_numbers[multiply5_index]);
-            System.out.println();
-            System.out.println();
-
             cur_index++;
         }
-        return ugly_numbers[index];
-
+        return ugly_numbers[index - 1];
     }
 
     public int closestBig(int origion) {

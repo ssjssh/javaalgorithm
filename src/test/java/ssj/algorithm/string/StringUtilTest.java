@@ -22,14 +22,14 @@ public class StringUtilTest {
 
     @Test
     public void testPermutation() {
-        assertTrue(StringUntil.permutation("I am a chinese", "eseinch a ma I"));
-        assertFalse(StringUntil.permutation("I am a chinese", "esainch a ma I"));
+        assertTrue(StringUntil.isPermutation("I am a chinese", "eseinch a ma I"));
+        assertFalse(StringUntil.isPermutation("I am a chinese", "esainch a ma I"));
     }
 
     @Test
     public void testQuickPermutation() {
-        assertTrue(StringUntil.permutation("I am a chinese", "eseinch a ma I"));
-        assertFalse(StringUntil.permutation("I am a chinese", "esainch a ma I"));
+        assertTrue(StringUntil.isPermutation("I am a chinese", "eseinch a ma I"));
+        assertFalse(StringUntil.isPermutation("I am a chinese", "esainch a ma I"));
     }
 
     @Test
