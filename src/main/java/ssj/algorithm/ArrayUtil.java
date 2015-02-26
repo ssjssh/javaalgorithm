@@ -5,6 +5,7 @@ import com.google.common.base.Preconditions;
 import ssj.algorithm.collections.BitSet;
 import ssj.algorithm.collections.HashSet;
 import ssj.algorithm.collections.TreeMap;
+import ssj.algorithm.lang.Tuple2;
 import ssj.algorithm.math.MathUtil;
 
 import java.util.Comparator;
@@ -268,12 +269,6 @@ public class ArrayUtil {
         return null;
     }
 
-    public static <T extends Comparable<T>> T[] smallestK(T[] arr) {
-        //TODO 最小的k个数
-        // https://github.com/julycoding/The-Art-Of-Programming-By-July/blob/master/ebook/zh/02.01.md
-        return null;
-    }
-
     /**
      * * 使用BitSet实现的位图排序，其实就是桶排序的一个变种
      * 这个算法只能用于Int排序，因为要排序的元素会作为BitSet中使用的索引
@@ -431,6 +426,7 @@ public class ArrayUtil {
 
     /**
      * 统计数组中超过一半的元素。
+     *
      * @param arr
      * @param <T>
      * @return
@@ -461,6 +457,36 @@ public class ArrayUtil {
             }
         }
         return count * 2 > arr.length;
+    }
+
+    /**
+     * 最大和连续子数组
+     * @param arr
+     * @return
+     */
+    public static Tuple2<Integer, Integer> maxSubArray(double[] arr) {
+        Preconditions.checkNotNull(arr);
+        double sum = -1, temp_sum = 0;
+        int left = 0, right = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (temp_sum < 0) {
+                temp_sum = arr[i];
+                left = i;
+            } else {
+                temp_sum += arr[i];
+            }
+
+
+            if (temp_sum > sum) {
+                right = i;
+                sum = temp_sum;
+            }
+        }
+
+        if (sum < 0) {
+            return new Tuple2<>(-1, -1);
+        }
+        return new Tuple2<>(left, right);
     }
 
 

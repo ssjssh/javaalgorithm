@@ -1,6 +1,7 @@
 package ssj.algorithm;
 
 import org.junit.Test;
+import ssj.algorithm.lang.Tuple2;
 import ssj.algorithm.string.StringBuilder;
 
 import java.util.Arrays;
@@ -77,6 +78,13 @@ public class ArrayUtilTest {
     public void testMoreThanHalfEle() {
         Integer[] data = new Integer[]{1, 2, 3, 2, 2, 2, 5, 4, 2};
         assertEquals(Integer.valueOf(2), ArrayUtil.moreThanHalfEle(data));
+    }
+
+    @Test
+    public void testMaxSubArray() {
+        assertEquals(ArrayUtil.maxSubArray(new double[0]), new Tuple2<>(-1, -1));
+        assertEquals(ArrayUtil.maxSubArray(new double[]{-1,-2,-3}), new Tuple2<>(-1, -1));
+        assertEquals(ArrayUtil.maxSubArray(new double[]{1,-2,3,10,-4,7,2,-5}), new Tuple2<>(2, 6));
     }
 
 
