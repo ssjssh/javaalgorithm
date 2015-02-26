@@ -526,6 +526,14 @@ public class ArrayUtil {
 
     /**
      * 从一系列整数中拼接出最小的数字。
+     * 证明：使用反证法。
+     * 假设这样得到的序列并不是最小的，也就是说对于序列A1A2...Ax....Ay-1Ay...An来说，如果交换Ax和Ay。
+     * 得到的序列A1A2...Ay...Ay-1Ax...An < A1A2...Ax....Ay-1Ay...An。现在分别交换Ax和Ay使得Ax和Ay靠在一起。
+     * 不等式左边的交换，由于Ay<Ax+1....Ay-1，所以把Ay往前调的时候，得到A1A2....Ax+1...Ay-1AyAx...An < A1A2...Ay...Ay-1Ax...An
+     * 同理：右边也是一样的：A1A2...Ax....Ay-1Ay...An < A1A2...Ax+1....Ay-1AxAy...An。
+     * 综合三个等式得到：A1A2....Ax+1...Ay-1AyAx...An < A1A2...Ax+1....Ay-1AxAy...An。也就是AyAx < AxAy，这样
+     * 显然和定义的比较规则相反，所以原假设不成立，证明了通过这样的排序规则得到的序列是最小的序列。
+     *
      * @param arr
      * @return
      */
