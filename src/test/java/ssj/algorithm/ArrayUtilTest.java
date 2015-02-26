@@ -83,8 +83,13 @@ public class ArrayUtilTest {
     @Test
     public void testMaxSubArray() {
         assertEquals(ArrayUtil.maxSubArray(new double[0]), new Tuple2<>(-1, -1));
-        assertEquals(ArrayUtil.maxSubArray(new double[]{-1,-2,-3}), new Tuple2<>(-1, -1));
-        assertEquals(ArrayUtil.maxSubArray(new double[]{1,-2,3,10,-4,7,2,-5}), new Tuple2<>(2, 6));
+        assertEquals(ArrayUtil.maxSubArray(new double[]{-1, -2, -3}), new Tuple2<>(-1, -1));
+        assertEquals(ArrayUtil.maxSubArray(new double[]{1, -2, 3, 10, -4, 7, 2, -5}), new Tuple2<>(2, 6));
+    }
+
+    @Test
+    public void testCountNumberOne() {
+        assertEquals(ArrayUtil.countNumberOne(20),12);
     }
 
 

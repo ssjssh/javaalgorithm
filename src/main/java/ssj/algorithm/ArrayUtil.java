@@ -461,6 +461,7 @@ public class ArrayUtil {
 
     /**
      * 最大和连续子数组
+     *
      * @param arr
      * @return
      */
@@ -487,6 +488,40 @@ public class ArrayUtil {
             return new Tuple2<>(-1, -1);
         }
         return new Tuple2<>(left, right);
+    }
+
+    /**
+     * 计算从1到n中，1出现个数的总和。
+     *
+     * @param n
+     * @return
+     */
+    public static int countNumberOne(int n) {
+        Preconditions.checkArgument(n >= 0);
+        return countNumberOneCore(String.valueOf(n));
+    }
+
+    private static int countNumberOneCore(String number) {
+        int first = number.charAt(0) - '0';
+
+        if (number.length() == 1) {
+            if (first == 0) {
+                return 0;
+            } else {
+                return 1;
+            }
+        }
+
+        int firstDigitCount;
+        if (first > 0) {
+            firstDigitCount = (int) Math.round(Math.pow(10, number.length() - 1));
+        } else {
+            firstDigitCount = Integer.valueOf(number.substring(1)) + 1;
+        }
+
+        int otherDigitCount = first * (number.length() - 1) * (int) Math.round(Math.pow(10, number.length() - 2));
+
+        return firstDigitCount + otherDigitCount + countNumberOneCore(number.substring(1));
     }
 
 
