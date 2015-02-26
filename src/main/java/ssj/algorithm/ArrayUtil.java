@@ -524,6 +524,21 @@ public class ArrayUtil {
         return firstDigitCount + otherDigitCount + countNumberOneCore(number.substring(1));
     }
 
+    /**
+     * 从一系列整数中拼接出最小的数字。
+     * @param arr
+     * @return
+     */
+    public static Integer[] combineMinNumber(Integer[] arr) {
+        Preconditions.checkNotNull(arr);
+        sort(arr, (one, other) -> {
+            Preconditions.checkArgument(one >= 0);
+            Preconditions.checkArgument(other >= 0);
+            return (one.toString() + other.toString()).compareTo(other.toString() + one.toString());
+        });
+        return arr;
+    }
+
 
 }
 

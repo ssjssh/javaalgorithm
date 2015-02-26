@@ -6,6 +6,7 @@ import ssj.algorithm.string.StringBuilder;
 
 import java.util.Arrays;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -89,7 +90,12 @@ public class ArrayUtilTest {
 
     @Test
     public void testCountNumberOne() {
-        assertEquals(ArrayUtil.countNumberOne(20),12);
+        assertEquals(ArrayUtil.countNumberOne(20), 12);
+    }
+
+    @Test
+    public void testCombineMinNumber() {
+        assertArrayEquals(new Integer[]{321, 32, 3}, ArrayUtil.combineMinNumber(new Integer[]{3, 32, 321}));
     }
 
 
