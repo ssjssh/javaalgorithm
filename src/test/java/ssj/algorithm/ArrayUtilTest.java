@@ -1,13 +1,12 @@
 package ssj.algorithm;
 
 import org.junit.Test;
-import ssj.algorithm.lang.Tuple2;
-import ssj.algorithm.math.MathUtil;
 import ssj.algorithm.string.StringBuilder;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by shenshijun on 15/2/13.
@@ -80,7 +79,10 @@ public class ArrayUtilTest {
         assertEquals(Integer.valueOf(2), ArrayUtil.moreThanHalfEle(data));
     }
 
-
+    @Test
+    public void testCountEle() {
+        assertEquals(4, ArrayUtil.countEle(new Integer[]{1,2,3,3,3,3,4,5,102,2873}, 3));
+    }
 
 
 }

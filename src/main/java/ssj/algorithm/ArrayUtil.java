@@ -5,7 +5,6 @@ import com.google.common.base.Preconditions;
 import ssj.algorithm.collections.BitSet;
 import ssj.algorithm.collections.HashSet;
 import ssj.algorithm.collections.TreeMap;
-import ssj.algorithm.lang.Tuple2;
 import ssj.algorithm.math.MathUtil;
 
 import java.util.Comparator;
@@ -443,7 +442,83 @@ public class ArrayUtil {
         return count * 2 > arr.length;
     }
 
+    /**
+     * 从一个排序的数组中查询某个元素出现的个数。
+     *
+     * @param arr
+     * @param ele
+     * @param <T>
+     * @return
+     */
+    public static <T extends Comparable<T>> int countEle(T[] arr, T ele) {
+        Preconditions.checkNotNull(arr);
+        Preconditions.checkNotNull(ele);
+        int start = getFirstEle(arr, ele);
+        int end = getLastEle(arr, ele);
+        return (start != -1) ? (end - start + 1) : 0;
+    }
 
+    /**
+     * 从一个排序的数组中查询某个元素第一次出现的位置
+     *
+     * @param arr
+     * @param ele
+     * @param <T>
+     * @return
+     */
+    public static <T extends Comparable<T>> int getFirstEle(T[] arr, T ele) {
+        Preconditions.checkNotNull(arr);
+        Preconditions.checkNotNull(ele);
+        int start = 0;
+        int end = arr.length - 1;
+        while (start <= end) {
+            int mid = (start + end) / 2;
+            int com_res = arr[mid].compareTo(ele);
+            if (com_res == 0) {
+                if (arr[mid].equals(arr[mid - 1])) {
+                    end = mid - 1;
+                } else {
+                    return mid;
+                }
+            } else if (com_res > 0) {
+                end = mid - 1;
+            } else {
+                start = mid + 1;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 从一个排序的数组中查询某个元素最后一次出现的位置。
+     *
+     * @param arr
+     * @param ele
+     * @param <T>
+     * @return
+     */
+    public static <T extends Comparable<T>> int getLastEle(T[] arr, T ele) {
+        Preconditions.checkNotNull(arr);
+        Preconditions.checkNotNull(ele);
+        int start = 0;
+        int end = arr.length - 1;
+        while (start <= end) {
+            int mid = (start + end) / 2;
+            int com_res = arr[mid].compareTo(ele);
+            if (com_res == 0) {
+                if (arr[mid].equals(arr[mid + 1])) {
+                    start = mid + 1;
+                } else {
+                    return mid;
+                }
+            } else if (com_res > 0) {
+                end = mid - 1;
+            } else {
+                start = mid + 1;
+            }
+        }
+        return -1;
+    }
 }
 
 
