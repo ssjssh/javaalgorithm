@@ -59,7 +59,7 @@ public class ArrayUtilTest {
 
     @Test
     public void testCombination() {
-        Character[] str = new Character[]{'a', 'b','c','d'};
+        Character[] str = new Character[]{'a', 'b', 'c', 'd'};
         ArrayUtil.combination(str, (arr, end) -> {
             ssj.algorithm.string.StringBuilder sb = new StringBuilder("[");
             if (end != -1) {
@@ -71,6 +71,12 @@ public class ArrayUtilTest {
             sb.add(']');
             System.out.println(sb);
         });
+    }
+
+    @Test
+    public void testMoreThanHalfEle() {
+        Integer[] data = new Integer[]{1, 2, 3, 2, 2, 2, 5, 4, 2};
+        assertEquals(Integer.valueOf(2), ArrayUtil.moreThanHalfEle(data));
     }
 
 

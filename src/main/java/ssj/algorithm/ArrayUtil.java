@@ -9,6 +9,7 @@ import ssj.algorithm.math.MathUtil;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -425,8 +426,41 @@ public class ArrayUtil {
             combinationChoice(arr, choiced + 1, start + 1, func);
             swap(arr, choiced + 1, start);
         }
+    }
 
 
+    /**
+     * 统计数组中超过一半的元素。
+     * @param arr
+     * @param <T>
+     * @return
+     */
+    public static <T> T moreThanHalfEle(T[] arr) {
+        Preconditions.checkNotNull(arr);
+        Preconditions.checkArgument(arr.length != 0);
+        T most_ele = null;
+        int times = 0;
+        for (T ele : arr) {
+            if (Objects.equals(ele, most_ele)) {
+                times++;
+            } else if (times == 0) {
+                times = 1;
+                most_ele = ele;
+            } else {
+                times--;
+            }
+        }
+        return checkMoreThanHalf(arr, most_ele) ? most_ele : null;
+    }
+
+    private static <T> boolean checkMoreThanHalf(T[] arr, T most_ele) {
+        int count = 0;
+        for (T ele : arr) {
+            if (Objects.equals(most_ele, ele)) {
+                count++;
+            }
+        }
+        return count * 2 > arr.length;
     }
 
 
