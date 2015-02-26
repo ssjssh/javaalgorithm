@@ -324,7 +324,7 @@ public class ArrayUtil {
             }
             mid = (start + end) / 2;
             if (arr[mid].compareTo(arr[start]) == 0 && arr[mid].compareTo(arr[end]) == 0) {
-                return min(arr);
+                return MathUtil.min(arr);
             }
             if (arr[mid].compareTo(arr[start]) >= 0) {
                 start = mid;
@@ -334,22 +334,6 @@ public class ArrayUtil {
         }
         return arr[mid];
     }
-
-    public static <T extends Comparable<T>> T min(T[] arr) {
-        Preconditions.checkNotNull(arr);
-        if (arr.length == 0) {
-            return null;
-        }
-
-        T min_value = arr[0];
-        for (T ele : arr) {
-            if (min_value.compareTo(ele) < 0) {
-                min_value = ele;
-            }
-        }
-        return min_value;
-    }
-
 
     public static <T> T[] group(T[] arr, Function<T, Integer> func) {
         Preconditions.checkNotNull(arr);
@@ -457,94 +441,6 @@ public class ArrayUtil {
             }
         }
         return count * 2 > arr.length;
-    }
-
-    /**
-     * 最大和连续子数组
-     *
-     * @param arr
-     * @return
-     */
-    public static Tuple2<Integer, Integer> maxSubArray(double[] arr) {
-        Preconditions.checkNotNull(arr);
-        double sum = -1, temp_sum = 0;
-        int left = 0, right = 0;
-        for (int i = 0; i < arr.length; i++) {
-            if (temp_sum < 0) {
-                temp_sum = arr[i];
-                left = i;
-            } else {
-                temp_sum += arr[i];
-            }
-
-
-            if (temp_sum > sum) {
-                right = i;
-                sum = temp_sum;
-            }
-        }
-
-        if (sum < 0) {
-            return new Tuple2<>(-1, -1);
-        }
-        return new Tuple2<>(left, right);
-    }
-
-    /**
-     * 计算从1到n中，1出现个数的总和。
-     *
-     * @param n
-     * @return
-     */
-    public static int countNumberOne(int n) {
-        Preconditions.checkArgument(n >= 0);
-        return countNumberOneCore(String.valueOf(n));
-    }
-
-    private static int countNumberOneCore(String number) {
-        int first = number.charAt(0) - '0';
-
-        if (number.length() == 1) {
-            if (first == 0) {
-                return 0;
-            } else {
-                return 1;
-            }
-        }
-
-        int firstDigitCount;
-        if (first > 0) {
-            firstDigitCount = (int) Math.round(Math.pow(10, number.length() - 1));
-        } else {
-            firstDigitCount = Integer.valueOf(number.substring(1)) + 1;
-        }
-
-        int otherDigitCount = first * (number.length() - 1) * (int) Math.round(Math.pow(10, number.length() - 2));
-
-        return firstDigitCount + otherDigitCount + countNumberOneCore(number.substring(1));
-    }
-
-    /**
-     * 从一系列整数中拼接出最小的数字。
-     * 证明：使用反证法。
-     * 假设这样得到的序列并不是最小的，也就是说对于序列A1A2...Ax....Ay-1Ay...An来说，如果交换Ax和Ay。
-     * 得到的序列A1A2...Ay...Ay-1Ax...An < A1A2...Ax....Ay-1Ay...An。现在分别交换Ax和Ay使得Ax和Ay靠在一起。
-     * 不等式左边的交换，由于Ay<Ax+1....Ay-1，所以把Ay往前调的时候，得到A1A2....Ax+1...Ay-1AyAx...An < A1A2...Ay...Ay-1Ax...An
-     * 同理：右边也是一样的：A1A2...Ax....Ay-1Ay...An < A1A2...Ax+1....Ay-1AxAy...An。
-     * 综合三个等式得到：A1A2....Ax+1...Ay-1AyAx...An < A1A2...Ax+1....Ay-1AxAy...An。也就是AyAx < AxAy，这样
-     * 显然和定义的比较规则相反，所以原假设不成立，证明了通过这样的排序规则得到的序列是最小的序列。
-     *
-     * @param arr
-     * @return
-     */
-    public static Integer[] combineMinNumber(Integer[] arr) {
-        Preconditions.checkNotNull(arr);
-        sort(arr, (one, other) -> {
-            Preconditions.checkArgument(one >= 0);
-            Preconditions.checkArgument(other >= 0);
-            return (one.toString() + other.toString()).compareTo(other.toString() + one.toString());
-        });
-        return arr;
     }
 
 

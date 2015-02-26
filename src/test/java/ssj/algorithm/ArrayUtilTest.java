@@ -2,13 +2,12 @@ package ssj.algorithm;
 
 import org.junit.Test;
 import ssj.algorithm.lang.Tuple2;
+import ssj.algorithm.math.MathUtil;
 import ssj.algorithm.string.StringBuilder;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Created by shenshijun on 15/2/13.
@@ -81,22 +80,7 @@ public class ArrayUtilTest {
         assertEquals(Integer.valueOf(2), ArrayUtil.moreThanHalfEle(data));
     }
 
-    @Test
-    public void testMaxSubArray() {
-        assertEquals(ArrayUtil.maxSubArray(new double[0]), new Tuple2<>(-1, -1));
-        assertEquals(ArrayUtil.maxSubArray(new double[]{-1, -2, -3}), new Tuple2<>(-1, -1));
-        assertEquals(ArrayUtil.maxSubArray(new double[]{1, -2, 3, 10, -4, 7, 2, -5}), new Tuple2<>(2, 6));
-    }
 
-    @Test
-    public void testCountNumberOne() {
-        assertEquals(ArrayUtil.countNumberOne(20), 12);
-    }
-
-    @Test
-    public void testCombineMinNumber() {
-        assertArrayEquals(new Integer[]{321, 32, 3}, ArrayUtil.combineMinNumber(new Integer[]{3, 32, 321}));
-    }
 
 
 }

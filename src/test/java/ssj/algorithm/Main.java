@@ -1,6 +1,6 @@
 package ssj.algorithm;
 
-import java.util.Arrays;
+import ssj.algorithm.math.MathUtil;
 
 /**
  * Created by shenshijun on 15/2/1.
@@ -8,6 +8,6 @@ import java.util.Arrays;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println(Arrays.toString(new int[10]));
+        System.out.println(MathUtil.uglyNumber(1500));
     }
 }
