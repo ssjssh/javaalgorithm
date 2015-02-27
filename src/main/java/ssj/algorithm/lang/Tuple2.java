@@ -3,9 +3,11 @@ package ssj.algorithm.lang;
 /**
  * Created by shenshijun on 15/2/14.
  */
-public class Tuple2<F, S> {
-    private F first;
-    private S second;
+final public class Tuple2<F, S> {
+    final private F first;
+    final private S second;
+    private Integer hash_code = null;
+    private String to_string = null;
 
     public F getFirst() {
         return first;
@@ -17,11 +19,14 @@ public class Tuple2<F, S> {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Tuple2{");
-        sb.append("first=").append(first);
-        sb.append(", second=").append(second);
-        sb.append('}');
-        return sb.toString();
+        if (to_string == null) {
+            final StringBuilder sb = new StringBuilder("Tuple2{");
+            sb.append("first=").append(first);
+            sb.append(", second=").append(second);
+            sb.append('}');
+            to_string = sb.toString();
+        }
+        return to_string;
     }
 
     @Override
@@ -39,14 +44,16 @@ public class Tuple2<F, S> {
 
     @Override
     public int hashCode() {
-        int result = first != null ? first.hashCode() : 0;
-        result = 31 * result + (second != null ? second.hashCode() : 0);
-        return result;
+        if (hash_code == null) {
+            int result = first != null ? first.hashCode() : 0;
+            result = 31 * result + (second != null ? second.hashCode() : 0);
+            hash_code = result;
+        }
+        return hash_code;
     }
 
     public Tuple2(F first, S second) {
         this.first = first;
         this.second = second;
-
     }
 }
