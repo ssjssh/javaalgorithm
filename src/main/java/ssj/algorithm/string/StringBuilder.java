@@ -2,6 +2,7 @@ package ssj.algorithm.string;
 
 import com.google.common.base.Preconditions;
 import ssj.algorithm.Collection;
+import ssj.algorithm.math.MathUtil;
 
 import java.util.Arrays;
 import java.util.ConcurrentModificationException;
@@ -152,8 +153,7 @@ public class StringBuilder implements Collection<Character>, CharSequence, Compa
     }
 
     public int intValue() {
-        //TODO 完成String to int
-        return -1;
+        return MathUtil.strToInt(toString());
     }
 
     public double doubleValue() {
