@@ -3,8 +3,7 @@ package ssj.algorithm.math;
 import org.junit.Test;
 import ssj.algorithm.lang.Tuple2;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * Created by shenshijun on 15/2/26.
@@ -28,5 +27,54 @@ public class MathUtilTest {
     @Test
     public void testCombineMinNumber() {
         assertArrayEquals(new Integer[]{321, 32, 3}, MathUtil.combineMinNumber(new Integer[]{3, 32, 321}));
+    }
+
+    @Test
+    public void testStrToInt() {
+        assertEquals(10000, MathUtil.strToInt("10000"));
+        assertEquals(-10000, MathUtil.strToInt("-10000"));
+        assertEquals(0, MathUtil.strToInt("-0"));
+        assertEquals(0, MathUtil.strToInt("+0"));
+        assertEquals(Integer.MAX_VALUE, MathUtil.strToInt(String.valueOf(Integer.MAX_VALUE)));
+        assertEquals(Integer.MIN_VALUE, MathUtil.strToInt(String.valueOf(Integer.MIN_VALUE)));
+        try {
+            MathUtil.strToInt("+");
+            fail("never go here");
+        } catch (Exception e) {
+        }
+
+        try {
+            MathUtil.strToInt("-");
+            fail("never go here");
+        } catch (Exception e) {
+
+        }
+
+        try {
+            MathUtil.strToInt("");
+            fail("never go here");
+        } catch (Exception e) {
+        }
+
+        try {
+            MathUtil.strToInt("-10292a292983");
+            fail("never go here");
+        } catch (Exception e) {
+
+        }
+
+        try {
+            MathUtil.strToInt(String.valueOf(Integer.MAX_VALUE + 10L));
+            fail("never go here");
+        } catch (Exception e) {
+
+        }
+
+        try {
+            MathUtil.strToInt(String.valueOf(Integer.MIN_VALUE - 10L));
+            fail("never go here");
+        } catch (Exception e) {
+
+        }
     }
 }

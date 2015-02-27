@@ -219,6 +219,35 @@ public class MathUtil {
         return ugly_numbers[index - 1];
     }
 
+    public static int strToInt(String str) {
+        Preconditions.checkNotNull(str);
+        Preconditions.checkArgument(str.length() > 0);
+        Preconditions.checkArgument(!(str.length() == 1 && (str.charAt(0) == '+' || str.charAt(0) == '-')));
+        int result = 0;
+        boolean is_negative = false;
+        int num_start = 0;
+        if (str.charAt(0) == '-') {
+            is_negative = true;
+            num_start = 1;
+        } else if (str.charAt(0) == '+') {
+            num_start = 1;
+        }
+
+        for (int i = num_start; i < str.length(); i++) {
+            int this_digit = str.charAt(i) - '0';
+            if (this_digit < 0 || this_digit > 9) {
+                throw new ArithmeticException("wrong format");
+            }
+            result = Math.multiplyExact(result, 10);
+            if (is_negative) {
+                result = Math.subtractExact(result, this_digit);
+            } else {
+                result = Math.addExact(result, this_digit);
+            }
+        }
+        return result;
+    }
+
     public int closestBig(int origion) {
         Preconditions.checkArgument(origion > 0);
         int first_one_index = BitUtil.firstBitOne(origion);
