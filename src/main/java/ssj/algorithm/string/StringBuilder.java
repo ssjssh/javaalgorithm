@@ -156,6 +156,10 @@ public class StringBuilder implements Collection<Character>, CharSequence, Compa
         return MathUtil.strToInt(toString());
     }
 
+    public long longValue() {
+        return MathUtil.strToLong(toString());
+    }
+
     public double doubleValue() {
         //TODO 完成String to double
         return -1;
