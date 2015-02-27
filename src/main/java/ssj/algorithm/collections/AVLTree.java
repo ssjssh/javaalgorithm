@@ -1,6 +1,7 @@
 package ssj.algorithm.collections;
 
 import com.google.common.base.Preconditions;
+import ssj.algorithm.Queue;
 import ssj.algorithm.SearchTree;
 import ssj.algorithm.Stack;
 
@@ -107,7 +108,7 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
     }
 
     /**
-     * 求一个树中两个节点的公共节点，这是第一中方法，下面还有第二中方法
+     * 求一个树中两个节点的公共节点，这是第一种方法。
      *
      * @param one
      * @param other
@@ -124,29 +125,88 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
         }
     }
 
-    private T getCommonParent(Node start_node, T one, T other) {
+    /**
+     * 求一个树中两个节点的公共节点，这是第二种方法
+     *
+     * @param one
+     * @param other
+     * @return
+     */
+    public T getCommonParent(T one, T other) {
         Preconditions.checkNotNull(one);
         Preconditions.checkNotNull(other);
-        if (start_node == null) {
-            return null;
+        Preconditions.checkArgument(!one.equals(other));
+
+        if (isEmpty()) return null;
+
+        Node one_node = null;
+        Node other_node = null;
+        Queue<Node> preorder_queue = new LinkedList<>();
+        preorder_queue.appendTail(_head);
+        while (!preorder_queue.isEmpty() && (one_node == null || other_node == null)) {
+            Node cur_node = preorder_queue.removeHead();
+            if (cur_node.getValue().equals(one)) {
+                one_node = cur_node;
+            } else if (cur_node.getValue().equals(other)) {
+                other_node = cur_node;
+            }
+
+            if (cur_node.getLeft() != null) {
+                preorder_queue.appendTail(cur_node.getLeft());
+            }
+
+            if (cur_node.getRight() != null) {
+                preorder_queue.appendTail(cur_node.getRight());
+            }
+        }
+        if (one_node == null || other_node == null) return null;
+        return getCommonNode(one_node, other_node).getValue();
+    }
+
+    private Node getCommonNode(Node one, Node other) {
+        Preconditions.checkArgument(other != one);
+        int one_length = pathLength(one);
+        int other_length = pathLength(other);
+        while (one_length > other_length) {
+            one = one.getParent();
+            one_length--;
         }
 
-        T left_parent;
-        if ((left_parent = getCommonParent(start_node.getLeft(), one, other)) != null) {
-            return null;
+        while (one_length < other_length) {
+            other = other.getParent();
+            other_length--;
         }
 
-        T right_parent;
-        if ((right_parent = getCommonParent(start_node.getRight(), one, other)) != null) {
-            return null;
+        while (one != null && other != null) {
+            if (one.equals(other)) {
+                return one;
+            }
+            one = one.getParent();
+            other = other.getParent();
         }
-
         return null;
+    }
+
+    /**
+     * 计算从这个节点到根节点的距离，也就是路径长
+     *
+     * @param node
+     * @return
+     */
+    private int pathLength(Node node) {
+        Preconditions.checkNotNull(node);
+        int result = 0;
+        while (node != null) {
+            result++;
+            node = node.getParent();
+        }
+        return result;
     }
 
     private Node getCommonNode(Stack<Node> one, Stack<Node> other) {
         Preconditions.checkNotNull(one);
         Preconditions.checkNotNull(other);
+        Preconditions.checkArgument(!one.equals(other));
         if (one.isEmpty() || other.isEmpty()) {
             return null;
         }

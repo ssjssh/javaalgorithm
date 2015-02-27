@@ -186,4 +186,19 @@ public class AVLTreeTest {
         assertTrue(tree.commonParent(9, 4).equals(6));
         assertTrue(tree.commonParent(16, 11).equals(14));
     }
+
+    @Test
+    public void testGetCommonParent() {
+        int[] tree_data = new int[]{10, 4, 6, 14, 4, 8, 9, 12, 16, 11};
+        AVLTree<Integer> tree = new AVLTree<>();
+        assertTrue(tree.commonParent(4, 8) == null);
+        for (int i : tree_data) {
+            tree.add(i);
+        }
+        //这个测试依赖于树的实现，并不通用
+        assertTrue(tree.getCommonParent(4, 8).equals(6));
+        assertTrue(tree.getCommonParent(9, 11).equals(10));
+        assertTrue(tree.getCommonParent(9, 4).equals(6));
+        assertTrue(tree.getCommonParent(16, 11).equals(14));
+    }
 }
