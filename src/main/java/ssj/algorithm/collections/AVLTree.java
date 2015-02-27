@@ -106,6 +106,82 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
         return null;
     }
 
+    /**
+     * 求一个树中两个节点的公共节点，这是第一中方法，下面还有第二中方法
+     *
+     * @param one
+     * @param other
+     * @return
+     */
+    public T commonParent(T one, T other) {
+        Preconditions.checkNotNull(one);
+        Preconditions.checkNotNull(other);
+        if (isEmpty()) {
+            return null;
+        } else {
+            Node result = getCommonNode(getNodePath(one), getNodePath(other));
+            return (result == null) ? null : result.getValue();
+        }
+    }
+
+    private T getCommonParent(Node start_node, T one, T other) {
+        Preconditions.checkNotNull(one);
+        Preconditions.checkNotNull(other);
+        if (start_node == null) {
+            return null;
+        }
+
+        T left_parent;
+        if ((left_parent = getCommonParent(start_node.getLeft(), one, other)) != null) {
+            return null;
+        }
+
+        T right_parent;
+        if ((right_parent = getCommonParent(start_node.getRight(), one, other)) != null) {
+            return null;
+        }
+
+        return null;
+    }
+
+    private Node getCommonNode(Stack<Node> one, Stack<Node> other) {
+        Preconditions.checkNotNull(one);
+        Preconditions.checkNotNull(other);
+        if (one.isEmpty() || other.isEmpty()) {
+            return null;
+        }
+        Node last_common_node = null;
+        Node last_node;
+        while (!one.isEmpty() && !other.isEmpty() && (last_node = one.pop()).equals(other.pop())) {
+            last_common_node = last_node;
+        }
+        return last_common_node;
+    }
+
+
+    private Stack<Node> getNodePath(T ele) {
+        Preconditions.checkNotNull(ele);
+        Stack<Node> stack = new LinkedStack<>();
+        if (!isEmpty()) {
+            getNodePathCore(_head, ele, stack);
+        }
+        return stack;
+    }
+
+    private boolean getNodePathCore(Node start, T ele, Stack<Node> path_stack) {
+        Preconditions.checkNotNull(ele);
+        Preconditions.checkNotNull(path_stack);
+        if (start == null) {
+            return false;
+        }
+        if (start.getValue().equals(ele) || getNodePathCore(start.getLeft(), ele, path_stack) || getNodePathCore(start.getRight(), ele, path_stack)) {
+            path_stack.push(start);
+            return true;
+        }
+
+        return false;
+    }
+
 
     private Vector<LinkedList<Node>> createLevelLinkedList() {
         Vector<LinkedList<Node>> result = new Vector<>();
@@ -515,15 +591,15 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
 
         @Override
         public String toString() {
-            final StringBuilder sb = new StringBuilder("\tNode{");
+            final StringBuilder sb = new StringBuilder("Node{");
             sb.append("height=").append(height);
             sb.append(", value=").append(value);
-            if (left != null) {
-                sb.append(",\n\t left=").append(left);
-            }
-            if (right != null) {
-                sb.append(",\n\t right=").append(right);
-            }
+//            if (left != null) {
+//                sb.append(",\n\t left=").append(left);
+//            }
+//            if (right != null) {
+//                sb.append(",\n\t right=").append(right);
+//            }
             sb.append('}');
             return sb.toString();
         }

@@ -167,8 +167,23 @@ public class AVLTreeTest {
             tree.add(i);
         }
         Iterator<LinkedList<Integer>> iterator = tree.pathIterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             System.out.println(iterator.next());
         }
+    }
+
+    @Test
+    public void testCommonParent() {
+        int[] tree_data = new int[]{10, 4, 6, 14, 4, 8, 9, 12, 16, 11};
+        AVLTree<Integer> tree = new AVLTree<>();
+        assertTrue(tree.commonParent(4, 8) == null);
+        for (int i : tree_data) {
+            tree.add(i);
+        }
+        //这个测试依赖于树的实现，并不通用
+        assertTrue(tree.commonParent(4, 8).equals(6));
+        assertTrue(tree.commonParent(9, 11).equals(10));
+        assertTrue(tree.commonParent(9, 4).equals(6));
+        assertTrue(tree.commonParent(16, 11).equals(14));
     }
 }
