@@ -53,9 +53,7 @@ public class StringBuilder implements Collection<Character>, CharSequence, Compa
 
     public void remove(int index) {
         Preconditions.checkPositionIndex(index, size());
-        for (int j = index; j < size() - 1; j++) {
-            _interval_string[j] = _interval_string[j + 1];
-        }
+        System.arraycopy(_interval_string, index + 1, _interval_string, index, size() - 1 - index);
         _cur_point--;
     }
 

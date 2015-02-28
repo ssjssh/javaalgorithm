@@ -266,6 +266,7 @@ public class SkipList<T extends Comparable<T>> implements Set<T> {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
 
+            @SuppressWarnings("unchecked")
             Node node = (Node) o;
 
             if (!value.equals(node.value)) return false;

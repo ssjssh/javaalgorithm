@@ -32,6 +32,7 @@ public class Vector<T> implements List<T> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public T get(int index) {
         Preconditions.checkPositionIndex(index, size());
         return (T) _values[index];
@@ -46,9 +47,7 @@ public class Vector<T> implements List<T> {
 
     @Override
     public void remove(int index) {
-        for (int i = index; i < size() - 1; i++) {
-            _values[i] = _values[i + 1];
-        }
+        System.arraycopy(_values, index + 1, _values, index, size() - 1 - index);
         _cur_pointer--;
     }
 
@@ -59,6 +58,7 @@ public class Vector<T> implements List<T> {
     public T binarySearch(T ele, int from, int to, Comparator<T> comparator) {
         Preconditions.checkNotNull(ele);
         Preconditions.checkNotNull(comparator);
+        @SuppressWarnings("unchecked")
         int ele_index = Arrays.binarySearch((T[]) _values, from, to, ele, comparator);
         if (ele_index == -1) {
             return null;
@@ -131,6 +131,7 @@ public class Vector<T> implements List<T> {
     }
 
     public Vector<T> sortThis(Comparator<T> comparator) {
+        @SuppressWarnings("unchecked")
         T[] new_arr = (T[]) _values;
         ArrayUtil.sort(new_arr, comparator);
         _values = new_arr;

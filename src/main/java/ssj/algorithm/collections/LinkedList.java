@@ -211,6 +211,7 @@ public class LinkedList<T> implements List<T>, Queue<T> {
                 return false;
             }
             Node this_cur_node = this._head.getNext();
+            @SuppressWarnings("unchecked")
             Node that_cur_node = list._head.getNext();
             while (this_cur_node != _head && that_cur_node != list._head) {
                 if (!this_cur_node.getValue().equals(that_cur_node.getValue())) {
@@ -338,6 +339,7 @@ public class LinkedList<T> implements List<T>, Queue<T> {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
 
+            @SuppressWarnings("unchecked")
             Node node = (Node) o;
 
             if (next != null ? !next.equals(node.next) : node.next != null) return false;

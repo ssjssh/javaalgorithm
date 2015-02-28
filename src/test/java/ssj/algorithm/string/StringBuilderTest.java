@@ -34,8 +34,8 @@ public class StringBuilderTest {
             sb.append(i);
         }
         assertEquals(sb.size(), 10);
-        sb.remove(1);
         sb.remove(9);
+        sb.remove(1);
         assertEquals(sb.size(), 8);
         assertEquals(sb.toString(), "02345678");
         sb.delete('8');

@@ -42,6 +42,7 @@ public class HashMap<K, V> implements Map<K, V> {
         return new Node<>(key, value, null);
     }
 
+    @SuppressWarnings("unchecked")
     protected Node<K, V>[] newNodeArray(int size) {
         return (Node<K, V>[]) (new Node[size]);
     }

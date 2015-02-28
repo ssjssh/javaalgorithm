@@ -30,6 +30,7 @@ public class LinkedHashMap<K, V> extends HashMap<K, V> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     protected Node<K, V>[] newNodeArray(int size) {
         return (LinkedNode<K, V>[]) (new LinkedNode[size]);
     }

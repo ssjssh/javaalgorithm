@@ -112,11 +112,11 @@ public class Trie {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
 
+            @SuppressWarnings("unchecked")
             Node node = (Node) o;
 
-            if (value != node.value) return false;
+            return value == node.value;
 
-            return true;
         }
 
         @Override

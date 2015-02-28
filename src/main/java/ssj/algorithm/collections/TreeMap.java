@@ -77,9 +77,8 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("TreeMap { \n");
-        Iterator<Node> iterator = _tree.iterator();
-        while (iterator.hasNext()) {
-            sb.append(iterator.next());
+        for (Node a_tree : _tree) {
+            sb.append(a_tree);
             sb.append("\n");
         }
         sb.append("}");
@@ -167,11 +166,11 @@ public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
 
+            @SuppressWarnings("unchecked")
             Node node = (Node) o;
 
-            if (!getKey().equals(node.getKey())) return false;
+            return getKey().equals(node.getKey());
 
-            return true;
         }
 
         @Override
