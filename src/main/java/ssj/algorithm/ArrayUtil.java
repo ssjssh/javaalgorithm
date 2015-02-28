@@ -17,6 +17,8 @@ import java.util.function.Consumer;
  * Created by shenshijun on 14-12-20.
  */
 public class ArrayUtil {
+    private ArrayUtil() {
+    }
 
     public static <T> void swap(T[] array, int left, int right) {
         Preconditions.checkNotNull(array);

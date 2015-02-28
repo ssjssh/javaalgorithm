@@ -11,6 +11,10 @@ import java.util.Random;
  * Created by shenshijun on 14-12-21.
  */
 public class MathUtil {
+    private MathUtil() {
+
+    }
+
     private static Random randor = new Random();
 
     public static int gcd(int a, int b) {

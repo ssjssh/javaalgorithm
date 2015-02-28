@@ -6,6 +6,10 @@ import com.google.common.base.Preconditions;
  * Created by shenshijun on 15/2/10.
  */
 public class BitUtil {
+
+    private BitUtil() {
+    }
+
     public static boolean testBit(long value, int index) {
         Preconditions.checkArgument(index >= 0 && index < Long.SIZE);
         return (value & (1L << index)) != 0;

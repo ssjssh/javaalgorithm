@@ -11,6 +11,10 @@ import java.util.Set;
  * Created by shenshijun on 15/2/2.
  */
 public class MatrixUtil {
+    private MatrixUtil() {
+
+    }
+
     /**
      * 原理
      * 1            *      2                   *      1

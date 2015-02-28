@@ -13,6 +13,9 @@ import java.util.Map;
  * Created by shenshijun on 15/2/1.
  */
 public class StringUntil {
+    private StringUntil() {
+    }
+
     /**
      * 比较两个字符串的中的字符是否完全不同
      * 使用数组和BitSet都可以实现，但是BitSet好管理一点。
