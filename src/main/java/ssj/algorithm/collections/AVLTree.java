@@ -203,7 +203,7 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
         return result;
     }
 
-    private Node getCommonNode(Stack<?extends Node> one, Stack<? extends Node> other) {
+    private Node getCommonNode(Stack<? extends Node> one, Stack<? extends Node> other) {
         Preconditions.checkNotNull(one);
         Preconditions.checkNotNull(other);
         Preconditions.checkArgument(!one.equals(other));
@@ -228,7 +228,7 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
         return stack;
     }
 
-    private boolean getNodePathCore(Node start, T ele, Stack<Node> path_stack) {
+    private boolean getNodePathCore(Node start, T ele, Stack<? super Node> path_stack) {
         Preconditions.checkNotNull(ele);
         Preconditions.checkNotNull(path_stack);
         if (start == null) {

@@ -17,6 +17,13 @@ public interface SearchTree<T extends Comparable<T>> extends Iterable<T> {
         }
     }
 
+    default void deleteAll(Iterable<? extends T> iter) {
+        Preconditions.checkNotNull(iter);
+        for (T ele : iter) {
+            delete(ele);
+        }
+    }
+
     int size();
 
     Iterator<T> preIterator();
