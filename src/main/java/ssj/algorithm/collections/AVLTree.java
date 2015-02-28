@@ -24,7 +24,7 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
     /**
      * 使用一个排好序的列表来创建AVL树
      *
-     * @param arr
+     * @param arr 排好序的数组
      */
     public AVLTree(T[] arr) {
         Preconditions.checkNotNull(arr);
@@ -243,6 +243,7 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
     }
 
 
+    @SuppressWarnings("unused")
     private Vector<LinkedList<Node>> createLevelLinkedList() {
         Vector<LinkedList<Node>> result = new Vector<>();
         LinkedList<Node> current = new LinkedList<>();
@@ -275,7 +276,7 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
      * @param tree
      * @return
      */
-    public boolean isSubTree(AVLTree tree) {
+    public boolean isSubTree(AVLTree<T> tree) {
         Preconditions.checkNotNull(tree);
         if (_head.getValue() == null && tree._head.getValue() == null) {
             return true;
@@ -400,7 +401,7 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
      * 2，左子树不存在，那么直接把右子树移动到父节点位置
      * 3，左右子树都存在，那么取出后继节点，后继节点肯定满足上面的1，2种条件。
      *
-     * @param ele
+     * @param ele 要删除的元素
      */
     @Override
     public void delete(T ele) {
@@ -654,12 +655,6 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
             final StringBuilder sb = new StringBuilder("Node{");
             sb.append("height=").append(height);
             sb.append(", value=").append(value);
-//            if (left != null) {
-//                sb.append(",\n\t left=").append(left);
-//            }
-//            if (right != null) {
-//                sb.append(",\n\t right=").append(right);
-//            }
             sb.append('}');
             return sb.toString();
         }
@@ -669,12 +664,12 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
 
+            @SuppressWarnings("unchecked")
             Node node = (Node) o;
 
             if (height != node.height) return false;
-            if (!value.equals(node.value)) return false;
+            return value.equals(node.value);
 
-            return true;
         }
 
         @Override
