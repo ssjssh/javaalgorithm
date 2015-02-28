@@ -1,5 +1,7 @@
 package ssj.algorithm;
 
+import com.google.common.base.Preconditions;
+
 import java.util.Iterator;
 
 /**
@@ -7,6 +9,13 @@ import java.util.Iterator;
  */
 public interface SearchTree<T extends Comparable<T>> extends Iterable<T> {
     void add(T ele);
+
+    default void addAll(Iterable<? extends T> iter) {
+        Preconditions.checkNotNull(iter);
+        for (T ele : iter) {
+            add(ele);
+        }
+    }
 
     int size();
 

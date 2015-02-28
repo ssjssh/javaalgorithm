@@ -203,7 +203,7 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
         return result;
     }
 
-    private Node getCommonNode(Stack<Node> one, Stack<Node> other) {
+    private Node getCommonNode(Stack<?extends Node> one, Stack<? extends Node> other) {
         Preconditions.checkNotNull(one);
         Preconditions.checkNotNull(other);
         Preconditions.checkArgument(!one.equals(other));
@@ -276,6 +276,7 @@ public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
      * @param tree
      * @return
      */
+    @SuppressWarnings("unused")
     public boolean isSubTree(AVLTree<T> tree) {
         Preconditions.checkNotNull(tree);
         if (_head.getValue() == null && tree._head.getValue() == null) {
