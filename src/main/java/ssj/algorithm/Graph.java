@@ -15,19 +15,19 @@ public interface Graph<T> {
 
     Iterator<T> nodes();
 
-    void dfs(Consumer<T> func);
+    void dfs(Consumer<? super T> func);
 
-    <R> Vector<R> dfs(Function<T, R> func);
+    <R> Vector<R> dfs(Function<? super T, ? extends R> func);
 
-    void bfs(Consumer<T> func);
+    void bfs(Consumer<? super T> func);
 
-    <R> Vector<R> bfs(Function<T, R> func);
+    <R> Vector<R> bfs(Function<? super T, ? extends R> func);
 
     Vector<T> next(T ele);
 
-    void topologicalSort(Consumer<T> func);
+    void topologicalSort(Consumer<? super T> func);
 
-    <R> Vector<R> topologicalSort(Function<T, R> func);
+    <R> Vector<R> topologicalSort(Function<? super T, ? extends R> func);
 
     int size();
 

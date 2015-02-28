@@ -51,11 +51,11 @@ public class Vector<T> implements List<T> {
         _cur_pointer--;
     }
 
-    public T binarySearch(T ele, Comparator<T> comparator) {
+    public T binarySearch(T ele, Comparator<? super T> comparator) {
         return binarySearch(ele, 0, size() - 1, comparator);
     }
 
-    public T binarySearch(T ele, int from, int to, Comparator<T> comparator) {
+    public T binarySearch(T ele, int from, int to, Comparator<? super T> comparator) {
         Preconditions.checkNotNull(ele);
         Preconditions.checkNotNull(comparator);
         @SuppressWarnings("unchecked")
@@ -67,7 +67,7 @@ public class Vector<T> implements List<T> {
     }
 
     @Override
-    public List<T> partition(T par_ele, Comparator<T> comparator) {
+    public List<T> partition(T par_ele, Comparator<? super T> comparator) {
         Preconditions.checkNotNull(par_ele);
         Preconditions.checkNotNull(comparator);
         int less_par = 0;
@@ -130,7 +130,7 @@ public class Vector<T> implements List<T> {
         return (capacity() + 1) * 2;
     }
 
-    public Vector<T> sortThis(Comparator<T> comparator) {
+    public Vector<T> sortThis(Comparator<? super T> comparator) {
         @SuppressWarnings("unchecked")
         T[] new_arr = (T[]) _values;
         ArrayUtil.sort(new_arr, comparator);

@@ -103,7 +103,7 @@ public class LinkedList<T> implements List<T>, Queue<T> {
     }
 
     @Override
-    public List<T> partition(T par_ele, Comparator<T> comparator) {
+    public List<T> partition(T par_ele, Comparator<? super T> comparator) {
         Preconditions.checkNotNull(par_ele);
         Preconditions.checkNotNull(comparator);
         Node less_node = _head.getNext();

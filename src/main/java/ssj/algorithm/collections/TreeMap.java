@@ -11,7 +11,7 @@ import java.util.Iterator;
 /**
  * Created by shenshijun on 15/2/3.
  */
-public class TreeMap<K extends Comparable<K>, V> implements Map<K, V> {
+public class TreeMap<K extends Comparable<? super K>, V> implements Map<K, V> {
     AVLTree<Node> _tree;
 
     public TreeMap() {

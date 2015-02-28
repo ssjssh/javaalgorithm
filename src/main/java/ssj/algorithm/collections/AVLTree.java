@@ -12,7 +12,7 @@ import java.util.Objects;
 /**
  * Created by shenshijun on 15/2/5.
  */
-public class AVLTree<T extends Comparable<T>> implements SearchTree<T> {
+public class AVLTree<T extends Comparable<? super T>> implements SearchTree<T> {
     private Node _head;
     private int _size;
 

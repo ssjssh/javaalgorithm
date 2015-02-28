@@ -10,7 +10,7 @@ import java.util.Iterator;
  * 使用最大堆实现优先队列
  * Created by shenshijun on 15/2/4.
  */
-public class PriorityQueue<T extends Comparable<T>> implements Queue<T> {
+public class PriorityQueue<T extends Comparable<? super T>> implements Queue<T> {
     //使用归纳法可以证明_values肯定是满的，也就是说二叉堆是一个完全二叉树
     private Vector<T> _values;
 

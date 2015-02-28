@@ -8,7 +8,7 @@ import java.util.Iterator;
 /**
  * Created by shenshijun on 15/2/3.
  */
-public class TreeSet<T extends Comparable<T>> implements Set<T> {
+public class TreeSet<T extends Comparable<? super T>> implements Set<T> {
 
     //这行来自java.util.HashSet
     private static final Object PRESENT = new Object();

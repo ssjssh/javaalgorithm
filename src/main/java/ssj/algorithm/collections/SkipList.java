@@ -12,7 +12,7 @@ import java.util.Random;
 /**
  * Created by shenshijun on 15/2/5.
  */
-public class SkipList<T extends Comparable<T>> implements Set<T> {
+public class SkipList<T extends Comparable<? super T>> implements Set<T> {
     private LinkedList<Node> values;
     private int size;
     private Random rand;

@@ -20,7 +20,7 @@ public interface Stack<T> {
 
     T head();
 
-    public default Stack<T> sortStack(Comparator<T> comparator) {
+    public default Stack<T> sortStack(Comparator<? super T> comparator) {
         LinkedStack<T> result = new LinkedStack<>();
         while (!isEmpty()) {
             T cur_ele = pop();

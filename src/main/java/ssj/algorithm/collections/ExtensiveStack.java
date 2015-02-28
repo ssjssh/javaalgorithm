@@ -3,7 +3,7 @@ package ssj.algorithm.collections;
 /**
  * Created by shenshijun on 15/2/4.
  */
-public class ExtensiveStack<T extends Comparable<T>> extends LinkedStack<T> {
+public class ExtensiveStack<T extends Comparable<? super T>> extends LinkedStack<T> {
     private LinkedStack<T> _min_stack;
     private LinkedStack<T> _max_stack;
 

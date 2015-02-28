@@ -70,7 +70,7 @@ public class StringBuilder implements Collection<Character>, CharSequence, Compa
     }
 
     @Override
-    public Collection<Character> filter(Predicate<Character> is_func) {
+    public Collection<Character> filter(Predicate<? super Character> is_func) {
         StringBuilder new_builder = new StringBuilder(size());
         for (Character ele : this) {
             if (is_func.test(ele)) {

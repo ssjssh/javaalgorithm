@@ -92,15 +92,15 @@ public class ArrayUtil {
         }
     }
 
-    public static <T extends Comparable<T>> void sort(T[] arr) {
+    public static <T extends Comparable<? super T>> void sort(T[] arr) {
         sort(Comparable::compareTo, arr, 0, arr.length - 1);
     }
 
-    public static <T> void sort(T[] arr, Comparator<T> comparator) {
+    public static <T> void sort(T[] arr, Comparator<? super T> comparator) {
         sort(comparator, arr, 0, arr.length - 1);
     }
 
-    private static <T> void sort(Comparator<T> comparator, T[] arr, int start, int end) {
+    private static <T> void sort(Comparator<? super T> comparator, T[] arr, int start, int end) {
         Preconditions.checkNotNull(arr, "arr should not be null");
         Preconditions.checkNotNull(comparator, "comparator should not be null");
         int length = end - start + 1;
@@ -113,11 +113,11 @@ public class ArrayUtil {
     }
 
 
-    private static <T extends Comparable<T>> int partition(T[] arr, int start, int end) {
+    private static <T extends Comparable<? super T>> int partition(T[] arr, int start, int end) {
         return partition(Comparable::compareTo, arr, start, end);
     }
 
-    public static <T> int partition(Comparator<T> comparator, T[] arr, int start, int end) {
+    public static <T> int partition(Comparator<? super T> comparator, T[] arr, int start, int end) {
         int par_index = MathUtil.randInt(start, end);
         ArrayUtil.swap(arr, start, par_index);
         par_index = start;
@@ -140,7 +140,7 @@ public class ArrayUtil {
      * @param <T>
      * @return
      */
-    public static <T extends Comparable<T>> T select(T[] arr, int k) {
+    public static <T extends Comparable<? super T>> T select(T[] arr, int k) {
         Preconditions.checkNotNull(arr);
         Preconditions.checkPositionIndex(k, arr.length);
         int low = 0;
@@ -166,7 +166,7 @@ public class ArrayUtil {
      * @param <T>
      * @return
      */
-    public <T extends Comparable<T>> int binarySearch(T[] arr, T ele) {
+    public <T extends Comparable<? super T>> int binarySearch(T[] arr, T ele) {
         Preconditions.checkNotNull(arr);
         Preconditions.checkNotNull(ele);
         int low = 0;
@@ -192,13 +192,13 @@ public class ArrayUtil {
      * @param comparator
      * @param <T>
      */
-    public static <T> void mergeSort(T[] arr, Comparator<T> comparator) {
+    public static <T> void mergeSort(T[] arr, Comparator<? super T> comparator) {
         Preconditions.checkNotNull(arr);
         Preconditions.checkNotNull(comparator);
         mergeSort(arr, comparator, 0, arr.length - 1);
     }
 
-    private static <T> void mergeSort(T[] arr, Comparator<T> comparator, int start, int end) {
+    private static <T> void mergeSort(T[] arr, Comparator<? super T> comparator, int start, int end) {
         if (start < end) {
             int middle = (end + start) / 2;
             mergeSort(arr, comparator, start, middle);
@@ -207,10 +207,11 @@ public class ArrayUtil {
         }
     }
 
-    private static <T> void merge(T[] arr, int start, int middle, int end, Comparator<T> comparator) {
+    private static <T> void merge(T[] arr, int start, int middle, int end, Comparator<? super T> comparator) {
         int front_start = start;
         int end_start = middle + 1;
         int cur_pos = 0;
+        @SuppressWarnings("unchecked")
         T[] helper = (T[]) new Object[end - start + 1];
         while (front_start <= middle && end_start <= end) {
             if (comparator.compare(arr[front_start], arr[end_start]) <= 0) {
@@ -256,7 +257,7 @@ public class ArrayUtil {
         System.arraycopy(result, 0, arr, 0, arr.length);
     }
 
-    public static <T> void radixSort(T[] arr, Comparator<T> comparator) {
+    public static <T> void radixSort(T[] arr, Comparator<? extends T> comparator) {
         //todo 完成基数排序
     }
 
@@ -310,7 +311,7 @@ public class ArrayUtil {
      * @param <T>
      * @return
      */
-    public static <T extends Comparable<T>> T minInRotate(T[] arr) {
+    public static <T extends Comparable<? super T>> T minInRotate(T[] arr) {
         Preconditions.checkNotNull(arr);
         if (arr.length == 0) {
             return null;
@@ -336,13 +337,13 @@ public class ArrayUtil {
         return arr[mid];
     }
 
-    public static <T> T[] group(T[] arr, Function<T, Integer> func) {
+    public static <T> T[] group(T[] arr, Function<? super T, ? extends Integer> func) {
         Preconditions.checkNotNull(arr);
         Preconditions.checkNotNull(func);
         TreeMap<Integer, HashSet<T>> static_map = new TreeMap<>();
         for (T ele : arr) {
-            Preconditions.checkNotNull(ele);
-            int group_num = func.apply(ele);
+            Integer group_num = func.apply(ele);
+            Preconditions.checkNotNull(group_num);
             HashSet<T> set = static_map.get(group_num);
             if (set == null) {
                 set = new HashSet<>();
@@ -452,7 +453,7 @@ public class ArrayUtil {
      * @param <T>
      * @return
      */
-    public static <T extends Comparable<T>> int countEle(T[] arr, T ele) {
+    public static <T extends Comparable<? super T>> int countEle(T[] arr, T ele) {
         Preconditions.checkNotNull(arr);
         Preconditions.checkNotNull(ele);
         int start = getFirstEle(arr, ele);
@@ -468,7 +469,7 @@ public class ArrayUtil {
      * @param <T>
      * @return
      */
-    public static <T extends Comparable<T>> int getFirstEle(T[] arr, T ele) {
+    public static <T extends Comparable<? super T>> int getFirstEle(T[] arr, T ele) {
         Preconditions.checkNotNull(arr);
         Preconditions.checkNotNull(ele);
         int start = 0;
@@ -499,7 +500,7 @@ public class ArrayUtil {
      * @param <T>
      * @return
      */
-    public static <T extends Comparable<T>> int getLastEle(T[] arr, T ele) {
+    public static <T extends Comparable<? super T>> int getLastEle(T[] arr, T ele) {
         Preconditions.checkNotNull(arr);
         Preconditions.checkNotNull(ele);
         int start = 0;

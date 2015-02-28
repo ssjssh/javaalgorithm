@@ -52,7 +52,7 @@ public interface List<T> extends Collection<T> {
         return get(normal_index);
     }
 
-    List<T> partition(T par_ele, Comparator<T> comparator);
+    List<T> partition(T par_ele, Comparator<? super T> comparator);
 
     public default Set<T> chainEle() {
         HashSet<T> result = new HashSet<>();

@@ -86,11 +86,11 @@ public class MatrixUtil {
      * @param ele
      * @return
      */
-    public static <T extends Comparable<T>> Tuple2<Integer, Integer> matrixSearch(T[][] matrix, T ele) {
+    public static <T extends Comparable<? super T>> Tuple2<Integer, Integer> matrixSearch(T[][] matrix, T ele) {
         return binarySearch(matrix, ele);
     }
 
-    static <T extends Comparable<T>> Tuple2<Integer, Integer> simpleMatrixSearch(T[][] matrix, T ele) {
+    static <T extends Comparable<? super T>> Tuple2<Integer, Integer> simpleMatrixSearch(T[][] matrix, T ele) {
         Preconditions.checkNotNull(matrix);
         Preconditions.checkNotNull(ele);
         if (matrix.length == 0) {
@@ -112,7 +112,7 @@ public class MatrixUtil {
         return null;
     }
 
-    private static <T extends Comparable<T>> Tuple2<Integer, Integer> binaryMatrixSearch(T[][] matrix, Point src, Point dest, T ele) {
+    private static <T extends Comparable<? super T>> Tuple2<Integer, Integer> binaryMatrixSearch(T[][] matrix, Point src, Point dest, T ele) {
 
         if (dest.compareTo(src) < 0) {
             return null;
@@ -181,7 +181,7 @@ public class MatrixUtil {
         return null;
     }
 
-    public static <T extends Comparable<T>> int matrixRowBinarySearch(T[][] matrix, int col_start, int col_end, int row, T ele) {
+    public static <T extends Comparable<? super T>> int matrixRowBinarySearch(T[][] matrix, int col_start, int col_end, int row, T ele) {
         Preconditions.checkNotNull(matrix);
         Preconditions.checkNotNull(ele);
         if (matrix.length == 0) return -1;
@@ -202,7 +202,7 @@ public class MatrixUtil {
         return -1;
     }
 
-    static <T extends Comparable<T>> Tuple2<Integer, Integer> binarySearch(T[][] matrix, T ele) {
+    static <T extends Comparable<? super T>> Tuple2<Integer, Integer> binarySearch(T[][] matrix, T ele) {
         Preconditions.checkNotNull(matrix);
         Preconditions.checkNotNull(ele);
         if (matrix.length == 0) {

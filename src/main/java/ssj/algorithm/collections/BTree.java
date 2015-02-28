@@ -7,7 +7,7 @@ import java.util.Iterator;
 /**
  * Created by shenshijun on 15/2/5.
  */
-public class BTree<T extends Comparable<T>> implements SearchTree<T> {
+public class BTree<T extends Comparable<? super T>> implements SearchTree<T> {
     //TODO 完成B树
     @Override
     public void add(T ele) {

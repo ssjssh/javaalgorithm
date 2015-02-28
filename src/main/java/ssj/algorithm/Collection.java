@@ -14,7 +14,7 @@ import java.util.function.Predicate;
 public interface Collection<T> extends Iterable<T>, Cloneable {
     public void add(T ele);
 
-    public default <R> Collection<R> map(Function<T, R> func) {
+    public default <R> Collection<R> map(Function<? super T, ? extends R> func) {
         Preconditions.checkNotNull(func);
         Collection<R> new_collection = newWithCapacity(size());
         for (T ele : this) {
@@ -23,7 +23,7 @@ public interface Collection<T> extends Iterable<T>, Cloneable {
         return new_collection;
     }
 
-    public default Collection<T> filter(Predicate<T> is_func) {
+    public default Collection<T> filter(Predicate<? super T> is_func) {
         Preconditions.checkNotNull(is_func);
         Collection<T> new_collection = this.newWithZero();
         for (T ele : this) {
@@ -34,7 +34,7 @@ public interface Collection<T> extends Iterable<T>, Cloneable {
         return new_collection;
     }
 
-    public default <R> R reduce(BiFunction<T, R, R> func, R start) {
+    public default <R> R reduce(BiFunction<? super T, ? super R, ? extends R> func, R start) {
         Preconditions.checkNotNull(func);
         Preconditions.checkNotNull(start);
         R new_start = start;
@@ -85,7 +85,7 @@ public interface Collection<T> extends Iterable<T>, Cloneable {
         return result;
     }
 
-    public default Vector<T> sort(Comparator<T> comparator) {
+    public default Vector<T> sort(Comparator<? super T> comparator) {
         return toVector().sortThis(comparator);
     }
 }

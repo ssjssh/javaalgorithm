@@ -35,7 +35,7 @@ public class MathUtil {
         return max_value;
     }
 
-    public static <T extends Comparable<T>> T max(T... vals) {
+    public static <T extends Comparable<? super T>> T max(T... vals) {
         Preconditions.checkNotNull(vals, "vals should not be null");
         Preconditions.checkArgument(vals.length > 0, "vals should not be empty");
 
@@ -87,7 +87,7 @@ public class MathUtil {
     }
 
     @SafeVarargs
-    public static <T extends Comparable<T>> T min(T... arr) {
+    public static <T extends Comparable<? super T>> T min(T... arr) {
         Preconditions.checkNotNull(arr);
         if (arr.length == 0) {
             return null;
