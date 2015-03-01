@@ -23,6 +23,7 @@ public class MathUtil {
 
     public static double max(double... vals) {
         Preconditions.checkNotNull(vals, "vals should not be null");
+        Preconditions.checkArgument(vals.length > 0, "vals should not be empty");
         if (vals.length == 0) {
             return 0;
         }
@@ -90,7 +91,7 @@ public class MathUtil {
     public static <T extends Comparable<? super T>> T min(T... arr) {
         Preconditions.checkNotNull(arr);
         if (arr.length == 0) {
-            return null;
+            throw new ArithmeticException("too few argument");
         }
 
         T min_value = arr[0];

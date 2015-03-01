@@ -1,12 +1,17 @@
 package ssj.algorithm;
 
+import ssj.algorithm.math.MathUtil;
+
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 /**
  * Created by shenshijun on 15/2/1.
  */
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println(Integer.MAX_VALUE + 2L);
-//        int i = 2147483648;
+        Integer[] data = new Integer[]{1, 234};
+        System.out.println(MathUtil.min(data));
     }
 }
