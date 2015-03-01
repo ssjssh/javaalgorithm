@@ -10,20 +10,25 @@ public class BitUtil {
     private BitUtil() {
     }
 
+    /**
+     * 比较一个位置的位是不是1
+     *
+     * @param value 要判断的值
+     * @param index 从右开始计数
+     * @return
+     */
     public static boolean testBit(long value, int index) {
         Preconditions.checkArgument(index >= 0 && index < Long.SIZE);
         return (value & (1L << index)) != 0;
     }
 
     public static int firstBitOne(long value) {
-        int first_one_index = -1;
         for (int i = 0; i < Integer.SIZE; i++) {
             if (BitUtil.testBit(value, i)) {
-                first_one_index = i;
-                break;
+                return i;
             }
         }
-        return first_one_index;
+        return -1;
     }
 
     public static long moveBit(long value, int from, int to) {

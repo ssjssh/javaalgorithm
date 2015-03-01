@@ -11,6 +11,8 @@ javaalgorithm
 
 2， toArray方法返回的是Object[]类型，原因是Java不能够通过泛型创建数组，我是通过toVector来实现这个需求的
 
+3， JDK集合类库中所有的迭代器next方法实际上会向下移动一位，而我的集合迭代器中则是在hasNext的时候向下移动一位。
+
 #数据结构
 
 ##链表
@@ -49,7 +51,7 @@ javaalgorithm
 
 ###AVL树
 
-###红黑树(待完成)
+###红黑树
 
 ###B树
 
@@ -61,8 +63,21 @@ javaalgorithm
 
 ##其他
 
-###：跳跃表（SkipList）
+###跳跃表（SkipList）
 
-###：BitSet
+###BitSet
+
+###StringBuilder
+
+#算法
+
+##排序算法
+
+###快速排序，也是默认的排序方法
+
+###计数排序
+
+###基数排序
+
 
 

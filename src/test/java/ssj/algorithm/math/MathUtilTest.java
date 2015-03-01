@@ -77,4 +77,12 @@ public class MathUtilTest {
 
         }
     }
+
+
+    @Test
+    public void testUniqueInt() {
+        assertEquals(1, MathUtil.uniqueInt(new int[]{1, 2, 3, 4, 5, 2, 3, 4, 5}));
+        assertEquals(2, MathUtil.uniqueInt(new int[]{100, 100, 3, 4, 5, 2, 3, 4, 5}));
+        assertEquals(new Tuple2<>(2, 100), MathUtil.uniqueTwoInt(new int[]{100, 3, 4, 5, 2, 3, 4, 5}));
+    }
 }

@@ -5,6 +5,7 @@ import ssj.algorithm.ArrayUtil;
 import ssj.algorithm.lang.Tuple2;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -177,7 +178,8 @@ public class MathUtil {
      * 同理：右边也是一样的：A1A2...Ax....Ay-1Ay...An < A1A2...Ax+1....Ay-1AxAy...An。
      * 综合三个等式得到：A1A2....Ax+1...Ay-1AyAx...An < A1A2...Ax+1....Ay-1AxAy...An。也就是AyAx < AxAy，这样
      * 显然和定义的比较规则相反，所以原假设不成立，证明了通过这样的排序规则得到的序列是最小的序列。
-     *  {{code shsi}}
+     * {{code shsi}}
+     *
      * @param arr
      * @return
      */
@@ -334,5 +336,66 @@ public class MathUtil {
             }
         }
         return max_value;
+    }
+
+    /**
+     * 来自《剑指offer》的一个题目，一个int数组中有一个唯一的元素，
+     * 其他的元素都有两个，求出唯一的元素。
+     *
+     * @param arr
+     * @return 唯一元素
+     */
+    public static int uniqueInt(int[] arr) {
+        Preconditions.checkNotNull(arr);
+        Preconditions.checkArgument(arr.length >= 1);
+        int result = 0;
+        for (int i : arr) {
+            result ^= i;
+        }
+        if (!checkUnique(arr, result)) {
+            throw new IllegalArgumentException("do not have unique element :" + Arrays.toString(arr));
+        }
+        return result;
+    }
+
+
+    public static Tuple2<Integer, Integer> uniqueTwoInt(int[] arr) {
+        Preconditions.checkNotNull(arr);
+        Preconditions.checkArgument(arr.length >= 2);
+        int result_partition = 0;
+        for (int i : arr) {
+            result_partition ^= i;
+        }
+
+        int last_one = BitUtil.firstBitOne(result_partition);
+        if (last_one == -1) {
+            throw new IllegalArgumentException("do not have two unique element :" + Arrays.toString(arr));
+        }
+
+        int result1 = 0, result2 = 0;
+        for (int i : arr) {
+            if (BitUtil.testBit(i, last_one)) {
+                result1 ^= i;
+            } else {
+                result2 ^= i;
+            }
+        }
+
+        if (!(checkUnique(arr, result1) && checkUnique(arr, result2))) {
+            throw new IllegalArgumentException("do not have two unique element :" + Arrays.toString(arr));
+        }
+
+        return new Tuple2<>(result1, result2);
+    }
+
+    private static boolean checkUnique(int[] arr, int ele) {
+        Preconditions.checkNotNull(arr);
+        int count = 0;
+        for (int i : arr) {
+            if (i == ele) {
+                count++;
+            }
+        }
+        return count == 1;
     }
 }
