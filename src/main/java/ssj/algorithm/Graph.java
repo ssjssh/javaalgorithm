@@ -23,11 +23,11 @@ public interface Graph<T> {
 
     <R> Vector<R> bfs(Function<? super T, ? extends R> func);
 
-    Vector<T> next(T ele);
+    List<T> next(T ele);
 
     void topologicalSort(Consumer<? super T> func);
 
-    <R> Vector<R> topologicalSort(Function<? super T, ? extends R> func);
+    <R> List<R> topologicalSort(Function<? super T, ? extends R> func);
 
     int size();
 
@@ -35,5 +35,5 @@ public interface Graph<T> {
         return size() <= 0;
     }
 
-    Vector<T> shortestPath(T from, T to);
+    List<T> shortestPath(T from, T to);
 }
