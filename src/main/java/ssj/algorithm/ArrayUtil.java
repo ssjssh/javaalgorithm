@@ -351,13 +351,14 @@ public class ArrayUtil {
             }
             set.add(ele);
         }
-        Iterator<HashSet<T>> iterator = static_map.valueIterator();
+
         int pos = 0;
-        while (iterator.hasNext()) {
+        for (Iterator<HashSet<T>> iterator = static_map.valueIterator(); iterator.hasNext(); ) {
             for (T ele : iterator.next()) {
                 arr[pos++] = ele;
             }
         }
+
         return arr;
     }
 

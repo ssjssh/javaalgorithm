@@ -20,8 +20,7 @@ public interface List<T> extends Collection<T> {
 
     public default void delete(T ele) {
         Preconditions.checkNotNull(ele);
-        Iterator<T> iterator = iterator();
-        while (iterator.hasNext()) {
+        for (Iterator<T> iterator = iterator(); iterator.hasNext(); ) {
             if (Objects.equals(iterator.next(), ele)) {
                 iterator.remove();
             }
@@ -36,8 +35,7 @@ public interface List<T> extends Collection<T> {
     public default int removeDuplicate() {
         int result = 0;
         HashSet<T> set = new HashSet<>(100);
-        Iterator<T> iterator = iterator();
-        while (iterator.hasNext()) {
+        for (Iterator<T> iterator = iterator(); iterator.hasNext(); ) {
             if (set.contains(iterator.next())) {
                 iterator.remove();
                 result++;

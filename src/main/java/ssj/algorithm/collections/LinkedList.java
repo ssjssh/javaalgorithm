@@ -92,8 +92,7 @@ public class LinkedList<T> implements List<T>, Queue<T> {
     public void remove(int index) {
         Preconditions.checkPositionIndex(index, size());
         int cur_index = 0;
-        Iterator<T> iterator = iterator();
-        while (iterator.hasNext()) {
+        for (Iterator<T> iterator = iterator(); iterator.hasNext(); ) {
             if (cur_index == index) {
                 iterator.remove();
                 break;
