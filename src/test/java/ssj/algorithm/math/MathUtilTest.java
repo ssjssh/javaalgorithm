@@ -3,6 +3,8 @@ package ssj.algorithm.math;
 import org.junit.Test;
 import ssj.algorithm.lang.Tuple2;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.*;
 
 /**
@@ -89,6 +91,14 @@ public class MathUtilTest {
     @Test
     public void testFindSumInOrder() {
         System.out.println(MathUtil.findSumInOrder(new int[]{1, 2, 3, 4, 5, 6, 7, 8}, 15));
-        System.out.println(MathUtil.findSumInOrder(new int[]{1,4,7,8,11}, 20));
+        System.out.println(MathUtil.findSumInOrder(new int[]{1, 4, 7, 8, 11}, 20));
+    }
+
+    @Test
+    public void testProbabilitySumCount() {
+        System.out.println(Arrays.toString(MathUtil.probabilitySumCount(2, 6)));
+        System.out.println(Arrays.toString(MathUtil.probability(2, 6)));
+        System.out.println(MathUtil.sum(MathUtil.probabilitySumCount(11, 6)));
+        System.out.println(MathUtil.sum(MathUtil.probabilitySumCount(2, 6)));
     }
 }

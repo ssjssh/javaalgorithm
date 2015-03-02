@@ -86,7 +86,7 @@ public class MathUtil {
         return result;
     }
 
-    private static boolean doubleEqual(double one, double two) {
+    public static boolean doubleEqual(double one, double two) {
         return Math.abs(one - two) < 0.0000001;
     }
 
@@ -404,6 +404,7 @@ public class MathUtil {
 
     /**
      * 在一个排好序的int数组中查找连续子数组其和为指定的值。
+     *
      * @param arr
      * @param value
      * @return
@@ -429,6 +430,70 @@ public class MathUtil {
                 sum -= arr[end];
                 end--;
             }
+        }
+        return result;
+    }
+
+    /**
+     * 从投色子问题来，一个色子有6个面，丢n个色子和的每种可能性和概率
+     *
+     * @param n
+     * @param max
+     * @return
+     */
+    public static double[] probability(int n, int max) {
+        Preconditions.checkArgument(n >= 1);
+        Preconditions.checkArgument(max > 0);
+
+        int[] sum_count = probabilitySumCount(n, max);
+        double sum = Math.round(pow(max, n));
+        double[] result = new double[sum_count.length];
+        for (int i = 0; i < sum_count.length; i++) {
+            result[i] = sum_count[i] / sum;
+        }
+        return result;
+    }
+
+    public static int[] probabilitySumCount(int n, int max) {
+        Preconditions.checkArgument(n >= 1);
+        Preconditions.checkArgument(max > 0);
+
+        int[] result = new int[n * max + 1];
+        int[] result_tmp = new int[result.length];
+        for (int i = 1; i <= max; i++) {
+            result_tmp[i] = 1;
+            result[i] = 1;
+        }
+
+        for (int i = 1; i < n; i++) {
+            for (int j = 1; j < result_tmp.length; j++) {
+                result[j] = 0;
+                for (int k = 1; k <= max && k < j; k++) {
+                    result[j] += result_tmp[j - k];
+                }
+            }
+
+            int[] tmp = result_tmp;
+            result_tmp = result;
+            result = tmp;
+        }
+        return result_tmp;
+    }
+
+    public static double sum(double[] arr) {
+        Preconditions.checkNotNull(arr);
+        double result = 0;
+        for (double num : arr) {
+            result += num;
+        }
+        return result;
+    }
+
+    public static int sum(int[] arr) {
+        Preconditions.checkNotNull(arr);
+        int result = 0;
+        for (double num : arr) {
+            result += num;
         }
         return result;
     }
