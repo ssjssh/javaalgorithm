@@ -492,9 +492,74 @@ public class MathUtil {
     public static int sum(int[] arr) {
         Preconditions.checkNotNull(arr);
         int result = 0;
-        for (double num : arr) {
+        for (int num : arr) {
             result += num;
         }
         return result;
+    }
+
+    /**
+     * 判断传递进来的int数组中保存的数字是不是顺子
+     * 大小王使用0表示。其他的数必须大于0
+     *
+     * @param numbers
+     * @return
+     */
+    public static boolean isContinuous(int[] numbers) {
+        Preconditions.checkNotNull(numbers);
+        Preconditions.checkArgument(numbers.length >= 5);
+
+        numbers = littleSort(numbers);
+        int normal_code = 0;
+        for (int i = 0; i < numbers.length; i++) {
+            if (numbers[i] < 0) {
+                throw new IllegalArgumentException("code should be bigger than 0:" + numbers[i]);
+            } else if (numbers[i] > 0) {
+                normal_code = i;
+                break;
+            }
+        }
+
+        //按照扑克中的规则，一副牌中最多有两个王
+        if (normal_code >= 2) {
+            throw new IllegalArgumentException("too many guest");
+        }
+        int lord_count = normal_code;
+
+        for (int i = normal_code + 1; i < numbers.length; i++) {
+            if (numbers[i - 1] == numbers[i]) {
+                return false;
+            } else if ((numbers[i - 1] + 2) == numbers[i]) {
+                if (lord_count > 0) {
+                    lord_count--;
+                } else {
+                    return false;
+                }
+            } else if ((numbers[i - 1] + 1) != numbers[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 使用插入排序实现小数组的排序
+     *
+     * @param numbers
+     * @return
+     */
+    private static int[] littleSort(int[] numbers) {
+        Preconditions.checkNotNull(numbers);
+
+        for (int i = 1; i < numbers.length; i++) {
+            for (int j = i - 1; j >= 0; j--) {
+                if (numbers[j + 1] < numbers[j]) {
+                    ArrayUtil.swap(numbers, j, j + 1);
+                } else {
+                    break;
+                }
+            }
+        }
+        return numbers;
     }
 }

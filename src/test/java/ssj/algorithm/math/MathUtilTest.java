@@ -101,4 +101,10 @@ public class MathUtilTest {
         System.out.println(MathUtil.sum(MathUtil.probabilitySumCount(11, 6)));
         System.out.println(MathUtil.sum(MathUtil.probabilitySumCount(2, 6)));
     }
+
+    @Test
+    public void testIsContinuous() {
+        assertTrue(MathUtil.isContinuous(new int[]{5, 3, 4, 1, 2}));
+        assertTrue(MathUtil.isContinuous(new int[]{5, 3, 4, 1, 0}));
+    }
 }
