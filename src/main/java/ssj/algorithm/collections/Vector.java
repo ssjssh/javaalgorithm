@@ -145,6 +145,25 @@ public class Vector<T> implements List<T> {
         return sb.toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        @SuppressWarnings("unchecked")
+        Vector vector = (Vector) o;
+
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        if (!Arrays.equals(_values, vector._values)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return _values != null ? Arrays.hashCode(_values) : 0;
+    }
+
     public void swap(int start, int end) {
         ArrayUtil.swap(_values, start, end);
     }

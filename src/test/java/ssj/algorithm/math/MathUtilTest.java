@@ -85,4 +85,10 @@ public class MathUtilTest {
         assertEquals(2, MathUtil.uniqueInt(new int[]{100, 100, 3, 4, 5, 2, 3, 4, 5}));
         assertEquals(new Tuple2<>(2, 100), MathUtil.uniqueTwoInt(new int[]{100, 3, 4, 5, 2, 3, 4, 5}));
     }
+
+    @Test
+    public void testFindSumInOrder() {
+        System.out.println(MathUtil.findSumInOrder(new int[]{1, 2, 3, 4, 5, 6, 7, 8}, 15));
+        System.out.println(MathUtil.findSumInOrder(new int[]{1,4,7,8,11}, 20));
+    }
 }

@@ -2,6 +2,8 @@ package ssj.algorithm.math;
 
 import com.google.common.base.Preconditions;
 import ssj.algorithm.ArrayUtil;
+import ssj.algorithm.List;
+import ssj.algorithm.collections.Vector;
 import ssj.algorithm.lang.Tuple2;
 
 import java.math.BigInteger;
@@ -397,5 +399,37 @@ public class MathUtil {
             }
         }
         return count == 1;
+    }
+
+
+    /**
+     * 在一个排好序的int数组中查找连续子数组其和为指定的值。
+     * @param arr
+     * @param value
+     * @return
+     */
+    public static List<Tuple2<Integer, Integer>> findSumInOrder(int[] arr, int value) {
+        Preconditions.checkNotNull(arr);
+        Preconditions.checkArgument(arr.length > 1);
+        List<Tuple2<Integer, Integer>> result = new Vector<>();
+        int start = arr.length - 2;
+        int end = arr.length - 1;
+        int sum = arr[start] + arr[end];
+        while (start >= 0) {
+            if (sum == value) {
+                result.add(new Tuple2<>(start, end));
+                sum -= arr[end];
+                end--;
+            } else if (sum < value) {
+                start--;
+                if (start >= 0) {
+                    sum += arr[start];
+                }
+            } else {
+                sum -= arr[end];
+                end--;
+            }
+        }
+        return result;
     }
 }
