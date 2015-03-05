@@ -2,6 +2,7 @@ package ssj.algorithm.collections;
 
 import com.google.common.base.Preconditions;
 import ssj.algorithm.SearchTree;
+import ssj.algorithm.util.CheckUtil;
 
 import java.util.Iterator;
 
@@ -107,15 +108,6 @@ public class RedBlackTree<T extends Comparable<? super T>> implements SearchTree
         return tree_size;
     }
 
-    @Override
-    public Iterator<T> preIterator() {
-        return null;
-    }
-
-    @Override
-    public Iterator<T> postIterator() {
-        return null;
-    }
 
     @Override
     public void delete(T ele) {
@@ -364,13 +356,8 @@ public class RedBlackTree<T extends Comparable<? super T>> implements SearchTree
     }
 
     @Override
-    public T kthElement(int k) {
-        return null;
-    }
-
-    @Override
     public boolean contains(T ele) {
-        return false;
+        return findNode(ele) != null;
     }
 
     @Override
@@ -380,7 +367,18 @@ public class RedBlackTree<T extends Comparable<? super T>> implements SearchTree
 
     @Override
     public Iterator<T> iterator() {
-        return null;
+        return new MidTreeIterator();
+    }
+
+    @Override
+    public Iterator<T> preIterator() {
+        return new PreTreeIterator();
+
+    }
+
+    @Override
+    public Iterator<T> postIterator() {
+        return new PostTreeIterator();
     }
 
     private enum TreeNodeColor {
@@ -545,4 +543,173 @@ public class RedBlackTree<T extends Comparable<? super T>> implements SearchTree
             this.value = value;
         }
     }
+
+    private class PreTreeIterator implements Iterator<T> {
+
+        int iter_size;
+        LinkedStack<Node<T>> _stacks;
+        Node<T> cur_node;
+
+
+        public PreTreeIterator() {
+            iter_size = size();
+            _stacks = new LinkedStack<>();
+            if (root != null) {
+                _stacks.push(root);
+            }
+            cur_node = null;
+        }
+
+        @Override
+        public boolean hasNext() {
+            CheckUtil.checkCurrencyModify(iter_size, size());
+            boolean result = !_stacks.isEmpty();
+            cur_node = _stacks.pop();
+            if (cur_node != null) {
+                if (cur_node.getLeft() != null) {
+                    _stacks.push(cur_node.getLeft());
+                }
+                if (cur_node.getRight() != null) {
+                    _stacks.push(cur_node.getRight());
+                }
+            }
+            return result;
+        }
+
+        @Override
+        public T next() {
+            CheckUtil.checkCurrencyModify(iter_size, size());
+            return cur_node.getValue();
+        }
+    }
+
+    private class MidTreeIterator implements Iterator<T> {
+        private int iter_size;
+        private LinkedStack<Node<T>> _stacks;
+        private Node<T> cur_node;
+
+        public MidTreeIterator() {
+            iter_size = size();
+            _stacks = new LinkedStack<>();
+            if (root != null) {
+                cur_node = root;
+                insertLeft(cur_node);
+            }
+        }
+
+        private void insertLeft(Node start_node) {
+            Node cur_start_node = start_node;
+            while (cur_start_node != null) {
+                _stacks.push(cur_start_node);
+                cur_start_node = cur_start_node.getLeft();
+            }
+        }
+
+        @Override
+        public boolean hasNext() {
+            CheckUtil.checkCurrencyModify(iter_size, size());
+            if (!_stacks.isEmpty()) {
+                cur_node = _stacks.pop();
+                insertLeft(cur_node.getRight());
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public T next() {
+            CheckUtil.checkCurrencyModify(iter_size, size());
+            return cur_node.getValue();
+        }
+    }
+
+    private class PostTreeIterator implements Iterator<T> {
+        private int iter_size;
+        private LinkedStack<Node> unvisited_stack;
+        private LinkedStack<Node> visited_stack;
+        private Node<T> cur_node;
+
+        public PostTreeIterator() {
+            iter_size = size();
+            unvisited_stack = new LinkedStack<>();
+            visited_stack = new LinkedStack<>();
+            if (root != null) {
+                unvisited_stack.push(root);
+                initStack();
+            }
+        }
+
+        private void initStack() {
+            if (!unvisited_stack.isEmpty()) {
+                Node this_node = unvisited_stack.head();
+                while (!shouldVisit(this_node)) {
+                    if (this_node.getRight() != null) {
+                        unvisited_stack.push(this_node.getRight());
+                    }
+
+                    if (this_node.getLeft() != null) {
+                        unvisited_stack.push(this_node.getLeft());
+                    }
+                    this_node = unvisited_stack.head();
+                }
+            }
+        }
+
+        private Node insertUnvisitedNode(Node node) {
+            Node this_node = node;
+            while (!shouldVisit(this_node)) {
+                unvisited_stack.push(this_node);
+                if (this_node.getRight() != null) {
+                    unvisited_stack.push(this_node.getRight());
+                }
+
+                if (this_node.getLeft() != null) {
+                    unvisited_stack.push(this_node.getLeft());
+                }
+                this_node = unvisited_stack.pop();
+            }
+            return this_node;
+        }
+
+        private boolean shouldVisit(Node node) {
+            boolean left_result = false;
+            boolean right_result = false;
+            Node visited_right_node;
+            if (node.getRight() == null) {
+                right_result = true;
+            } else if ((visited_right_node = visited_stack.head()) != null && (node.getRight() == visited_right_node)) {
+                right_result = true;
+                visited_stack.pop();
+            }
+
+            Node visited_left_node;
+            if (node.getLeft() == null) {
+                left_result = true;
+            } else if ((visited_left_node = visited_stack.head()) != null && (node.getLeft() == visited_left_node)) {
+                left_result = true;
+                visited_stack.pop();
+            }
+
+            return left_result && right_result;
+        }
+
+        @Override
+        public boolean hasNext() {
+            CheckUtil.checkCurrencyModify(iter_size, size());
+            boolean result = !unvisited_stack.isEmpty();
+            if (!unvisited_stack.isEmpty()) {
+                cur_node = insertUnvisitedNode(unvisited_stack.pop());
+                visited_stack.push(cur_node);
+            }
+            return result;
+        }
+
+        @Override
+        public T next() {
+            CheckUtil.checkCurrencyModify(iter_size, size());
+            return cur_node.getValue();
+        }
+    }
+
 }
+

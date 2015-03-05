@@ -40,7 +40,18 @@ public interface SearchTree<T extends Comparable<? super T>> extends Iterable<T>
 
     T min();
 
-    T kthElement(int k);
+    default T kthElement(int k) {
+        Preconditions.checkPositionIndex(k, size());
+        int cur_pos = 0;
+        for (T ele : this) {
+            if (cur_pos == k) {
+                return ele;
+            }
+            cur_pos++;
+        }
+        return null;
+    }
+
 
     boolean contains(T ele);
 

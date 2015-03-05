@@ -540,19 +540,6 @@ public class AVLTree<T extends Comparable<? super T>> implements SearchTree<T> {
     }
 
     @Override
-    public T kthElement(int k) {
-        Preconditions.checkPositionIndex(k, size());
-        int cur_pos = 0;
-        for (T ele : this) {
-            if (cur_pos == k) {
-                return ele;
-            }
-            cur_pos++;
-        }
-        return null;
-    }
-
-    @Override
     public boolean contains(T ele) {
         return findNode(ele) != null;
     }
