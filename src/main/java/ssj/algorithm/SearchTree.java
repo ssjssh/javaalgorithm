@@ -32,6 +32,10 @@ public interface SearchTree<T extends Comparable<? super T>> extends Iterable<T>
 
     void delete(T ele);
 
+    public T successor(T value);
+
+    public T predecessor(T value);
+
     T max();
 
     T min();

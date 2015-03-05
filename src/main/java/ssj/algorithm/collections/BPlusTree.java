@@ -34,6 +34,16 @@ public class BplusTree<T extends Comparable<? super T>> implements SearchTree<T>
     }
 
     @Override
+    public T successor(T value) {
+        return null;
+    }
+
+    @Override
+    public T predecessor(T value) {
+        return null;
+    }
+
+    @Override
     public T max() {
         return null;
     }

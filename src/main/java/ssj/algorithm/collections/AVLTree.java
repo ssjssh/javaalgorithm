@@ -455,6 +455,7 @@ public class AVLTree<T extends Comparable<? super T>> implements SearchTree<T> {
         }
     }
 
+    @Override
     public T successor(T ele) {
         Preconditions.checkNotNull(ele);
         Node node = findNode(ele);
@@ -467,6 +468,7 @@ public class AVLTree<T extends Comparable<? super T>> implements SearchTree<T> {
         return null;
     }
 
+    @Override
     public T predecessor(T ele) {
         Preconditions.checkNotNull(ele);
         Node node = findNode(ele);
