@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import ssj.algorithm.Queue;
 import ssj.algorithm.SearchTree;
 import ssj.algorithm.Stack;
+import ssj.algorithm.string.StringBuilder;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -611,7 +612,13 @@ public class AVLTree<T extends Comparable<? super T>> implements SearchTree<T> {
 
     @Override
     public String toString() {
-        return _head.toString();
+        ssj.algorithm.string.StringBuilder sb = new StringBuilder("AVLTree");
+        sb.add('[');
+        for (T ele : this) {
+            sb.append(ele.toString()).append(", ");
+        }
+        sb.add(']');
+        return sb.toString();
     }
 
     private void checkCurrencyModify(int expect_size) {
@@ -619,6 +626,7 @@ public class AVLTree<T extends Comparable<? super T>> implements SearchTree<T> {
             throw new ConcurrentModificationException();
         }
     }
+
 
     private class Node implements Comparable<Node> {
         private T value;
@@ -643,8 +651,10 @@ public class AVLTree<T extends Comparable<? super T>> implements SearchTree<T> {
         @Override
         public String toString() {
             final StringBuilder sb = new StringBuilder("Node{");
-            sb.append("height=").append(height);
-            sb.append(", value=").append(value);
+            sb.append("height=");
+            sb.append(height);
+            sb.append(", value=");
+            sb.append(value);
             sb.append('}');
             return sb.toString();
         }

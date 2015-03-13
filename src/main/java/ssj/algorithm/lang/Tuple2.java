@@ -29,6 +29,14 @@ final public class Tuple2<F, S> {
         return to_string;
     }
 
+    public static <F, S> Tuple2<F, S> empty() {
+        return new Tuple2<>(null, null);
+    }
+
+    public boolean isEmpty() {
+        return getFirst() == null && getSecond() == null;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

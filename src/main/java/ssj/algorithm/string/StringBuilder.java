@@ -36,19 +36,20 @@ public class StringBuilder implements Collection<Character>, CharSequence, Compa
         _interval_string[++_cur_point] = ele;
     }
 
-    public void append(String ele) {
+    public StringBuilder append(String ele) {
         Preconditions.checkNotNull(ele);
         for (int i = 0; i < ele.length(); i++) {
             add(ele.charAt(i));
         }
+        return this;
     }
 
     public Character get(int i) {
         return _interval_string[i];
     }
 
-    public void append(Object ele) {
-        append(String.valueOf(ele));
+    public StringBuilder append(Object ele) {
+        return append(String.valueOf(ele));
     }
 
     public void remove(int index) {
@@ -146,8 +147,17 @@ public class StringBuilder implements Collection<Character>, CharSequence, Compa
 
     @Override
     public int compareTo(StringBuilder o) {
-        //TODO 实现字符串比较
-        return 0;
+        Preconditions.checkNotNull(o);
+        int result = 0;
+        for (int i = 0; i < MathUtil.min(size(), o.size()) && result == 0; i++) {
+            result = get(i).compareTo(o.get(i));
+        }
+
+        if (result == 0) {
+            result = Integer.valueOf(size()).compareTo(o.size());
+        }
+
+        return result;
     }
 
     public int intValue() {

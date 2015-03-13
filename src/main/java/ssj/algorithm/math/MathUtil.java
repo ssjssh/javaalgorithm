@@ -3,6 +3,8 @@ package ssj.algorithm.math;
 import com.google.common.base.Preconditions;
 import ssj.algorithm.ArrayUtil;
 import ssj.algorithm.List;
+import ssj.algorithm.Set;
+import ssj.algorithm.collections.HashSet;
 import ssj.algorithm.collections.Vector;
 import ssj.algorithm.lang.Tuple2;
 
@@ -59,6 +61,29 @@ public class MathUtil {
         }
         randor.setSeed(System.currentTimeMillis());
         return randor.nextInt(end - start) + start;
+    }
+
+    /**
+     * 获取从范围是start到end之间的整数数组，num是个数，但是不能超过end－start+1
+     *
+     * @param start 取值范围下界
+     * @param end   取值范围上界
+     * @param num   要获取的数字个数
+     * @return 随机数组
+     */
+    public static int[] randUniqueInt(int start, int end, int num) {
+        Preconditions.checkArgument(start <= end);
+        Preconditions.checkArgument(num <= (end - start + 1));
+        Set<Integer> set = new HashSet<>();
+        while (set.size() < num) {
+            set.add(randInt(start, end));
+        }
+        int[] result = new int[set.size()];
+        int pos = 0;
+        for (int i : set) {
+            result[pos++] = i;
+        }
+        return result;
     }
 
     public static double pow(double base, int exponent) {
