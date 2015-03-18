@@ -3,7 +3,9 @@ package ssj.algorithm.collections;
 import com.google.common.base.Preconditions;
 import ssj.algorithm.SearchTree;
 import ssj.algorithm.lang.Tuple2;
+import ssj.algorithm.string.StringBuilder;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 /**
@@ -21,6 +23,7 @@ public class BTree<T extends Comparable<? super T>> implements SearchTree<T> {
         tree_degree = degree;
         tree_size = 0;
         root = new BTreeNode<>(tree_degree);
+        root.setLeaf(true);
     }
 
     public static <T extends Comparable<? super T>> BTree<T> degreeOf(int degree) {
@@ -36,23 +39,13 @@ public class BTree<T extends Comparable<? super T>> implements SearchTree<T> {
         Preconditions.checkNotNull(ele);
 
         BTreeNode<T> leaf_node = root;
-        for (BTreeNode<T> cur_node = root; cur_node != null && !cur_node.isValueEmpty(); ) {
-            leaf_node = cur_node;
-            for (int i = 1; i < cur_node.size(); i += 2) {
-                int cmp_res = cur_node.getValue(i).compareTo(ele);
-                //如果非空，那么是最后一个子节点
-                if (cmp_res < 0 && i == cur_node.size() - 2) {
-                    cur_node = cur_node.getChild(i + 1);
-                    break;
-                } else if (cmp_res >= 0) {
-                    cur_node = cur_node.getChild(i - 1);
-                    break;
-                }
-            }
+        while (!leaf_node.isLeaf()) {
+            BTreeNode<T> tmp = leaf_node.searchChild(ele);
 
-            if (leaf_node.isValueFull() && cur_node != null) {
+            if (leaf_node.isValueFull()) {
                 splitNode(leaf_node, null);
             }
+            leaf_node = tmp;
         }
 
         if (leaf_node.isValueFull()) {
@@ -73,26 +66,22 @@ public class BTree<T extends Comparable<? super T>> implements SearchTree<T> {
             root = parent_node;
         }
         right_node.setParent(parent_node);
+        node.setParent(parent_node);
 
-        //中间节点插入父节点，子节点的中点在degree－1。因为从0开始计数，所以需要减一
-        int mid_index = parent_node.appendValue(node.deleteValue(node.size() / 2));
+//        System.out.println("parent : " + parent_node);
+//        System.out.println("insert ele : " + insert_ele);
+//        System.out.println("middle node : " + node.getValue(node.size() / 2));
+        int mid_index = parent_node.appendValue(node.getValue(node.size() / 2));
+//        System.out.println("middle index : " + mid_index);
         parent_node.setChild(mid_index - 1, node);
         parent_node.setChild(mid_index + 1, right_node);
-
-        //把一半元素移动到新到节点中
-        for (int i = node.size() / 2; i < node.size(); i += 1) {
-            if (i % 2 == 0) {
-                right_node.setChild(i - node.size() / 2, node.deleteChild(i));
-            } else {
-                right_node.setValue(i - node.size() / 2, node.deleteValue(i));
-            }
-        }
+        node.splitNode(right_node);
 
         if (insert_ele != null) {
             if (parent_node.getValue(mid_index).compareTo(insert_ele) > 0) {
-                right_node.appendValue(insert_ele);
-            } else {
                 node.appendValue(insert_ele);
+            } else {
+                right_node.appendValue(insert_ele);
             }
         }
 
@@ -162,11 +151,20 @@ public class BTree<T extends Comparable<? super T>> implements SearchTree<T> {
         private Object[] values;
         private BTreeNode<T> parent;
         private int value_index = -1;
+        private boolean isLeaf;
 
         public BTreeNode(int degree) {
             this.DEGREE = degree;
             HALF_CAPACITY = 2 * DEGREE - 1;
             CAPACITY = 4 * DEGREE - 1;
+        }
+
+        public boolean isLeaf() {
+            return isLeaf;
+        }
+
+        public void setLeaf(boolean isLeaf) {
+            this.isLeaf = isLeaf;
         }
 
         public BTreeNode<T> getParent() {
@@ -187,7 +185,15 @@ public class BTree<T extends Comparable<? super T>> implements SearchTree<T> {
             } else if (values == null) {
                 values = new Object[HALF_CAPACITY];
             }
+        }
 
+        private void fullLeaf(int index) {
+            if (values[index] == null && !isLeaf()) {
+                BTreeNode<T> new_child = new BTreeNode<>(DEGREE);
+                new_child.setParent(this);
+                new_child.setLeaf(true);
+                values[index] = new_child;
+            }
         }
 
         @SuppressWarnings("unchecked")
@@ -208,52 +214,21 @@ public class BTree<T extends Comparable<? super T>> implements SearchTree<T> {
             return (T) values[index];
         }
 
-        public int size() {
+        public int capacity() {
             extend(1);
             return values.length;
         }
 
+        public int size() {
+            return (value_index + 2);
+        }
+
         public boolean isValueFull() {
-            return size() == CAPACITY && value_index == CAPACITY - 2;
+            return capacity() == CAPACITY && value_index == CAPACITY - 2;
         }
 
         public boolean isValueEmpty() {
             return value_index < 0;
-        }
-
-        public boolean isChildFull() {
-            boolean result = true;
-            for (int i = 0; i < size(); i += 2) {
-                if (values[i] == null) {
-                    result = false;
-                }
-            }
-            return result;
-        }
-
-        public boolean isChildEmpty() {
-            boolean result = true;
-            for (int i = 1; i < size(); i += 2) {
-                if (values[i] != null) {
-                    result = false;
-                }
-            }
-            return result;
-        }
-
-        public boolean addChild(int index, BTreeNode<T> child) {
-            Preconditions.checkPositionIndex(index, CAPACITY);
-            Preconditions.checkArgument(index % 2 == 0, "wrong index");
-            extend(index);
-            if (isChildFull()) return false;
-            for (int i = size() - 1; i >= index; i -= 2) {
-                if (values[i] != null) {
-//                    values[i] =
-                }
-            }
-
-            values[index] = child;
-            return false;
         }
 
         /**
@@ -266,53 +241,20 @@ public class BTree<T extends Comparable<? super T>> implements SearchTree<T> {
             if (isValueFull()) return -1;
             extend(value_index + 2);
 
-            int last_empty = -1;
-            //从头开始首先压缩节点，然后再插入
-            for (int i = 1; i < size(); i += 2) {
-                if (getValue(i) == null && last_empty == -1) {
-                    last_empty = i;
-                } else if (last_empty != -1 && getValue(i) != null) {
-                    values[last_empty] = values[i];
-                    values[i] = null;
-                    while (getValue(last_empty) != null) {
-                        last_empty++;
-                    }
+            int insert_index = value_index + 2;
+            for (int i = value_index; i >= 1 && getValue(i).compareTo(value) >= 0; i -= 2, insert_index -= 2) {
+                if (value_index == i) {
+                    values[i + 3] = values[i + 1];
                 }
+                values[i + 2] = values[i];
+                values[i + 1] = values[i - 1];
             }
-            value_index = last_empty;
-            //节点为空
-            if (last_empty == 1) {
-                values[last_empty] = value;
-                value_index = last_empty;
-                return last_empty;
-            }
+            values[insert_index] = value;
+            value_index += 2;
 
-            int last_pos = -1;
-            for (int i = last_empty - 2; i > 0; i -= 2) {
-                if (getValue(i).compareTo(value) >= 0) {
-                    last_pos = i;
-                    values[i + 2] = values[i];
-                } else {
-                    values[i + 2] = value;
-                    return i + 2;
-                }
-            }
-
-            if (last_pos > 0) {
-                values[last_pos] = value;
-            }
-            return -1;
-
+            return insert_index;
         }
 
-
-        public void setValue(int index, T ele) {
-            Preconditions.checkPositionIndex(index, CAPACITY);
-            Preconditions.checkArgument(index % 2 == 1, "wrong index");
-            extend(index);
-
-            values[index] = ele;
-        }
 
         public void setChild(int index, BTreeNode<T> child) {
             Preconditions.checkPositionIndex(index, CAPACITY);
@@ -322,9 +264,10 @@ public class BTree<T extends Comparable<? super T>> implements SearchTree<T> {
             values[index] = child;
         }
 
-        public T deleteValue(int index) {
-            T result = getValue(index);
-            setValue(index, null);
+        public T popValue() {
+            T result = getValue(value_index);
+            values[value_index] = null;
+            value_index -= 2;
             return result;
         }
 
@@ -334,5 +277,52 @@ public class BTree<T extends Comparable<? super T>> implements SearchTree<T> {
             return result;
         }
 
+        public BTreeNode<T> searchChild(T value) {
+            for (int i = 1; i < size(); i += 2) {
+                int cmp_res = getValue(i).compareTo(value);
+                //如果非空，那么是最后一个子节点
+                if (cmp_res < 0 && i == size() - 2) {
+                    fullLeaf(i + 1);
+                    return getChild(i + 1);
+                } else if (cmp_res >= 0) {
+                    fullLeaf(i - 1);
+                    return getChild(i - 1);
+                }
+            }
+            return null;
+        }
+
+        /**
+         * 把一半元素移动到新到节点中
+         *
+         * @param other
+         */
+        public void splitNode(BTreeNode<T> other) {
+            Preconditions.checkNotNull(other);
+            other.extend(HALF_CAPACITY);
+            System.arraycopy(values, CAPACITY / 2 + 1, other.values, 0, CAPACITY / 2);
+            Arrays.fill(values, CAPACITY / 2, CAPACITY, null);
+            value_index = CAPACITY / 2 - 2;
+            other.value_index = CAPACITY / 2 - 2;
+            other.setLeaf(isLeaf());
+            for (int i = 0; i < other.size(); i += 2) {
+                if (other.getChild(i) != null) {
+                    other.getChild(i).setParent(other);
+                }
+            }
+        }
+
+        @Override
+        public String toString() {
+            ssj.algorithm.string.StringBuilder sb = new StringBuilder("[");
+            for (int i = 1; i < size(); i += 2) {
+                sb.append(getValue(i));
+                if (i != size() - 2) {
+                    sb.append(",");
+                }
+            }
+            sb.append("]");
+            return sb.toString();
+        }
     }
 }
