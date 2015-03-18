@@ -68,11 +68,7 @@ public class BTree<T extends Comparable<? super T>> implements SearchTree<T> {
         right_node.setParent(parent_node);
         node.setParent(parent_node);
 
-//        System.out.println("parent : " + parent_node);
-//        System.out.println("insert ele : " + insert_ele);
-//        System.out.println("middle node : " + node.getValue(node.size() / 2));
         int mid_index = parent_node.appendValue(node.getValue(node.size() / 2));
-//        System.out.println("middle index : " + mid_index);
         parent_node.setChild(mid_index - 1, node);
         parent_node.setChild(mid_index + 1, right_node);
         node.splitNode(right_node);
@@ -108,6 +104,7 @@ public class BTree<T extends Comparable<? super T>> implements SearchTree<T> {
 
     }
 
+
     @Override
     public T successor(T value) {
         return null;
@@ -130,6 +127,13 @@ public class BTree<T extends Comparable<? super T>> implements SearchTree<T> {
 
     @Override
     public boolean contains(T ele) {
+        for (BTreeNode<T> cur_node = root; cur_node != null; ) {
+            if (cur_node.contains(ele)) {
+                return true;
+            } else {
+                cur_node = cur_node.searchChild(ele);
+            }
+        }
         return false;
     }
 
@@ -323,6 +327,26 @@ public class BTree<T extends Comparable<? super T>> implements SearchTree<T> {
             }
             sb.append("]");
             return sb.toString();
+        }
+
+        public boolean contains(T value) {
+            Preconditions.checkNotNull(value);
+
+            for (int start = 1, end = size() - 2; start <= end; ) {
+                int mid = (start + end) / 2;
+                if (mid % 2 == 0) {
+                    mid--;
+                }
+                int com_res = getValue(mid).compareTo(value);
+                if (com_res == 0) {
+                    return true;
+                } else if (com_res > 0) {
+                    end = mid - 2;
+                } else {
+                    start = mid + 2;
+                }
+            }
+            return false;
         }
     }
 }
