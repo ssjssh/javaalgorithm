@@ -281,17 +281,47 @@ public class BTree<T extends Comparable<? super T>> implements SearchTree<T> {
             return result;
         }
 
+        /**
+         * 使用修改过的二分查找来提高查找性能。
+         * 基本原理就是查找第一个比给定元素大的元素
+         *
+         * @param value
+         * @return
+         */
         public BTreeNode<T> searchChild(T value) {
-            for (int i = 1; i < size(); i += 2) {
-                int cmp_res = getValue(i).compareTo(value);
-                //如果非空，那么是最后一个子节点
-                if (cmp_res < 0 && i == size() - 2) {
-                    fullLeaf(i + 1);
-                    return getChild(i + 1);
-                } else if (cmp_res >= 0) {
-                    fullLeaf(i - 1);
-                    return getChild(i - 1);
+            Preconditions.checkNotNull(value);
+
+            //节点为空，返回第一个子节点
+            if (isValueEmpty()) {
+                fullLeaf(0);
+                return getChild(0);
+            } else if (getValue(size() - 2).compareTo(value) < 0) {
+                //如果非空并且比最后一个节点大
+                fullLeaf(size() - 1);
+                return getChild(size() - 1);
+            }
+
+            for (int start = 1, end = size() - 2; start <= end; ) {
+                int mid = (start + end) / 2;
+                if (mid % 2 == 0) {
+                    mid--;
                 }
+
+                int com_res = getValue(mid).compareTo(value);
+
+                if (com_res == 0) {
+                    throw new IllegalArgumentException("dump ele");
+                } else if (com_res > 0) {
+                    if (mid - 2 > 0 && getValue(mid - 2).compareTo(value) >= 0) {
+                        end = mid - 2;
+                    } else {
+                        fullLeaf(mid - 1);
+                        return getChild(mid - 1);
+                    }
+                } else {
+                    start = mid + 2;
+                }
+
             }
             return null;
         }
