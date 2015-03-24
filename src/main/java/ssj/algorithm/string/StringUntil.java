@@ -165,10 +165,61 @@ public class StringUntil {
         return (com_str.length() < str.length()) ? com_str : str;
     }
 
+    /**
+     * kmp算法实现，返回第一个匹配发生的位置
+     *
+     * @param str
+     * @param pattern
+     * @return
+     */
+    public static int search(String str, String pattern) {
+        Preconditions.checkNotNull(str);
+        Preconditions.checkNotNull(pattern);
+        Preconditions.checkArgument(!pattern.isEmpty());
 
-    public int search(String str) {
-        //TODO KMP实现字符查找
+        int[] next_arr = buildNext(pattern);
+
+        for (int cur_index = 0, pattern_index = 0; cur_index < str.length(); cur_index++) {
+            while (pattern_index > 0 && str.charAt(cur_index) != pattern.charAt(pattern_index)) {
+                pattern_index = next_arr[pattern_index - 1];
+            }
+
+            if (pattern.charAt(pattern_index) == str.charAt(cur_index)) {
+                pattern_index++;
+            }
+
+            if (pattern_index == pattern.length()) {
+                return cur_index - pattern_index + 1;
+            }
+        }
+
         return -1;
+    }
+
+    /**
+     * 创建数组对应移动表
+     * A  B  C  D  A  B  D
+     * 0  0  0  0  1  2  0
+     * 使用这种表示格式近似表示移动位置，但是在不匹配发生的时候都是用前面元素的位置作为移动
+     * 比如如果最后一个D发送不匹配时，使用B的移动位置也就是2移动
+     *
+     * @param pattern
+     * @return
+     */
+    private static int[] buildNext(String pattern) {
+        int[] result = new int[pattern.length()];
+        for (int cur_index = 2, last_match = 0; cur_index < pattern.length(); cur_index++) {
+            while (last_match > 0 && pattern.charAt(cur_index) != pattern.charAt(last_match)) {
+                last_match = result[last_match];
+            }
+
+            if (pattern.charAt(cur_index) == pattern.charAt(last_match)) {
+                last_match++;
+            }
+
+            result[cur_index] = last_match;
+        }
+        return result;
     }
 
     /**
